@@ -9,6 +9,16 @@ public class TyphoonVO {
 	private String DtTitle;
 	
 	private String DtContent;
+	
+	private String GzTime;
+
+	public String getGzTime() {
+		return GzTime;
+	}
+
+	public void setGzTime(String gzTime) {
+		GzTime = gzTime;
+	}
 
 	public String getGzTitle() {
 		return GzTitle;

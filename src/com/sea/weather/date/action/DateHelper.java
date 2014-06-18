@@ -9,6 +9,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.gson.Gson;
 import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
@@ -21,12 +24,15 @@ public class DateHelper {
 	private Document doc_hn;
 	
 	private Document doc_tf;
+	private WebClient webClient = new WebClient(BrowserVersion.CHROME);
+	private HtmlPage htmlPage ;
 	
 	public DateHelper(){
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
+			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -156,12 +162,22 @@ public class DateHelper {
 	
 	private TyphoonVO getTyphoon(){
 		TyphoonVO objTyphoonVO = new TyphoonVO();
-		Elements elDtTitle =doc_tf.getElementsByAttribute("台风动态");
-		for(int i=0;i<elDtTitle.size();i++){
-			String t = elDtTitle.get(i).html();
-			System.out.println("第"+i+"个:"+t);
-		}
+		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
+		String strTitle = elGzTitle.select("em").get(0).text().replaceAll("：", "");
+		String strTime = elGzTitle.select("b").get(0).text();
 		
+		Elements elGzContent =doc_tf.select(".rbox").select("p");
+		String strGzContent = elGzContent.get(0).text();
+		
+		objTyphoonVO.setGzTitle(strTitle);
+		objTyphoonVO.setGzTime(strTime);
+		objTyphoonVO.setGzContent(strGzContent);
+		
+	     Document doc_tfxml = Jsoup.parse(htmlPage.asXml());
+	     String dtTitle = doc_tfxml.select(".left_lbox1").select(".tf").select("h1").text();
+	     String dtContent = doc_tfxml.select(".left_lbox1").select(".tf").select("ul").text();
+	     objTyphoonVO.setDtTitle(dtTitle);
+	     objTyphoonVO.setDtContent(dtContent);
 //		try{
 //		String dtTitle = elDtTitle.get(0).select("h1").get(0).text();
 //		String dtContent = elDtTitle.get(0).select("ul").get(0).text();
