@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import com.google.gson.Gson;
 import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
+import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.model.WeatherVO;
 
 public class DateHelper {
@@ -19,10 +20,13 @@ public class DateHelper {
 	
 	private Document doc_hn;
 	
+	private Document doc_tf;
+	
 	public DateHelper(){
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
+			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -89,7 +93,8 @@ public class DateHelper {
 	public static void main(String args[]) { 
 		DateHelper objDateHelper = new DateHelper();
 		String str = objDateHelper.getAllWeatherVO();
-		System.out.println(str);
+		String strTf =  objDateHelper.getTyphoon().toString();
+		System.out.println(strTf);
     } 
 	
 	/**
@@ -147,5 +152,26 @@ public class DateHelper {
 		objAreaWeatherVO.setCreateTitle(list_td.get(0).text());
 		objAreaWeatherVO.setLisWeatherVO(lisWeatherVO);
 		return objAreaWeatherVO;
+	}
+	
+	private TyphoonVO getTyphoon(){
+		TyphoonVO objTyphoonVO = new TyphoonVO();
+		Elements elDtTitle =doc_tf.getElementsByAttribute("台风动态");
+		for(int i=0;i<elDtTitle.size();i++){
+			String t = elDtTitle.get(i).html();
+			System.out.println("第"+i+"个:"+t);
+		}
+		
+//		try{
+//		String dtTitle = elDtTitle.get(0).select("h1").get(0).text();
+//		String dtContent = elDtTitle.get(0).select("ul").get(0).text();
+//		objTyphoonVO.setDtTitle(dtTitle);
+//		objTyphoonVO.setDtContent(dtContent);
+//		}catch(Exception e){
+//			System.out.println("出错");
+//			e.printStackTrace();
+//		}
+		return objTyphoonVO;
+		
 	}
 }
