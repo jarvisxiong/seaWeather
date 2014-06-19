@@ -12,7 +12,7 @@
 <%
 PrintWriter outPrint = response.getWriter();
 DateHelper objDateHelper = new DateHelper();
-String str = objDateHelper.getAllWeatherVO();
+String str = objDateHelper.getAllWeatherVOJson();
 outPrint.print(str);
 outPrint.close();
 %>

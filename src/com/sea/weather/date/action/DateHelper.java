@@ -36,9 +36,6 @@ public class DateHelper {
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
-			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
-			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
-			webClient.closeAllWindows();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +85,14 @@ public class DateHelper {
 		return objAreaWeatherVO;
 	}
 	
-	public String getAllWeatherVO(){
+	public String getAllWeatherVOJson(){
+		AllWeatherVO objAllWeatherVO =this.getAllWeatherVO();
+		Gson gson = new Gson(); 
+		String str = gson.toJson(objAllWeatherVO);
+		return str;
+	}
+	
+	private AllWeatherVO getAllWeatherVO(){
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
 		objAllWeatherVO.setGd24(this.getGd24Weather());
 		objAllWeatherVO.setGd48(this.getGd48Weather());
@@ -96,20 +100,13 @@ public class DateHelper {
 		objAllWeatherVO.setNh48(this.getNh48Weather());
 		objAllWeatherVO.setHn24(this.getHn24Weather());
 		objAllWeatherVO.setHn48(this.getHn48Weather());
-		
-		Gson gson = new Gson(); 
-		String str = gson.toJson(objAllWeatherVO);
-		return str;
+		return objAllWeatherVO;
 	}
 	
-	public String getAllTfAreaVO(){
+	
+	public String getAllTfAreaVOJson(){
 		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
-		objAllTfAreaVO.setGd24(this.getGd24Weather());
-		objAllTfAreaVO.setGd48(this.getGd48Weather());
-		objAllTfAreaVO.setNh24(this.getNh24Weather());
-		objAllTfAreaVO.setNh48(this.getNh48Weather());
-		objAllTfAreaVO.setHn24(this.getHn24Weather());
-		objAllTfAreaVO.setHn48(this.getHn48Weather());
+		objAllTfAreaVO.setAllWeatherVO(getAllWeatherVO());
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		objTyphoonVO = this.getTyphoon();
@@ -185,6 +182,15 @@ public class DateHelper {
 	
 	private TyphoonVO getTyphoon(){
 		TyphoonVO objTyphoonVO = new TyphoonVO();
+		try {
+			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
+			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		webClient.closeAllWindows();
+		
 		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
 		String strTitle = elGzTitle.select("em").get(0).text().replaceAll("：", "");
 		String strTime = elGzTitle.select("b").get(0).text();

@@ -32,13 +32,13 @@ public class CacheDate {
 	
 	public static synchronized void loadDataSource() {
 		DateHelper objDateHelper = new DateHelper();
-		String strAllWeatherVO = objDateHelper.getAllTfAreaVO();
+		String strAllWeatherVO = objDateHelper.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 	}
 	
 	public static synchronized String loadNewDataSource() { 
 		DateHelper objDateHelper = new DateHelper();
-		String strAllWeatherVO = objDateHelper.getAllTfAreaVO();
+		String strAllWeatherVO = objDateHelper.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 		return strAllWeatherVO;
 	}
