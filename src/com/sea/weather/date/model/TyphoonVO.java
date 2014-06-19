@@ -12,6 +12,10 @@ public class TyphoonVO {
 	
 	private String GzTime;
 
+	private String YjTitle;
+	
+	private String YjContent;
+	
 	public String getGzTime() {
 		return GzTime;
 	}
@@ -61,6 +65,22 @@ public class TyphoonVO {
 	    sb.append("\n    DtContent=").append(this.DtContent);
 	    sb.append("\n]");
 	    return sb.toString();
+	}
+
+	public String getYjTitle() {
+		return YjTitle;
+	}
+
+	public void setYjTitle(String yjTitle) {
+		YjTitle = yjTitle;
+	}
+
+	public String getYjContent() {
+		return YjContent;
+	}
+
+	public void setYjContent(String yjContent) {
+		YjContent = yjContent;
 	}
 	
 	

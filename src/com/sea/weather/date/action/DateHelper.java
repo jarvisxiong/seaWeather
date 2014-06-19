@@ -20,7 +20,6 @@ import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.model.WeatherVO;
-import com.sea.weather.utils.GrabTask;
 import com.sea.weather.utils.TimerHelp;
 
 public class DateHelper {
@@ -31,7 +30,7 @@ public class DateHelper {
 	private Document doc_tf;
 	private WebClient webClient = new WebClient(BrowserVersion.CHROME);
 	private HtmlPage htmlPage ;
-	
+	private Document doc_tf_yj;
 	public DateHelper(){
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
@@ -120,7 +119,8 @@ public class DateHelper {
 	}
 	
 	public static void main(String args[]) { 
-		TimerHelp.startTask();
+		DateHelper objDateHelper = new DateHelper();
+		objDateHelper.getTyphoon();
     } 
 	
 	/**
@@ -185,6 +185,7 @@ public class DateHelper {
 		try {
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
 			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
+			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").get();
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
@@ -207,15 +208,12 @@ public class DateHelper {
 	     String dtContent = doc_tfxml.select(".left_lbox1").select(".tf").select("ul").text();
 	     objTyphoonVO.setDtTitle(dtTitle);
 	     objTyphoonVO.setDtContent(dtContent);
-//		try{
-//		String dtTitle = elDtTitle.get(0).select("h1").get(0).text();
-//		String dtContent = elDtTitle.get(0).select("ul").get(0).text();
-//		objTyphoonVO.setDtTitle(dtTitle);
-//		objTyphoonVO.setDtContent(dtContent);
-//		}catch(Exception e){
-//			System.out.println("出错");
-//			e.printStackTrace();
-//		}
+	     
+	     String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
+	     String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
+	     
+	     objTyphoonVO.setYjTitle(yjTitle);
+	     objTyphoonVO.setYjContent(yjContent);
 		return objTyphoonVO;
 		
 	}
