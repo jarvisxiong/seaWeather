@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +19,6 @@ import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.model.WeatherVO;
-import com.sea.weather.utils.TimerHelp;
 
 public class DateHelper {
 	private Document doc_gd_nh;
@@ -185,12 +183,13 @@ public class DateHelper {
 		try {
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
 			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
+			webClient.closeAllWindows();
 			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").get();
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		webClient.closeAllWindows();
+		
 		
 		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
 		String strTitle = elGzTitle.select("em").get(0).text().replaceAll("：", "");
