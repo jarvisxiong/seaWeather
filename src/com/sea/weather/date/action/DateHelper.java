@@ -2,7 +2,9 @@ package com.sea.weather.date.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,10 +15,13 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.gson.Gson;
+import com.sea.weather.date.model.AllTfAreaVO;
 import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.model.WeatherVO;
+import com.sea.weather.utils.GrabTask;
+import com.sea.weather.utils.TimerHelp;
 
 public class DateHelper {
 	private Document doc_gd_nh;
@@ -33,6 +38,7 @@ public class DateHelper {
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
 			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
+			webClient.closeAllWindows();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,11 +102,28 @@ public class DateHelper {
 		return str;
 	}
 	
+	public String getAllTfAreaVO(){
+		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
+		objAllTfAreaVO.setGd24(this.getGd24Weather());
+		objAllTfAreaVO.setGd48(this.getGd48Weather());
+		objAllTfAreaVO.setNh24(this.getNh24Weather());
+		objAllTfAreaVO.setNh48(this.getNh48Weather());
+		objAllTfAreaVO.setHn24(this.getHn24Weather());
+		objAllTfAreaVO.setHn48(this.getHn48Weather());
+		
+		TyphoonVO objTyphoonVO = new TyphoonVO();
+		objTyphoonVO = this.getTyphoon();
+		objAllTfAreaVO.setTf(objTyphoonVO);
+		
+		objAllTfAreaVO.setGrabTime(new Date());
+		
+		Gson gson = new Gson(); 
+		String str = gson.toJson(objAllTfAreaVO);
+		return str;
+	}
+	
 	public static void main(String args[]) { 
-		DateHelper objDateHelper = new DateHelper();
-		String str = objDateHelper.getAllWeatherVO();
-		String strTf =  objDateHelper.getTyphoon().toString();
-		System.out.println(strTf);
+		TimerHelp.startTask();
     } 
 	
 	/**
