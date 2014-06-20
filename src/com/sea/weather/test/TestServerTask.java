@@ -1,6 +1,7 @@
 package com.sea.weather.test;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Date;
 import java.util.TimerTask;
 
@@ -39,10 +40,13 @@ public class TestServerTask extends TimerTask{
 			}else{
 				System.out.println("正常"+now);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		}  catch (SocketException e) {
+			System.out.println("连接超时:"+e.getClass().getName());
+		}  catch (IOException e) {
+			System.out.println("其他IO异常："+e.getClass().getName());
+		}  catch (Exception e) {
+			System.out.println("其他异常："+e.getClass().getName());
+		} 
 	} 
 	
 }
