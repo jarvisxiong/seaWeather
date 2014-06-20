@@ -15,9 +15,9 @@ public class TimerLinster implements ServletContextListener {
      * Default constructor. 
      */
     public TimerLinster() {
-    	System.out.println("-----启动侦听器------");
+    	System.out.println("-----start linster------");
     	TimerHelp.startTask();
-    	System.out.println("-----启动完成------");
+    	System.out.println("-----end------");
         // TODO Auto-generated constructor stub
     }
 
