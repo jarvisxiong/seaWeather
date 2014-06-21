@@ -8,7 +8,7 @@ public class TimerHelp {
 		
 		GrabTask objGrabTask = new GrabTask();
 		Timer timer = new Timer();
-		timer.schedule(objGrabTask, 60000, 1800000);  
+		timer.schedule(objGrabTask, 1000, 1200000);  
 		
 	}
 }

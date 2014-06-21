@@ -1,23 +1,23 @@
-package com.sea.weather.utils;
+package com.sea.weather.test;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * Application Lifecycle Listener implementation class TimerLinster
+ * Application Lifecycle Listener implementation class TestTimeLinstener
  *
  */
 @WebListener
-public class TimerLinster implements ServletContextListener {
+public class TestTimeLinstener implements ServletContextListener {
 
     /**
      * Default constructor. 
      */
-    public TimerLinster() {
-    	System.out.println("-----start linster------");
-    	TimerHelp.startTask();
-    	System.out.println("-----end------");
+    public TestTimeLinstener() {
+    	//System.out.println("∆Ù∂Ø≤‚ ‘");
+    	//TestTimerHelp.startTask();
+    	//System.out.println("Ω· ¯≤‚ ‘");
         // TODO Auto-generated constructor stub
     }
 

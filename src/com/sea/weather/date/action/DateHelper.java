@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.gson.Gson;
@@ -26,7 +27,6 @@ public class DateHelper {
 	private Document doc_hn;
 	
 	private Document doc_tf;
-	private WebClient webClient = new WebClient(BrowserVersion.CHROME);
 	private HtmlPage htmlPage ;
 	private Document doc_tf_yj;
 	public DateHelper(){
@@ -179,15 +179,22 @@ public class DateHelper {
 	}
 	
 	private TyphoonVO getTyphoon(){
+		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		try {
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
-			htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
+			WebClient webClient = new WebClient(BrowserVersion.CHROME);
+			webClient.getOptions().setCssEnabled(false);
+	        webClient.getOptions().setJavaScriptEnabled(true);
+	        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+	        webClient.getOptions().setThrowExceptionOnScriptError(false);
+	        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+	        webClient.setJavaScriptTimeout(5000);
+	        htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
 			webClient.closeAllWindows();
 			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").get();
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("webClient error");
 		}
 		
 		
@@ -201,13 +208,15 @@ public class DateHelper {
 		objTyphoonVO.setGzTitle(strTitle);
 		objTyphoonVO.setGzTime(strTime);
 		objTyphoonVO.setGzContent(strGzContent);
-		
+		try{
 	     Document doc_tfxml = Jsoup.parse(htmlPage.asXml());
 	     String dtTitle = doc_tfxml.select(".left_lbox1").select(".tf").select("h1").text();
 	     String dtContent = doc_tfxml.select(".left_lbox1").select(".tf").select("ul").text();
 	     objTyphoonVO.setDtTitle(dtTitle);
 	     objTyphoonVO.setDtContent(dtContent);
-	     
+		}catch(Exception e){
+			System.out.println("set typhoon error!");
+		}
 	     String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
 	     String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
 	     
