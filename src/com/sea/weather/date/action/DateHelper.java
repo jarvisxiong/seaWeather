@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 
+import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,6 +36,8 @@ public class DateHelper {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
@@ -189,6 +193,14 @@ public class DateHelper {
 	        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
 	        webClient.getOptions().setThrowExceptionOnScriptError(false);
 	        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+	        
+	        //屏蔽掉日志信息
+	        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
+	        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+	        webClient.getOptions().setThrowExceptionOnScriptError(false);
+	        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+	        
+	        
 	        webClient.setJavaScriptTimeout(5000);
 	        htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
 			webClient.closeAllWindows();
