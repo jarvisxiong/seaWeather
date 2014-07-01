@@ -13,6 +13,8 @@ public class GrabTask extends TimerTask{
 					+ e.getClass().getName() + ",time:" + new Date());
 			try {
 				CacheDate.loadDataSource();
+				System.out.println("do GrabTask two sucess :"
+						+ e.getClass().getName() + ",time:" + new Date());
 			} catch (Exception e2) {
 				System.out.println("do GrabTask Exception two:"
 						+ e2.getClass().getName() + ",time:" + new Date());
