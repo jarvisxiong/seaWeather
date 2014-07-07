@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -122,7 +123,7 @@ public class DateHelper {
 	
 	public static void main(String args[]) { 
 		DateHelper objDateHelper = new DateHelper();
-		objDateHelper.getTyphoon();
+		System.out.println(objDateHelper.getTyphoon().getYjContent());
     } 
 	
 	/**
@@ -215,7 +216,10 @@ public class DateHelper {
 		String strTime = elGzTitle.select("b").get(0).text();
 		
 		Elements elGzContent =doc_tf.select(".rbox").select("p");
-		String strGzContent = elGzContent.get(0).text();
+		String strGzContent = "";
+		for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
+			strGzContent = strGzContent + elGzContent.get(i).text();
+		}
 		
 		objTyphoonVO.setGzTitle(strTitle);
 		objTyphoonVO.setGzTime(strTime);
@@ -229,12 +233,35 @@ public class DateHelper {
 		}catch(Exception e){
 			System.out.println("set typhoon error!");
 		}
-	     String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
-	     String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
-	     
-	     objTyphoonVO.setYjTitle(yjTitle);
-	     objTyphoonVO.setYjContent(yjContent);
+	    getYfYj(objTyphoonVO);
 		return objTyphoonVO;
 		
+	}
+	private void getYfYj(TyphoonVO objTyphoonVO) {
+		 String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
+	     String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
+	     String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
+		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
+			try {
+				Document yjdoc = Jsoup.connect(yjUrl).get();
+				String yjUrlsub = yjdoc.select("#new").attr("src");
+				Document yjdocSub = Jsoup.connect(yjUrlsub).get();
+				Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");
+				String yjHasComtent="";
+				for(int i=0;yjp!=null&&i<yjp.size();i++){
+					if(StringUtils.isNoneBlank(yjp.get(i).text())){
+						yjHasComtent = yjHasComtent +yjp.get(i).text()+"\n";
+					}
+				}
+				if(StringUtils.isNoneBlank(yjHasComtent)){
+					yjContent = yjHasComtent;
+				}
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+	     objTyphoonVO.setYjTitle(yjTitle);
+	     objTyphoonVO.setYjContent(yjContent);
 	}
 }
