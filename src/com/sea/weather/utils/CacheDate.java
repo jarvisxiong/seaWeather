@@ -80,7 +80,7 @@ public class CacheDate {
 		if(obj!=null){
 			urlIndex = (int)obj;
 		}
-		if (urlIndex < 21) {
+		if (urlIndex < RssNewAction.urlSize) {
 			int i = urlIndex;
 			map.put(urlKey, ++i);
 		}else{
