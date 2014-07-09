@@ -10,5 +10,9 @@ public class TimerHelp {
 		Timer timer = new Timer();
 		timer.schedule(objGrabTask, 1000, 1200000);  
 		
+		//新闻定时器
+		RssNewsTask objRssNewsTask = new RssNewsTask();
+		Timer rssTimer = new Timer();
+		rssTimer.schedule(objRssNewsTask, 1000, 780000);  
 	}
 }
