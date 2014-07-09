@@ -20,12 +20,12 @@ import com.sun.syndication.io.XmlReader;
 
 public class RssNewAction {
 
-	public static final int urlSize = 17;
+	public static final int urlSize = 20;
 	
 	
 	
 	public static void main(String args[]) throws IllegalArgumentException, IOException, FeedException { 
-		 URL feedurl = initUrl().get(17);
+		 URL feedurl = initUrl().get(20);
 		System.out.print(gradRssRewsUrl(feedurl));
 	}
 	
@@ -83,6 +83,14 @@ public class RssNewAction {
 			
 			/** 新浪RSS 结束  */
 			
+			/** 腾讯Rss 开始*/
+			//国内要闻 18
+			lisUrl.add(new URL("http://news.qq.com/newsgn/rss_newsgn.xml"));
+			//国际要闻 19
+			lisUrl.add(new URL("http://news.qq.com/newsgj/rss_newswj.xml"));
+			//社会要闻 20
+			lisUrl.add(new URL("http://news.qq.com/newssh/rss_newssh.xml"));
+			/** 腾讯Rss 结束*/
 
 		return lisUrl;
 	}
