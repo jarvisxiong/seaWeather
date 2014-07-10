@@ -97,12 +97,16 @@ public class RssNewAction {
 	
 	public static String gradNews() throws IOException, IllegalArgumentException, FeedException{
 			 URL feedurl = initUrl().get(CacheDate.getUrlIndex());
-             return gradRssRewsUrl(feedurl);
+			 RssNewsListVO objRssNewsListVO = null;
+			 Gson gson =new Gson();
+			 while(objRssNewsListVO==null||(objRssNewsListVO!=null&&objRssNewsListVO.getLisRssNewsVO().size()==0)){
+				 objRssNewsListVO =  gradRssRewsUrl(feedurl);
+			 }
+             return gson.toJson(objRssNewsListVO);
 	}
 
-	private static String gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
+	private static RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
 		RssNewsListVO objRssNewsListVO = new RssNewsListVO();
-		Gson gson = new Gson();
 		URLConnection uc = feedurl.openConnection();
 		 SyndFeedInput input = new SyndFeedInput();
 		 SyndFeed feed = input.build(new XmlReader(uc)); 
@@ -129,7 +133,7 @@ public class RssNewAction {
 		 //…Ë÷√RSSlist
 		 objRssNewsListVO.setLisRssNewsVO(lisRssNewsVO);
 		 objRssNewsListVO.setRssGrabTime(dateNow);
-		 return gson.toJson(objRssNewsListVO);
+		 return objRssNewsListVO;
 	}
 	
 	private static String rmHtml(String inputStr){
