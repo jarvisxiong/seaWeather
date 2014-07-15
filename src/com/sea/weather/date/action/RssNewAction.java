@@ -26,7 +26,10 @@ public class RssNewAction {
 	
 	public static void main(String args[]) throws IllegalArgumentException, IOException, FeedException { 
 		 URL feedurl = initUrl().get(20);
-		System.out.print(gradRssRewsUrl(feedurl));
+		System.out.print(gradNews());
+		for(int i=0;i<gradRssRewsUrl(feedurl).getLisRssNewsVO().size();i++){
+			System.out.println(gradRssRewsUrl(feedurl).getLisRssNewsVO().get(i).getTitle());
+		}
 	}
 	
 	
@@ -96,11 +99,14 @@ public class RssNewAction {
 	}
 	
 	public static String gradNews() throws IOException, IllegalArgumentException, FeedException{
-			 URL feedurl = initUrl().get(CacheDate.getUrlIndex());
 			 RssNewsListVO objRssNewsListVO = null;
 			 Gson gson =new Gson();
-			 while(objRssNewsListVO==null||(objRssNewsListVO!=null&&objRssNewsListVO.getLisRssNewsVO().size()==0)){
-				 objRssNewsListVO =  gradRssRewsUrl(feedurl);
+			 for(int i=0;i<18;i++){
+				if(objRssNewsListVO==null||(objRssNewsListVO!=null&&objRssNewsListVO.getLisRssNewsVO().size()==0)){
+					objRssNewsListVO =  gradRssRewsUrl(initUrl().get(CacheDate.getUrlIndex()));
+				}else{
+					break;
+				}
 			 }
              return gson.toJson(objRssNewsListVO);
 	}

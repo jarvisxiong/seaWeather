@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.sea.weather.date.action.DateHelper;
 import com.sea.weather.date.action.RssNewAction;
+import com.sea.weather.date.action.SeaWeatherDateAction;
 import com.sun.syndication.io.FeedException;
 
 public class CacheDate {
@@ -58,14 +58,12 @@ public class CacheDate {
 	}
 	
 	public static synchronized void loadDataSource() {
-		DateHelper objDateHelper = new DateHelper();
-		String strAllWeatherVO = objDateHelper.getAllTfAreaVOJson();
+		String strAllWeatherVO = SeaWeatherDateAction.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 	}
 	
 	public static synchronized String loadNewDataSource() { 
-		DateHelper objDateHelper = new DateHelper();
-		String strAllWeatherVO = objDateHelper.getAllTfAreaVOJson();
+		String strAllWeatherVO = SeaWeatherDateAction.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 		return strAllWeatherVO;
 	}
