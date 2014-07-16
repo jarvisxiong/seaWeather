@@ -4,19 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.gson.Gson;
 import com.sea.weather.date.model.AllTfAreaVO;
 import com.sea.weather.date.model.AllWeatherVO;
@@ -29,9 +22,6 @@ public class DateHelper {
 	
 	private Document doc_hn;
 	
-	private Document doc_tf;
-	private HtmlPage htmlPage ;
-	private Document doc_tf_yj;
 	public DateHelper(){
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
@@ -45,7 +35,6 @@ public class DateHelper {
 	public String getTitle() {
 		
 		String title = doc_gd_nh.title();
-		Element title_24 = doc_gd_nh.getElementById("stitle5");
 		return title;
 	}
 	
@@ -111,7 +100,7 @@ public class DateHelper {
 		objAllTfAreaVO.setAllWeatherVO(getAllWeatherVO());
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
-		objTyphoonVO = this.getTyphoon();
+		objTyphoonVO = TyphoonAction.getTyphoon();
 		objAllTfAreaVO.setTf(objTyphoonVO);
 		
 		objAllTfAreaVO.setGrabTime(new Date());
@@ -122,8 +111,6 @@ public class DateHelper {
 	}
 	
 	public static void main(String args[]) { 
-		DateHelper objDateHelper = new DateHelper();
-		System.out.println(objDateHelper.getTyphoon().getYjContent());
     } 
 	
 	/**
@@ -183,85 +170,6 @@ public class DateHelper {
 		return objAreaWeatherVO;
 	}
 	
-	private TyphoonVO getTyphoon(){
-		
-		TyphoonVO objTyphoonVO = new TyphoonVO();
-		try {
-			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
-			WebClient webClient = new WebClient(BrowserVersion.CHROME);
-			webClient.getOptions().setCssEnabled(false);
-	        webClient.getOptions().setJavaScriptEnabled(true);
-	        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-	        webClient.getOptions().setThrowExceptionOnScriptError(false);
-	        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-	        
-	        //屏蔽掉日志信息
-	        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
-	        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-	        webClient.getOptions().setThrowExceptionOnScriptError(false);
-	        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-	        
-	        
-	        webClient.setJavaScriptTimeout(5000);
-	        htmlPage = (HtmlPage)webClient.getPage("http://typhoon.weather.com.cn/");
-			webClient.closeAllWindows();
-			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").get();
-		} catch (Exception e) {
-			System.out.println("webClient error");
-		}
-		
-		
-		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
-		String strTitle = elGzTitle.select("em").get(0).text().replaceAll("：", "");
-		String strTime = elGzTitle.select("b").get(0).text();
-		
-		Elements elGzContent =doc_tf.select(".rbox").select("p");
-		String strGzContent = "";
-		for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
-			strGzContent = strGzContent + elGzContent.get(i).text();
-		}
-		
-		objTyphoonVO.setGzTitle(strTitle);
-		objTyphoonVO.setGzTime(strTime);
-		objTyphoonVO.setGzContent(strGzContent);
-		try{
-	     Document doc_tfxml = Jsoup.parse(htmlPage.asXml());
-	     String dtTitle = doc_tfxml.select(".left_lbox1").select(".tf").select("h1").text();
-	     String dtContent = doc_tfxml.select(".left_lbox1").select(".tf").select("ul").text();
-	     objTyphoonVO.setDtTitle(dtTitle);
-	     objTyphoonVO.setDtContent(dtContent);
-		}catch(Exception e){
-			System.out.println("set typhoon error!");
-		}
-	    getYfYj(objTyphoonVO);
-		return objTyphoonVO;
-		
-	}
-	private void getYfYj(TyphoonVO objTyphoonVO) {
-		 String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
-	     String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
-	     String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
-		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
-			try {
-				Document yjdoc = Jsoup.connect(yjUrl).get();
-				String yjUrlsub = yjdoc.select("#new").attr("src");
-				Document yjdocSub = Jsoup.connect(yjUrlsub).get();
-				Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");
-				String yjHasComtent="";
-				for(int i=0;yjp!=null&&i<yjp.size();i++){
-					if(StringUtils.isNoneBlank(yjp.get(i).text())){
-						yjHasComtent = yjHasComtent +yjp.get(i).text()+"\n";
-					}
-				}
-				if(StringUtils.isNoneBlank(yjHasComtent)){
-					yjContent = yjHasComtent;
-				}
-			} catch (IOException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
-		}
-	     objTyphoonVO.setYjTitle(yjTitle);
-	     objTyphoonVO.setYjContent(yjContent);
-	}
+	
+	
 }
