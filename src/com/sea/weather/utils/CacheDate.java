@@ -15,6 +15,8 @@ public class CacheDate {
 	private final static String urlKey = "urlIndex";
 	
 	private final static String rssKey = "rssKey";
+	
+	private final static String tfYjTimeKey = "tfYjTimeKey";
 
 	protected static final HashMap<String, Object> map = new HashMap<String, Object>(); // Cache table
 
@@ -85,5 +87,14 @@ public class CacheDate {
 			map.put(urlKey, 0);
 		}
 		return urlIndex;
+	}
+
+	public static String getTfYjTime() {
+		String v = (String) map.get(tfYjTimeKey);
+		return v;
+	}
+	
+	public static synchronized void setTfYjTime(String tfYjTime) {
+		map.put(tfYjTimeKey, tfYjTime);
 	}
 }

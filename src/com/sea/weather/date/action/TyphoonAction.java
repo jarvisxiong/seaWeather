@@ -1,6 +1,7 @@
 package com.sea.weather.date.action;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -8,7 +9,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 
+
+
+
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.sea.weather.date.model.PushMessagesVO;
 import com.sea.weather.date.model.TyphoonVO;
+import com.sea.weather.push.ChannelClient;
+import com.sea.weather.utils.CacheDate;
 
 public class TyphoonAction {
 
@@ -75,6 +85,7 @@ public class TyphoonAction {
 		}
 	    objTyphoonVO.setYjTitle(yjTitle);
 	    objTyphoonVO.setYjContent(yjContent);
+	    pushTfYjMsg(yjContent);
 	}
 	
 	private static String getTfDt(){
@@ -90,6 +101,32 @@ public class TyphoonAction {
 	}
 	
 	public static void main(String args[]) { 
-		System.out.println(getTfDt());
+		String str = "2014年07月16日24时";
+		String patternStr = "\\d{4}年\\d{1,2}月\\d{1,2}日\\d{1,2}时"; 
+		boolean result = Pattern.matches(patternStr, str); 
+		System.out.println(result);
+	}
+	
+	private static void pushTfYjMsg(String yjContent){
+		String patternStr = "\\d{4}年\\d{1,2}月\\d{1,2}日\\d{1,2}时"; 
+		//截取日期到2014年07月16日10时，如果没有台风预警，则字数小于14，不进入发送推送的逻辑
+		if(yjContent!=null&&yjContent.length()>14){
+			String publishTime = yjContent.substring(0,14);
+			//有台风预警，则第一次进来，cache为空，则不等，发送一次推送，并且将时间放到cache里面
+			//后面循环进来，如果台风预警时间没变，则一直不进该逻辑，不进入推送,并且还需要符合《2014年07月05日10时》格式
+			if(Pattern.matches(patternStr, publishTime)&&!publishTime.equals(CacheDate.getTfYjTime())){
+				CacheDate.setTfYjTime(publishTime);
+				PushMessagesVO objPushMessagesVO = new PushMessagesVO();
+				objPushMessagesVO.setTitle("台风预警");
+				objPushMessagesVO.setDescription("中央台"+publishTime+"发布台风预警");
+				objPushMessagesVO.setUrl("http://www.baidu.com/");
+				JsonObject obj = new JsonObject();
+				obj.addProperty("mykey", "http://www.baidu.com/");
+				objPushMessagesVO.setCustom_content(obj.toString());
+				Gson gson = new Gson();
+				String josn = gson.toJson(objPushMessagesVO);
+				ChannelClient.pushBroadcastMessage(josn);
+			}
+		}
 	}
 }

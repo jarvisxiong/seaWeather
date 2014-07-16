@@ -15,7 +15,7 @@ import com.sea.weather.utils.SeaConstant;
 
 public class ChannelClient {
 
-	public void pushBroadcastMessage(String message) {
+	public static void pushBroadcastMessage(String message) {
 
         // 1. 设置developer平台的ApiKey/SecretKey
         ChannelKeyPair pair = new ChannelKeyPair(SeaConstant.apiKey, SeaConstant.secretKey);
@@ -60,7 +60,6 @@ public class ChannelClient {
     }
 	
 	public static void main(String[] args) {
-		ChannelClient objChannelClient = new ChannelClient();
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		objPushMessagesVO.setTitle("测试url");
 		objPushMessagesVO.setDescription("test");
@@ -70,7 +69,7 @@ public class ChannelClient {
 		objPushMessagesVO.setCustom_content(obj.toString());
 		Gson gson = new Gson();
 		String josn = gson.toJson(objPushMessagesVO);
-		objChannelClient.pushBroadcastMessage(josn);
+		ChannelClient.pushBroadcastMessage(josn);
 	}
 	
 }
