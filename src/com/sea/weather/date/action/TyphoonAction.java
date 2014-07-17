@@ -48,7 +48,7 @@ public class TyphoonAction {
 		
 		//获取台风动态
 		String dtTitle = "台风动态";
-		String dtContent = getTfDt();
+		String dtContent = getHnTfDt();
 		objTyphoonVO.setDtTitle(dtTitle);
 		objTyphoonVO.setDtContent(dtContent);
 		
@@ -95,11 +95,19 @@ public class TyphoonAction {
 		return "";
 	}
 	
+	private static String getHnTfDt(){
+		try {
+			Document doc_tf_dt = Jsoup.connect("http://typhoon.hainan.gov.cn/").timeout(5000).get();
+			String tfdt =doc_tf_dt.select(".S_cloudCCC").text();
+			return tfdt;
+		} catch (IOException e) {
+			Log.e("TyphoonAction.getTfDt", e);
+		}
+		return "";
+	}
+	
 	public static void main(String args[]) { 
-		String str = "2014年07月16日24时";
-		String patternStr = "\\d{4}年\\d{1,2}月\\d{1,2}日\\d{1,2}时"; 
-		boolean result = Pattern.matches(patternStr, str); 
-		System.out.println(result);
+		System.out.println(getHnTfDt());
 	}
 	
 	private static void pushTfYjMsg(String yjContent){
