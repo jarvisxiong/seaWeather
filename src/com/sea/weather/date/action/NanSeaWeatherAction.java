@@ -19,8 +19,8 @@ public class NanSeaWeatherAction {
 	
 	public static AllWeatherVO getAllWeatherVO(){
 		try {
-			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
-			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
+			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
+			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch(Exception e){

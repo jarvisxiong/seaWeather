@@ -30,8 +30,8 @@ public class TyphoonAction {
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		try {
-			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").get();
-			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").get();
+			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(5000).get();
+			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(5000).get();
 		} catch (Exception e) {
 			System.out.println("webClient error");
 		}
@@ -66,7 +66,7 @@ public class TyphoonAction {
 	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
 		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
 			try {
-				Document yjdoc = Jsoup.connect(yjUrl).get();
+				Document yjdoc = Jsoup.connect(yjUrl).timeout(5000).get();
 				String yjUrlsub = yjdoc.select("#new").attr("src");
 				Document yjdocSub = Jsoup.connect(yjUrlsub).get();
 				Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");

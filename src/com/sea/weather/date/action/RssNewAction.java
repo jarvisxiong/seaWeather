@@ -114,6 +114,8 @@ public class RssNewAction {
 	private static RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
 		RssNewsListVO objRssNewsListVO = new RssNewsListVO();
 		URLConnection uc = feedurl.openConnection();
+		 uc.setConnectTimeout(5000);
+		 uc.setReadTimeout(5000);
 		 SyndFeedInput input = new SyndFeedInput();
 		 SyndFeed feed = input.build(new XmlReader(uc)); 
 		 List<?> entries = feed.getEntries(); 
