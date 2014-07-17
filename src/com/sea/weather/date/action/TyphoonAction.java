@@ -95,7 +95,7 @@ public class TyphoonAction {
 	
 	private static String getTfDt(){
 		try {
-			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").get();
+			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
 			String tfdt =doc_tf_dt.select(".typhoon_warning_home").select(".font14bold").select(".fontyahei").text();
 			return tfdt;
 		} catch (IOException e) {
