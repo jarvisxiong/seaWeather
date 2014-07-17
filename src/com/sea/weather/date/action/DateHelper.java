@@ -85,8 +85,8 @@ public class DateHelper {
 	
 	private AllWeatherVO getAllWeatherVO(){
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
-		objAllWeatherVO.setGd24(this.getGd24Weather());
-		objAllWeatherVO.setGd48(this.getGd48Weather());
+		objAllWeatherVO.setGd24(showNotice(this.getGd24Weather()));
+		objAllWeatherVO.setGd48(showNotice(this.getGd48Weather()));
 		objAllWeatherVO.setNh24(this.getNh24Weather());
 		objAllWeatherVO.setNh48(this.getNh48Weather());
 		objAllWeatherVO.setHn24(this.getHn24Weather());
@@ -94,6 +94,14 @@ public class DateHelper {
 		return objAllWeatherVO;
 	}
 	
+	private AreaWeatherVO showNotice(AreaWeatherVO objAreaWeatherVO){
+		WeatherVO objWeatherVO = new WeatherVO();
+		objWeatherVO.setSeaArea("海洋天气新版1.4\n请及时升级");
+		objWeatherVO.setWind("1、增加台风天气；\n2、改进样子；\n3、增加新闻速览;\n4、升级方式,\n方式1、浏览器下载： http://gdown.baidu.com/data/wisegame/4c38781b9fd0f83c/haiyangtianqi_5.apk \n方式2、在百度移动应用中，搜索海洋天气");
+		objWeatherVO.setVisibility("--");
+		objAreaWeatherVO.getLisWeatherVO().add(0, objWeatherVO);
+		return objAreaWeatherVO;
+	}
 	
 	public String getAllTfAreaVOJson(){
 		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
