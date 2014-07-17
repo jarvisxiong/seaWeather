@@ -16,6 +16,7 @@ import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.model.WeatherVO;
+import com.sea.weather.utils.Log;
 
 public class DateHelper {
 	private Document doc_gd_nh;
@@ -27,9 +28,9 @@ public class DateHelper {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("DateHelper init io", e);
 		} catch(Exception e){
-			e.printStackTrace();
+			Log.e("DateHelper init Exception", e);
 		}
 	}
 	public String getTitle() {

@@ -1,6 +1,5 @@
 package com.sea.weather.utils;
 
-import java.util.Date;
 import java.util.TimerTask;
 
 public class GrabTask extends TimerTask{
@@ -9,15 +8,12 @@ public class GrabTask extends TimerTask{
 		try {
 			CacheDate.loadDataSource();
 		} catch (Exception e) {
-			System.out.println("do GrabTask Exception first:"
-					+ e.getClass().getName() + ",time:" + new Date());
+			Log.e("GrabTask.run first exception", e);
 			try {
 				CacheDate.loadDataSource();
-				System.out.println("do GrabTask two sucess :"
-						+ e.getClass().getName() + ",time:" + new Date());
+				Log.e("GrabTask.run two sucess", e);
 			} catch (Exception e2) {
-				System.out.println("do GrabTask Exception two:"
-						+ e2.getClass().getName() + ",time:" + new Date());
+				Log.e("GrabTask.run two Exception", e2);
 			}
 
 		}

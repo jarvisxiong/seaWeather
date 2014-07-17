@@ -7,21 +7,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-
-
-
-
-
-
-
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.sea.weather.date.model.PushCustomContentVO;
 import com.sea.weather.date.model.PushMessagesVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.push.ChannelClient;
 import com.sea.weather.utils.CacheDate;
+import com.sea.weather.utils.Log;
 import com.sea.weather.utils.SeaConstant;
 import com.sea.weather.utils.StringUtils;
 
@@ -37,7 +29,7 @@ public class TyphoonAction {
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(5000).get();
 			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(5000).get();
 		} catch (Exception e) {
-			System.out.println("webClient error");
+			Log.e("TyphoonAction.getTyphoon", e);
 		}
 		
 		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
@@ -53,14 +45,14 @@ public class TyphoonAction {
 		objTyphoonVO.setGzTitle(strTitle);
 		objTyphoonVO.setGzTime(strTime);
 		objTyphoonVO.setGzContent(strGzContent);
-		try{
-	     String dtTitle = "台风动态";
-	     String dtContent = getTfDt();
-	     objTyphoonVO.setDtTitle(dtTitle);
-	     objTyphoonVO.setDtContent(dtContent);
-		}catch(Exception e){
-			System.out.println("set typhoon error!");
-		}
+		
+		//获取台风动态
+		String dtTitle = "台风动态";
+		String dtContent = getTfDt();
+		objTyphoonVO.setDtTitle(dtTitle);
+		objTyphoonVO.setDtContent(dtContent);
+		
+		//获取台风预警
 	    getYfYj(objTyphoonVO);
 		return objTyphoonVO;
 	}
@@ -84,8 +76,7 @@ public class TyphoonAction {
 					yjContent = yjHasComtent;
 				}
 			} catch (IOException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
+				Log.e("TyphoonAction.getYfYj", e);
 			}
 		}
 	    objTyphoonVO.setYjTitle(yjTitle);
@@ -99,8 +90,7 @@ public class TyphoonAction {
 			String tfdt =doc_tf_dt.select(".typhoon_warning_home").select(".font14bold").select(".fontyahei").text();
 			return tfdt;
 		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+			Log.e("TyphoonAction.getTfDt", e);
 		}
 		return "";
 	}
@@ -128,12 +118,8 @@ public class TyphoonAction {
 				objPushMessagesVO.setDescription("中央台"+publishTime+"发布台风预警");
 				
 				//设置为内容，启动首页
-				objPushCustomContentVO.setUrlKey(SeaConstant.pushTypeUrl);
-				objPushCustomContentVO.setUrlValue("http://www.baidu.com/");
-				objPushCustomContentVO.setMsgKey(SeaConstant.pushTypeMeg);
-				objPushCustomContentVO.setMsgKey(SeaConstant.pushTypeMeg);
-				objPushCustomContentVO.setMsgValue(SeaConstant.pushMegAct_SI);
-				objPushCustomContentVO.setPushCustomType(SeaConstant.pushTypeMeg);
+				objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
+				objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
 				objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
 				
 				String josn = gson.toJson(objPushMessagesVO);

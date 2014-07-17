@@ -2,53 +2,27 @@ package com.sea.weather.date.model;
 
 public class PushCustomContentVO {
 	
-	String pushCustomType;
 
-	String urlKey;
+	private String actKey;
 
-	String urlValue;
+	private String actValue;
 
-	String msgKey;
-
-	String msgValue;
-
-	public String getUrlKey() {
-		return urlKey;
+	public String getActKey() {
+		return actKey;
 	}
 
-	public void setUrlKey(String urlKey) {
-		this.urlKey = urlKey;
+	public void setActKey(String actKey) {
+		this.actKey = actKey;
 	}
 
-	public String getUrlValue() {
-		return urlValue;
+	public String getActValue() {
+		return actValue;
 	}
 
-	public void setUrlValue(String urlValue) {
-		this.urlValue = urlValue;
+	public void setActValue(String actValue) {
+		this.actValue = actValue;
 	}
 
-	public String getMsgKey() {
-		return msgKey;
-	}
 
-	public void setMsgKey(String msgKey) {
-		this.msgKey = msgKey;
-	}
-
-	public String getMsgValue() {
-		return msgValue;
-	}
-
-	public void setMsgValue(String msgValue) {
-		this.msgValue = msgValue;
-	}
 	
-	public String getPushCustomType() {
-		return pushCustomType;
-	}
-
-	public void setPushCustomType(String pushCustomType) {
-		this.pushCustomType = pushCustomType;
-	}
 }

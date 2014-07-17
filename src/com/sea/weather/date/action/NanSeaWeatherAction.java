@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import com.sea.weather.date.model.AllWeatherVO;
 import com.sea.weather.date.model.AreaWeatherVO;
 import com.sea.weather.date.model.WeatherVO;
+import com.sea.weather.utils.Log;
 
 public class NanSeaWeatherAction {
 	private static Document doc_gd_nh;
@@ -22,9 +23,9 @@ public class NanSeaWeatherAction {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("NanSeaWeatherAction.getAllWeatherVO IO", e);
 		} catch(Exception e){
-			e.printStackTrace();
+			Log.e("NanSeaWeatherAction.getAllWeatherVO Exception", e);
 		}
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
 		objAllWeatherVO.setGd24(getGd24Weather());

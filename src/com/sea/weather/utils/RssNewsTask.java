@@ -1,6 +1,5 @@
 package com.sea.weather.utils;
 
-import java.util.Date;
 import java.util.TimerTask;
 
 
@@ -11,15 +10,12 @@ public class RssNewsTask extends TimerTask{
 		try {
 			CacheDate.loadRssNewsList();
 		} catch (Exception e) {
-			System.out.println("do RssNewsTask Exception first:"
-					+ e.getClass().getName() + ",time:" + new Date());
+			Log.e("RssNewsTask.run first exception", e);
 			try {
 				CacheDate.loadRssNewsList();
-				System.out.println("do RssNewsTask two sucess :"
-						+ e.getClass().getName() + ",time:" + new Date());
+				Log.e("RssNewsTask.run first sucess", e);
 			} catch (Exception e2) {
-				System.out.println("do RssNewsTask Exception two:"
-						+ e2.getClass().getName() + ",time:" + new Date());
+				Log.e("RssNewsTask.run first exception", e);
 			}
 		}
 	}
