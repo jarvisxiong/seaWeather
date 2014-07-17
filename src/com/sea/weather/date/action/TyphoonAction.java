@@ -13,12 +13,16 @@ import org.jsoup.select.Elements;
 
 
 
+
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sea.weather.date.model.PushCustomContentVO;
 import com.sea.weather.date.model.PushMessagesVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.push.ChannelClient;
 import com.sea.weather.utils.CacheDate;
+import com.sea.weather.utils.SeaConstant;
 import com.sea.weather.utils.StringUtils;
 
 public class TyphoonAction {
@@ -118,13 +122,20 @@ public class TyphoonAction {
 			if(Pattern.matches(patternStr, publishTime)&&!publishTime.equals(CacheDate.getTfYjTime())){
 				CacheDate.setTfYjTime(publishTime);
 				PushMessagesVO objPushMessagesVO = new PushMessagesVO();
+				PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
+				Gson gson = new Gson();
 				objPushMessagesVO.setTitle("台风预警");
 				objPushMessagesVO.setDescription("中央台"+publishTime+"发布台风预警");
-				objPushMessagesVO.setUrl("http://www.baidu.com/");
-				JsonObject obj = new JsonObject();
-				obj.addProperty("mykey", "http://www.baidu.com/");
-				objPushMessagesVO.setCustom_content(obj.toString());
-				Gson gson = new Gson();
+				
+				//设置为内容，启动首页
+				objPushCustomContentVO.setUrlKey(SeaConstant.pushTypeUrl);
+				objPushCustomContentVO.setUrlValue("http://www.baidu.com/");
+				objPushCustomContentVO.setMsgKey(SeaConstant.pushTypeMeg);
+				objPushCustomContentVO.setMsgKey(SeaConstant.pushTypeMeg);
+				objPushCustomContentVO.setMsgValue(SeaConstant.pushMegAct_SI);
+				objPushCustomContentVO.setPushCustomType(SeaConstant.pushTypeMeg);
+				objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
+				
 				String josn = gson.toJson(objPushMessagesVO);
 				ChannelClient.pushBroadcastMessage(josn);
 			}

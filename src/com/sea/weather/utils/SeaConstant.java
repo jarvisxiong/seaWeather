@@ -6,8 +6,10 @@ public class SeaConstant {
 	
 	public final static String secretKey = "bxtZliZl4lhkKjScNrtZC1UUKuc3QZOU";
 	
-	public final static String typeUrl = "url";
+	public final static String pushTypeUrl = "url";
 	
-	public final static String typeMeg ="msg";
+	public final static String pushTypeMeg ="msg";
+	
+	public final static String pushMegAct_SI ="startIndexActivity";
 	
 }
