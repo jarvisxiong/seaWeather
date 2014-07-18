@@ -63,7 +63,7 @@ public class TyphoonAction {
 		return objTyphoonVO;
 	}
 	private static void getYfYj(TyphoonVO objTyphoonVO) {
-		 String yjTitle =doc_tf_yj.select("div.col651").select(".borBox").get(0).select("span").text();
+		 String yjTitle ="Ì¨·çÔ¤¾¯";
 	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
 	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
 		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
