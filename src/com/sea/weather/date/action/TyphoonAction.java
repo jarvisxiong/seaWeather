@@ -28,23 +28,29 @@ public class TyphoonAction {
 		try {
 			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(5000).get();
 			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(5000).get();
+		} catch (IOException e) {
+			Log.e("TyphoonAction.getTyphoon IOException", e);
+		}
+		
+		//设置台风关注
+		try {
+			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
+			String strTitle = elGzTitle.select("em").get(0).text()
+					.replaceAll("：", "");
+			String strTime = elGzTitle.select("b").get(0).text();
+
+			Elements elGzContent = doc_tf.select(".rbox").select("p");
+			String strGzContent = "";
+			for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
+				strGzContent = strGzContent + elGzContent.get(i).text();
+			}
+
+			objTyphoonVO.setGzTitle(strTitle);
+			objTyphoonVO.setGzTime(strTime);
+			objTyphoonVO.setGzContent(strGzContent);
 		} catch (Exception e) {
-			Log.e("TyphoonAction.getTyphoon", e);
+			Log.e("TyphoonAction.getTyphoon Exception", e);
 		}
-		
-		Elements elGzTitle =doc_tf.select(".borBox").select(".blockLC");
-		String strTitle = elGzTitle.select("em").get(0).text().replaceAll("：", "");
-		String strTime = elGzTitle.select("b").get(0).text();
-		
-		Elements elGzContent =doc_tf.select(".rbox").select("p");
-		String strGzContent = "";
-		for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
-			strGzContent = strGzContent + elGzContent.get(i).text();
-		}
-		
-		objTyphoonVO.setGzTitle(strTitle);
-		objTyphoonVO.setGzTime(strTime);
-		objTyphoonVO.setGzContent(strGzContent);
 		
 		//获取台风动态
 		String dtTitle = "台风动态";
@@ -84,6 +90,7 @@ public class TyphoonAction {
 	    pushTfYjMsg(yjContent);
 	}
 	
+	//暂时不要的方法，这个网站更新较慢，并且链接较慢
 	private static String getTfDt(){
 		try {
 			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
@@ -101,7 +108,7 @@ public class TyphoonAction {
 			String tfdt =doc_tf_dt.select(".S_cloudCCC").text();
 			return tfdt;
 		} catch (IOException e) {
-			Log.e("TyphoonAction.getTfDt", e);
+			Log.e("TyphoonAction.getHnTfDt", e);
 		}
 		return "";
 	}

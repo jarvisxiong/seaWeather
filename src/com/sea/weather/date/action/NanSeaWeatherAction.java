@@ -82,23 +82,27 @@ public class NanSeaWeatherAction {
 	 */
 	private static AreaWeatherVO getWeather(Document doc,String tlist,String stitle,String forecastTime) {
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
-		List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();
-		Element list = doc.getElementById(tlist);
-		Element list_areaTitle = doc.getElementById(stitle);
-		objAreaWeatherVO.setAreaTitle(list_areaTitle.text());
-		Elements list_tr = list.select("tr");
-		for(int i=1;i<list_tr.size()-1;i++){
-			Elements list_td = list_tr.get(i).select("td");
+		try {
+			List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();
+			Element list = doc.getElementById(tlist);
+			Element list_areaTitle = doc.getElementById(stitle);
+			objAreaWeatherVO.setAreaTitle(list_areaTitle.text());
+			Elements list_tr = list.select("tr");
+			for (int i = 1; i < list_tr.size() - 1; i++) {
+				Elements list_td = list_tr.get(i).select("td");
 				WeatherVO objWeatherVO = new WeatherVO();
 				objWeatherVO.setSeaArea(list_td.get(0).text());
 				objWeatherVO.setWind(list_td.get(2).text());
 				objWeatherVO.setVisibility(list_td.get(3).text());
 				objWeatherVO.setForecastTime(forecastTime);
 				lisWeatherVO.add(objWeatherVO);
+			}
+			Elements list_td = list_tr.get(list_tr.size() - 1).select("td");
+			objAreaWeatherVO.setCreateTitle(list_td.get(0).text());
+			objAreaWeatherVO.setLisWeatherVO(lisWeatherVO);
+		} catch (Exception e) {
+			Log.e("NanSeaWeatherAction.getWeather", e);
 		}
-		Elements list_td = list_tr.get(list_tr.size()-1).select("td");
-		objAreaWeatherVO.setCreateTitle(list_td.get(0).text());
-		objAreaWeatherVO.setLisWeatherVO(lisWeatherVO);
 		return objAreaWeatherVO;
 	}
 	/**
@@ -109,24 +113,29 @@ public class NanSeaWeatherAction {
 	 */
 	private static AreaWeatherVO getHnWeather(Document doc,String tlist,String stitle,String timeTitle,String forecastTime) {
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
-		List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();
-		Element list = doc.getElementById(tlist);
-		Element list_areaTitle = doc.getElementById(stitle);
-		Element list_timeTitle = doc.getElementById(timeTitle);
-		objAreaWeatherVO.setAreaTitle(list_areaTitle.text()+":"+list_timeTitle.text());
-		Elements list_tr = list.select("tr");
-		for(int i=1;i<list_tr.size()-1;i++){
-			Elements list_td = list_tr.get(i).select("td");
+		try {
+			List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();
+			Element list = doc.getElementById(tlist);
+			Element list_areaTitle = doc.getElementById(stitle);
+			Element list_timeTitle = doc.getElementById(timeTitle);
+			objAreaWeatherVO.setAreaTitle(list_areaTitle.text() + ":"
+					+ list_timeTitle.text());
+			Elements list_tr = list.select("tr");
+			for (int i = 1; i < list_tr.size() - 1; i++) {
+				Elements list_td = list_tr.get(i).select("td");
 				WeatherVO objWeatherVO = new WeatherVO();
 				objWeatherVO.setSeaArea(list_td.get(0).text());
 				objWeatherVO.setWind(list_td.get(2).text());
 				objWeatherVO.setVisibility(list_td.get(3).text());
 				objWeatherVO.setForecastTime(forecastTime);
 				lisWeatherVO.add(objWeatherVO);
+			}
+			Elements list_td = list_tr.get(list_tr.size() - 1).select("td");
+			objAreaWeatherVO.setCreateTitle(list_td.get(0).text());
+			objAreaWeatherVO.setLisWeatherVO(lisWeatherVO);
+		} catch (Exception e) {
+			Log.e("NanSeaWeatherAction.getHnWeather", e);
 		}
-		Elements list_td = list_tr.get(list_tr.size()-1).select("td");
-		objAreaWeatherVO.setCreateTitle(list_td.get(0).text());
-		objAreaWeatherVO.setLisWeatherVO(lisWeatherVO);
 		return objAreaWeatherVO;
 	}
 	
