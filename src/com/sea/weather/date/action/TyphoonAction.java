@@ -130,7 +130,7 @@ public class TyphoonAction {
 				PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 				Gson gson = new Gson();
 				objPushMessagesVO.setTitle("台风预警");
-				objPushMessagesVO.setDescription("中央台"+publishTime+"发布台风预警");
+				objPushMessagesVO.setDescription("中央台"+publishTime.substring(5)+"发布");
 				
 				//设置为内容，启动首页
 				objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);

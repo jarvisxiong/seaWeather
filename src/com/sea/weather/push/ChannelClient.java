@@ -11,6 +11,7 @@ import com.baidu.yun.core.log.YunLogHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sea.weather.date.model.PushMessagesVO;
+import com.sea.weather.utils.Log;
 import com.sea.weather.utils.SeaConstant;
 
 public class ChannelClient {
@@ -27,7 +28,8 @@ public class ChannelClient {
         channelClient.setChannelLogHandler(new YunLogHandler() {
             @Override
             public void onHandle(YunLogEvent event) {
-                System.out.println(event.getMessage());
+            	Log.i("ChannelClient.pushBroadcastMessage push Message");
+                //System.out.println(event.getMessage());
             }
         });
 
@@ -49,13 +51,11 @@ public class ChannelClient {
             }
 
         } catch (ChannelClientException e) {
-            // 处理客户端错误异常
-            e.printStackTrace();
+        	Log.e("ChannelClient.pushBroadcastMessage",e);
         } catch (ChannelServerException e) {
-            // 处理服务端错误异常
-            System.out.println(String.format(
+        	Log.e(String.format(
                     "request_id: %d, error_code: %d, error_message: %s",
-                    e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
+                    e.getRequestId(), e.getErrorCode(), e.getErrorMsg()),e);
         }
     }
 	
