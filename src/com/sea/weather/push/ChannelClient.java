@@ -10,6 +10,7 @@ import com.baidu.yun.core.log.YunLogEvent;
 import com.baidu.yun.core.log.YunLogHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sea.weather.date.model.PushCustomContentVO;
 import com.sea.weather.date.model.PushMessagesVO;
 import com.sea.weather.utils.Log;
 import com.sea.weather.utils.SeaConstant;
@@ -61,13 +62,16 @@ public class ChannelClient {
 	
 	public static void main(String[] args) {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
-		objPushMessagesVO.setTitle("测试url");
-		objPushMessagesVO.setDescription("test");
-		objPushMessagesVO.setUrl("http://www.baidu.com/");
-		JsonObject obj = new JsonObject();
-		obj.addProperty("mykey", "http://www.baidu.com/");
-		objPushMessagesVO.setCustom_content(obj.toString());
+		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
+		objPushMessagesVO.setTitle("台风预警");
+		objPushMessagesVO.setDescription("中央台07月18日10时发布");
+		
+		//设置为内容，启动首页
+		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
+		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
+		objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
+		
 		String josn = gson.toJson(objPushMessagesVO);
 		ChannelClient.pushBroadcastMessage(josn);
 	}
