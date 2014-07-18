@@ -13,9 +13,9 @@ public class RssNewsTask extends TimerTask{
 			Log.e("RssNewsTask.run first exception", e);
 			try {
 				CacheDate.loadRssNewsList();
-				Log.e("RssNewsTask.run first sucess", e);
+				Log.e("RssNewsTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("RssNewsTask.run first exception", e);
+				Log.e("RssNewsTask.run two exception", e);
 			}
 		}
 	}
