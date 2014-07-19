@@ -6,7 +6,7 @@ public class UpdateVersionVO {
 	
 	private String versionName;
 	
-	private String versionCode;
+	private int versionCode;
 	
 	private String updateContent;
 	
@@ -28,11 +28,11 @@ public class UpdateVersionVO {
 		this.versionName = versionName;
 	}
 
-	public String getVersionCode() {
+	public int getVersionCode() {
 		return versionCode;
 	}
 
-	public void setVersionCode(String versionCode) {
+	public void setVersionCode(int versionCode) {
 		this.versionCode = versionCode;
 	}
 

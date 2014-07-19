@@ -8,11 +8,11 @@ public class TimerHelp {
 		
 		GrabTask objGrabTask = new GrabTask();
 		Timer timer = new Timer();
-		timer.schedule(objGrabTask, 1000, 293000);  
+		timer.schedule(objGrabTask, 1000, 587000);  
 		
 		//新闻定时器
 		RssNewsTask objRssNewsTask = new RssNewsTask();
 		Timer rssTimer = new Timer();
-		rssTimer.schedule(objRssNewsTask, 1000, 383000);  
+		rssTimer.schedule(objRssNewsTask, 1000, 997000);  
 	}
 }
