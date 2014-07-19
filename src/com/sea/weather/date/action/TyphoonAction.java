@@ -59,7 +59,8 @@ public class TyphoonAction {
 		objTyphoonVO.setDtContent(dtContent);
 		
 		//获取台风预警
-	    getYfYj(objTyphoonVO);
+	    //getYfYj(objTyphoonVO);
+		getAllYjTf(objTyphoonVO);
 		return objTyphoonVO;
 	}
 	private static void getYfYj(TyphoonVO objTyphoonVO) {
@@ -90,6 +91,38 @@ public class TyphoonAction {
 	    pushTfYjMsg(yjContent);
 	}
 	
+	private static void getAllYjTf(TyphoonVO objTyphoonVO){
+		String yjTitle ="台风预警";
+		Elements yjContentDoc = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("li");
+		String yjContent = "";
+		for(int i=0;i<yjContentDoc.size();i++){
+			yjContent = yjContent+yjContentDoc.get(i).text()+"\n";
+		}
+		 String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
+		 String yjUrlName = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").text();
+		 if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)&&yjUrlName.indexOf("中央")!=-1) {
+				try {
+					Document yjdoc = Jsoup.connect(yjUrl).timeout(5000).get();
+					String yjUrlsub = yjdoc.select("#new").attr("src");
+					Document yjdocSub = Jsoup.connect(yjUrlsub).get();
+					Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");
+					String yjHasComtent="";
+					for(int i=0;yjp!=null&&i<yjp.size();i++){
+						if(StringUtils.isNoneBlank(yjp.get(i).text())){
+							yjHasComtent = yjHasComtent +yjp.get(i).text()+"\n";
+						}
+					}
+					if(StringUtils.isNoneBlank(yjHasComtent)){
+						yjContent = yjHasComtent;
+					}
+				} catch (IOException e) {
+					Log.e("TyphoonAction.getYfYj", e);
+				}
+			}
+		 objTyphoonVO.setYjTitle(yjTitle);
+		 objTyphoonVO.setYjContent(yjContent);
+	}
+	
 	//暂时不要的方法，这个网站更新较慢，并且链接较慢
 	private static String getTfDt(){
 		try {
@@ -114,7 +147,10 @@ public class TyphoonAction {
 	}
 	
 	public static void main(String args[]) { 
-		System.out.println(getHnTfDt());
+		TyphoonVO objTyphoonVO = new TyphoonVO();
+		objTyphoonVO = getTyphoon();
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(objTyphoonVO));
 	}
 	
 	private static void pushTfYjMsg(String yjContent){
