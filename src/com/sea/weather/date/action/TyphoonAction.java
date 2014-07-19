@@ -95,8 +95,12 @@ public class TyphoonAction {
 		String yjTitle ="Ì¨·çÔ¤¾¯";
 		Elements yjContentDoc = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("li");
 		String yjContent = "";
+		if(yjContentDoc==null||yjContentDoc.size()==0){
+			yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
+		}else{
 		for(int i=0;i<yjContentDoc.size();i++){
 			yjContent = yjContent+yjContentDoc.get(i).text()+"\n";
+		}
 		}
 		 String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
 		 String yjUrlName = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").text();
