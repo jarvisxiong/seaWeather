@@ -25,7 +25,7 @@ public class CoastWeatherAction {
 	public static CoastWeatherVO getCoastWeather(){
 		Document dc_coast=null;
 		try {
-			dc_coast = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/newcoastal.htm").get();
+			dc_coast = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/newcoastal.htm").timeout(5000).get();
 		} catch (IOException e) {
 			Log.e("CoastWeatherAction.getCoastWeather", e);
 		}

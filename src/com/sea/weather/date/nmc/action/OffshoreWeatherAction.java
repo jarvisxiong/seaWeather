@@ -25,7 +25,7 @@ public class OffshoreWeatherAction {
 	public static OffshoreWeatherVO getOffshoreWeatherVO(){
 		Document dc_offshore=null;
 		try {
-			dc_offshore = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/offshore.htm").get();
+			dc_offshore = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/offshore.htm").timeout(5000).get();
 		} catch (IOException e) {
 			Log.e("OffshoreWeatherAction.getOffshoreWeatherVO", e);
 		}
