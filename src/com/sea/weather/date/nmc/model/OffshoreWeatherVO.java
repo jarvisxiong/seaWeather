@@ -7,6 +7,8 @@ public class OffshoreWeatherVO {
 
 	private List<AreaWeatherVO> lisAreaWeatherVO;
 	
+	private String publishTime;
+	
 	private Date grabTime;
 
 	public List<AreaWeatherVO> getLisAreaWeatherVO() {
@@ -23,6 +25,14 @@ public class OffshoreWeatherVO {
 
 	public void setGrabTime(Date grabTime) {
 		this.grabTime = grabTime;
+	}
+
+	public String getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(String publishTime) {
+		this.publishTime = publishTime;
 	}
 	
 	

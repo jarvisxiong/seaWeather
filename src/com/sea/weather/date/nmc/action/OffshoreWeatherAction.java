@@ -31,10 +31,15 @@ public class OffshoreWeatherAction {
 		}
 		OffshoreWeatherVO objOffshoreWeatherVO = new OffshoreWeatherVO();
 		objOffshoreWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVO(dc_offshore));
+		objOffshoreWeatherVO.setPublishTime(getPublishTime(dc_offshore));
 		objOffshoreWeatherVO.setGrabTime(new Date());
 		return objOffshoreWeatherVO;
 	}
 	
+	private static String getPublishTime(Document dc_offshore){
+		String publishTime = dc_offshore.select("#txtContent1").select(".author").text();
+		return publishTime;
+	}
 	
 	private static List<AreaWeatherVO> getLisAreaWeatherVO(Document dc_coast){
 		Elements list_tr =dc_coast.select("#datatable").select("tbody").select("tr");
