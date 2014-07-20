@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.google.gson.Gson;
@@ -30,7 +31,7 @@ public class OffshoreWeatherAction {
 			Log.e("OffshoreWeatherAction.getOffshoreWeatherVO", e);
 		}
 		OffshoreWeatherVO objOffshoreWeatherVO = new OffshoreWeatherVO();
-		objOffshoreWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVO(dc_offshore));
+		objOffshoreWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVOAll(dc_offshore));
 		objOffshoreWeatherVO.setPublishTime(getPublishTime(dc_offshore));
 		objOffshoreWeatherVO.setGrabTime(new Date());
 		return objOffshoreWeatherVO;
@@ -74,6 +75,56 @@ public class OffshoreWeatherAction {
 				objAreaWeatherVO.setTimeWv60(objTimeWeatherVO);
 			}else if(i%6==5){
 				objAreaWeatherVO.setTimeWv72(objTimeWeatherVO);
+				lisAreaWeatherVO.add(objAreaWeatherVO);
+			}
+		}
+		return lisAreaWeatherVO;
+	}
+	
+	private  static List<AreaWeatherVO> getLisAreaWeatherVOAll(Document dc_coast){
+		Elements list_tr =dc_coast.select("#datatable").select("tbody").select("tr");
+		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
+		List<AreaWeatherVO> lisAreaWeatherVO = new ArrayList<AreaWeatherVO>();
+		String strArea = "";
+		int indexZ=0;
+		for (int i = 0; i < list_tr.size(); i++) {
+			int j=0;
+			
+			Element tr = list_tr.get(i);
+			Elements list_td = tr.select("td");
+			if(!strArea.equals(tr.attr("name"))){
+				if(i>0){
+					lisAreaWeatherVO.add(objAreaWeatherVO);
+				}
+				objAreaWeatherVO = new AreaWeatherVO();
+				strArea = list_tr.get(i).attr("name");
+				indexZ=0;
+				objAreaWeatherVO.setCoastName(list_td.get(j++).text());
+			}
+			
+			TimeWeatherVO objTimeWeatherVO = new TimeWeatherVO();
+			objTimeWeatherVO.setValidTime(list_td.get(j++).text());
+			objTimeWeatherVO.setWeather(list_td.get(j++).text());
+			objTimeWeatherVO.setWindDirection(list_td.get(j++).text() + "·ç");
+			objTimeWeatherVO.setWindPower(list_td.get(j++).text() + "¼¶");
+			objTimeWeatherVO.setWaveheight(list_td.get(j++).text() + "m");
+			objTimeWeatherVO.setVisibility(list_td.get(j++).text() + "km");
+			
+			if(indexZ==0){
+				objAreaWeatherVO.setTimeWv12(objTimeWeatherVO);
+			}else if(indexZ==1){
+				objAreaWeatherVO.setTimeWv24(objTimeWeatherVO);
+			}else if(indexZ==2){
+				objAreaWeatherVO.setTimeWv36(objTimeWeatherVO);
+			}else if(indexZ==3){
+				objAreaWeatherVO.setTimeWv48(objTimeWeatherVO);
+			}else if(indexZ==4){
+				objAreaWeatherVO.setTimeWv60(objTimeWeatherVO);
+			}else if(indexZ==5){
+				objAreaWeatherVO.setTimeWv72(objTimeWeatherVO);
+			}
+			indexZ++;
+			if(i==list_tr.size()-1){
 				lisAreaWeatherVO.add(objAreaWeatherVO);
 			}
 		}

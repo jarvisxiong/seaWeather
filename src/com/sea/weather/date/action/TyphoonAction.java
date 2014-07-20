@@ -124,7 +124,7 @@ public class TyphoonAction {
 				}
 			}
 		 objTyphoonVO.setYjTitle(yjTitle);
-		 objTyphoonVO.setYjContent(yjContent);
+		 objTyphoonVO.setYjContent(yjContent.trim());
 	}
 	
 	//暂时不要的方法，这个网站更新较慢，并且链接较慢
