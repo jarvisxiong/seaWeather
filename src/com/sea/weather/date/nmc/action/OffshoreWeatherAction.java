@@ -21,9 +21,9 @@ import com.sea.weather.utils.StringUtils;
 
 public class OffshoreWeatherAction {
 
-	private static Gson gson = new Gson();
+	private Gson gson = new Gson();
 	
-	public static OffshoreWeatherVO getOffshoreWeatherVO(){
+	public OffshoreWeatherVO getOffshoreWeatherVO(){
 		Document dc_offshore=null;
 		try {
 			dc_offshore = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/offshore.htm").timeout(5000).get();
@@ -37,12 +37,12 @@ public class OffshoreWeatherAction {
 		return objOffshoreWeatherVO;
 	}
 	
-	private static String getPublishTime(Document dc_offshore){
+	private String getPublishTime(Document dc_offshore){
 		String publishTime = dc_offshore.select("#txtContent1").select(".author").text();
 		return publishTime;
 	}
 	
-	private static List<AreaWeatherVO> getLisAreaWeatherVO(Document dc_coast){
+	private List<AreaWeatherVO> getLisAreaWeatherVO(Document dc_coast){
 		Elements list_tr =dc_coast.select("#datatable").select("tbody").select("tr");
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
 		List<AreaWeatherVO> lisAreaWeatherVO = new ArrayList<AreaWeatherVO>();
@@ -81,7 +81,7 @@ public class OffshoreWeatherAction {
 		return lisAreaWeatherVO;
 	}
 	
-	private  static List<AreaWeatherVO> getLisAreaWeatherVOAll(Document dc_coast){
+	private  List<AreaWeatherVO> getLisAreaWeatherVOAll(Document dc_coast){
 		Elements list_tr =dc_coast.select("#datatable").select("tbody").select("tr");
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
 		List<AreaWeatherVO> lisAreaWeatherVO = new ArrayList<AreaWeatherVO>();
@@ -131,7 +131,7 @@ public class OffshoreWeatherAction {
 		return lisAreaWeatherVO;
 	}
 	
-	public static String getOffshoreCache(){
+	public String getOffshoreCache(){
 		String offshoreVO = (String)Cache.getValue(Cachekey.offshorekey);
 		if(StringUtils.isBlank(offshoreVO)){
 			offshoreVO = gson.toJson(getOffshoreWeatherVO());
@@ -140,12 +140,13 @@ public class OffshoreWeatherAction {
 		return offshoreVO;
 	}
 	
-	public static void loadOffshoreCache(){
+	public void loadOffshoreCache(){
 		String offshoreVO = gson.toJson(getOffshoreWeatherVO());
 		Cache.putValue(Cachekey.offshorekey, offshoreVO);
 	}
 	
 	public static void main(String args[]) { 
-		System.out.println(getOffshoreCache());
+		OffshoreWeatherAction objOffshoreWeatherAction =new OffshoreWeatherAction();
+		System.out.println(objOffshoreWeatherAction.getOffshoreCache());
 	}
 }

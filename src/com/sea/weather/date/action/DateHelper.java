@@ -109,7 +109,8 @@ public class DateHelper {
 		objAllTfAreaVO.setAllWeatherVO(getAllWeatherVO());
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
-		objTyphoonVO = TyphoonAction.getTyphoon();
+		TyphoonAction objTyphoonAction = new TyphoonAction();
+		objTyphoonVO = objTyphoonAction.getTyphoon();
 		objAllTfAreaVO.setTf(objTyphoonVO);
 		
 		objAllTfAreaVO.setGrabTime(new Date());

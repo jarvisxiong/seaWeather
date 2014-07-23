@@ -11,7 +11,8 @@
 <body>
 <%
 PrintWriter outPrint = response.getWriter();
-String str = CoastWeatherAction.getCoastCache();
+CoastWeatherAction objCoastWeatherAction = new CoastWeatherAction();
+String str = objCoastWeatherAction.getCoastCache();
 outPrint.print(str);
 outPrint.close();
 %>

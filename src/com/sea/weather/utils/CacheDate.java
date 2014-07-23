@@ -60,18 +60,21 @@ public class CacheDate {
 	}
 	
 	public static synchronized void loadDataSource() {
-		String strAllWeatherVO = SeaWeatherDateAction.getAllTfAreaVOJson();
+		SeaWeatherDateAction objSeaWeatherDateAction = new SeaWeatherDateAction();
+		String strAllWeatherVO = objSeaWeatherDateAction.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 	}
 	
 	public static synchronized String loadNewDataSource() { 
-		String strAllWeatherVO = SeaWeatherDateAction.getAllTfAreaVOJson();
+		SeaWeatherDateAction objSeaWeatherDateAction = new SeaWeatherDateAction();
+		String strAllWeatherVO = objSeaWeatherDateAction.getAllTfAreaVOJson();
 		map.put(key, strAllWeatherVO);
 		return strAllWeatherVO;
 	}
 	
 	public static synchronized void loadRssNewsList() throws IllegalArgumentException, IOException, FeedException{
-		map.put(rssKey, RssNewAction.gradNews());
+		RssNewAction objRssNewAction = new RssNewAction();
+		map.put(rssKey, objRssNewAction.gradNews());
 	}
 	
 	public static synchronized int getUrlIndex(){

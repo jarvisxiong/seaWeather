@@ -8,12 +8,14 @@ import com.sea.weather.date.model.TyphoonVO;
 
 public class SeaWeatherDateAction {
 
-	public static String getAllTfAreaVOJson(){
+	public String getAllTfAreaVOJson(){
 		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
-		objAllTfAreaVO.setAllWeatherVO(NanSeaWeatherAction.getAllWeatherVO());
+		NanSeaWeatherAction objNanSeaWeatherAction = new NanSeaWeatherAction();
+		objAllTfAreaVO.setAllWeatherVO(objNanSeaWeatherAction.getAllWeatherVO());
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
-		objTyphoonVO = TyphoonAction.getTyphoon();
+		TyphoonAction objTyphoonAction =new TyphoonAction();
+		objTyphoonVO = objTyphoonAction.getTyphoon();
 		objAllTfAreaVO.setTf(objTyphoonVO);
 		
 		objAllTfAreaVO.setGrabTime(new Date());

@@ -19,10 +19,10 @@ import com.sea.weather.utils.StringUtils;
 
 public class TyphoonAction {
 
-	private static Document doc_tf;
-	private static Document doc_tf_yj;
+	private Document doc_tf;
+	private Document doc_tf_yj;
 	
-	public static TyphoonVO getTyphoon(){
+	public TyphoonVO getTyphoon(){
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		try {
@@ -63,7 +63,7 @@ public class TyphoonAction {
 		getAllYjTf(objTyphoonVO);
 		return objTyphoonVO;
 	}
-	private static void getYfYj(TyphoonVO objTyphoonVO) {
+	private void getYfYj(TyphoonVO objTyphoonVO) {
 		 String yjTitle ="台风预警";
 	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
 	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
@@ -91,7 +91,7 @@ public class TyphoonAction {
 	    pushTfYjMsg(yjContent);
 	}
 	
-	private static void getAllYjTf(TyphoonVO objTyphoonVO){
+	private void getAllYjTf(TyphoonVO objTyphoonVO){
 		String yjTitle ="台风预警";
 		Elements yjContentDoc = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("li");
 		String yjContent = "";
@@ -128,7 +128,7 @@ public class TyphoonAction {
 	}
 	
 	//暂时不要的方法，这个网站更新较慢，并且链接较慢
-	private static String getTfDt(){
+	private String getTfDt(){
 		try {
 			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
 			String tfdt =doc_tf_dt.select(".typhoon_warning_home").select(".font14bold").select(".fontyahei").text();
@@ -139,7 +139,7 @@ public class TyphoonAction {
 		return "";
 	}
 	
-	private static String getHnTfDt(){
+	private String getHnTfDt(){
 		try {
 			Document doc_tf_dt = Jsoup.connect("http://typhoon.hainan.gov.cn/").timeout(5000).get();
 			String tfdt =doc_tf_dt.select(".S_cloudCCC").text();
@@ -152,12 +152,13 @@ public class TyphoonAction {
 	
 	public static void main(String args[]) { 
 		TyphoonVO objTyphoonVO = new TyphoonVO();
-		objTyphoonVO = getTyphoon();
+		TyphoonAction objTyphoonAction = new TyphoonAction();
+		objTyphoonVO = objTyphoonAction.getTyphoon();
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(objTyphoonVO));
 	}
 	
-	private static void pushTfYjMsg(String yjContent){
+	private void pushTfYjMsg(String yjContent){
 		String patternStr = "\\d{4}年\\d{1,2}月\\d{1,2}日\\d{1,2}时"; 
 		//截取日期到2014年07月16日10时，如果没有台风预警，则字数小于14，不进入发送推送的逻辑
 		if(yjContent!=null&&yjContent.length()>14){

@@ -11,7 +11,8 @@
 <body>
 <%
 PrintWriter outPrint = response.getWriter();
-String str = UpdateVersionAction.showVersion();
+UpdateVersionAction objUpdateVersionAction =new UpdateVersionAction();
+String str = objUpdateVersionAction.getVersion();
 outPrint.print(str);
 outPrint.close();
 %>

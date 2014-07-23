@@ -25,16 +25,17 @@ public class RssNewAction {
 	
 	
 	public static void main(String args[]) throws IllegalArgumentException, IOException, FeedException { 
-		 URL feedurl = initUrl().get(20);
-		System.out.print(gradNews());
-		for(int i=0;i<gradRssRewsUrl(feedurl).getLisRssNewsVO().size();i++){
-			System.out.println(gradRssRewsUrl(feedurl).getLisRssNewsVO().get(i).getTitle());
+		RssNewAction objRssNewAction = new RssNewAction();
+		 URL feedurl = objRssNewAction.initUrl().get(20);
+		System.out.print(objRssNewAction.gradNews());
+		for(int i=0;i<objRssNewAction.gradRssRewsUrl(feedurl).getLisRssNewsVO().size();i++){
+			System.out.println(objRssNewAction.gradRssRewsUrl(feedurl).getLisRssNewsVO().get(i).getTitle());
 		}
 	}
 	
 	
 	
-	private static List<URL> initUrl() throws MalformedURLException {
+	private List<URL> initUrl() throws MalformedURLException {
 		List<URL> lisUrl = new ArrayList<URL>();
 
 			/** 网易RSS 开始  */
@@ -98,7 +99,7 @@ public class RssNewAction {
 		return lisUrl;
 	}
 	
-	public static String gradNews() throws IOException, IllegalArgumentException, FeedException{
+	public String gradNews() throws IOException, IllegalArgumentException, FeedException{
 			 RssNewsListVO objRssNewsListVO = null;
 			 Gson gson =new Gson();
 			 for(int i=0;i<18;i++){
@@ -111,7 +112,7 @@ public class RssNewAction {
              return gson.toJson(objRssNewsListVO);
 	}
 
-	private static RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
+	private RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
 		RssNewsListVO objRssNewsListVO = new RssNewsListVO();
 		URLConnection uc = feedurl.openConnection();
 		 uc.setConnectTimeout(5000);
@@ -144,7 +145,7 @@ public class RssNewAction {
 		 return objRssNewsListVO;
 	}
 	
-	private static String rmHtml(String inputStr){
+	private String rmHtml(String inputStr){
 		String outStr = inputStr.replaceAll("\\&[a-zA-Z]{1,10};", "")//去除类似&lt; &gt; &nbsp;的字串 
                 .replaceAll("<[a-zA-Z]+[1-9]?[^><]*>", "") //去除开始标签及没有结束标签的标签 
                 .replaceAll("</[a-zA-Z]+[1-9]?>", "")//去除结束标签 

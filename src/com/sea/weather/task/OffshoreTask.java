@@ -9,12 +9,13 @@ public class OffshoreTask  extends TimerTask{
 
 	@Override
 	public void run() {
+		OffshoreWeatherAction objOffshoreWeatherAction =new OffshoreWeatherAction();
 		try {
-			OffshoreWeatherAction.loadOffshoreCache();
+			objOffshoreWeatherAction.loadOffshoreCache();
 		} catch (Exception e) {
 			Log.e("OffshoreTask.run first exception", e);
 			try {
-				OffshoreWeatherAction.loadOffshoreCache();
+				objOffshoreWeatherAction.loadOffshoreCache();
 				Log.e("OffshoreTask.run two sucess", e);
 			} catch (Exception e2) {
 				Log.e("OffshoreTask.run two exception", e);

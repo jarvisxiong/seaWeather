@@ -9,12 +9,13 @@ public class CoastTask  extends TimerTask{
 
 	@Override
 	public void run() {
+		CoastWeatherAction objCoastWeatherAction = new CoastWeatherAction();
 		try {
-			CoastWeatherAction.loadCoastCache();
+			objCoastWeatherAction.loadCoastCache();
 		} catch (Exception e) {
 			Log.e("CoastTask.run first exception", e);
 			try {
-				CoastWeatherAction.loadCoastCache();
+				objCoastWeatherAction.loadCoastCache();
 				Log.e("CoastTask.run two sucess", e);
 			} catch (Exception e2) {
 				Log.e("CoastTask.run two exception", e);

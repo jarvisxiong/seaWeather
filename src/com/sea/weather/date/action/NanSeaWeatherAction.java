@@ -15,10 +15,10 @@ import com.sea.weather.date.model.WeatherVO;
 import com.sea.weather.utils.Log;
 
 public class NanSeaWeatherAction {
-	private static Document doc_gd_nh;
-	private static Document doc_hn;
+	private Document doc_gd_nh;
+	private Document doc_hn;
 	
-	public static AllWeatherVO getAllWeatherVO(){
+	public AllWeatherVO getAllWeatherVO(){
 		try {
 			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
@@ -40,7 +40,7 @@ public class NanSeaWeatherAction {
 	 * 获取广东24小时天气预报
 	 * @return
 	 */
-	private static AreaWeatherVO getGd24Weather(){
+	private AreaWeatherVO getGd24Weather(){
 		AreaWeatherVO objAreaWeatherVO = getWeather(doc_gd_nh,"tlist5","stitle5","24");
 		return objAreaWeatherVO;
 	}
@@ -48,27 +48,27 @@ public class NanSeaWeatherAction {
 	 * 获取广东24小时天气预报
 	 * @return
 	 */
-	private static AreaWeatherVO getGd48Weather(){
+	private AreaWeatherVO getGd48Weather(){
 		AreaWeatherVO objAreaWeatherVO = getWeather(doc_gd_nh,"tlist6", "stitle6", "48");
 		return objAreaWeatherVO;
 	}
 	
-	private static AreaWeatherVO getNh24Weather(){
+	private AreaWeatherVO getNh24Weather(){
 		AreaWeatherVO objAreaWeatherVO = getWeather(doc_gd_nh,"tlist7", "stitle7", "24");
 		return objAreaWeatherVO;
 	}
 	
-	private static AreaWeatherVO getNh48Weather(){
+	private AreaWeatherVO getNh48Weather(){
 		AreaWeatherVO objAreaWeatherVO = getWeather(doc_gd_nh,"tlist8", "stitle8", "48");
 		return objAreaWeatherVO;
 	}
 	
-	private static AreaWeatherVO getHn24Weather(){
+	private AreaWeatherVO getHn24Weather(){
 		AreaWeatherVO objAreaWeatherVO = getHnWeather(doc_hn,"tlist5", "stitle5","ltitle5", "24");
 		return objAreaWeatherVO;
 	}
 	
-	private static AreaWeatherVO getHn48Weather(){
+	private AreaWeatherVO getHn48Weather(){
 		AreaWeatherVO objAreaWeatherVO = getHnWeather(doc_hn,"tlist6", "stitle6","ltitle6", "48");
 		return objAreaWeatherVO;
 	}
@@ -80,7 +80,7 @@ public class NanSeaWeatherAction {
 	 * @param stitle
 	 * @return
 	 */
-	private static AreaWeatherVO getWeather(Document doc,String tlist,String stitle,String forecastTime) {
+	private AreaWeatherVO getWeather(Document doc,String tlist,String stitle,String forecastTime) {
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
 		try {
 			List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();
@@ -111,7 +111,7 @@ public class NanSeaWeatherAction {
 	 * @param stitle
 	 * @return
 	 */
-	private static AreaWeatherVO getHnWeather(Document doc,String tlist,String stitle,String timeTitle,String forecastTime) {
+	private AreaWeatherVO getHnWeather(Document doc,String tlist,String stitle,String timeTitle,String forecastTime) {
 		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
 		try {
 			List<WeatherVO> lisWeatherVO = new ArrayList<WeatherVO>();

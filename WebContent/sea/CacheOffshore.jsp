@@ -11,7 +11,8 @@
 <body>
 <%
 PrintWriter outPrint = response.getWriter();
-String str = OffshoreWeatherAction.getOffshoreCache();
+OffshoreWeatherAction objOffshoreWeatherAction = new OffshoreWeatherAction();
+String str = objOffshoreWeatherAction.getOffshoreCache();
 outPrint.print(str);
 outPrint.close();
 %>
