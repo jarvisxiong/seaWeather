@@ -11,7 +11,9 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.sea.weather.date.model.RssNewsListVO;
 import com.sea.weather.date.model.RssNewsVO;
+import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.CacheDate;
+import com.sea.weather.utils.Cachekey;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -22,7 +24,7 @@ public class RssNewAction {
 
 	public static final int urlSize = 20;
 	
-	
+	private Gson gson =new Gson();
 	
 	public static void main(String args[]) throws IllegalArgumentException, IOException, FeedException { 
 		RssNewAction objRssNewAction = new RssNewAction();
@@ -101,7 +103,6 @@ public class RssNewAction {
 	
 	public String gradNews() throws IOException, IllegalArgumentException, FeedException{
 			 RssNewsListVO objRssNewsListVO = null;
-			 Gson gson =new Gson();
 			 for(int i=0;i<18;i++){
 				if(objRssNewsListVO==null||(objRssNewsListVO!=null&&objRssNewsListVO.getLisRssNewsVO().size()==0)){
 					objRssNewsListVO =  gradRssRewsUrl(initUrl().get(CacheDate.getUrlIndex()));
@@ -109,7 +110,28 @@ public class RssNewAction {
 					break;
 				}
 			 }
-             return gson.toJson(objRssNewsListVO);
+			 String strReturn = gson.toJson(objRssNewsListVO);
+			 gradVersionNews(objRssNewsListVO);
+             return strReturn;
+	}
+	
+	private void gradVersionNews(RssNewsListVO objRssNewsListVO){
+		List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
+		RssNewsVO objRssNewsVO =new RssNewsVO();
+		lisRssNewsVO = objRssNewsListVO.getLisRssNewsVO();
+		objRssNewsVO.setTitle("海洋天气1.5版发布了");
+		objRssNewsVO.setDescriptionValue("新版特性:"
+				+ "\n1.增加中国沿岸34个海区天气，包括浙江，福建，山东等地方；"
+				+ "\n2.增加中国近海18个海区天气预报，包括渤海等;"
+				+ "\n3.修改台风天气布局，方便使用;"
+				+ "\n获取方式:"
+				+ "\n1.点击该新闻，访问海洋天气首页，点击图片下载;"
+				+ "\n2.访问百度移动应用，搜索海洋天气，下载最新版;");
+		objRssNewsVO.setLink("http://lightapp.duapp.com/?appid=125240");
+		objRssNewsVO.setPublishedDate(new Date());
+		lisRssNewsVO.add(0, objRssNewsVO);
+		objRssNewsListVO.setLisRssNewsVO(lisRssNewsVO);
+		Cache.putValue(Cachekey.rsskey_5, gson.toJson(objRssNewsListVO));
 	}
 
 	private RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
