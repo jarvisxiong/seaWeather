@@ -11,10 +11,10 @@ public class UpdateVersionAction {
 		UpdateVersionVO objUpdateVersionVO = new UpdateVersionVO();
 		Gson gson = new Gson();
 		objUpdateVersionVO.setAppName("海洋天气");
-		objUpdateVersionVO.setVersionCode(5);
-		objUpdateVersionVO.setVersionName("1.4");
-		objUpdateVersionVO.setUpdateUrl("http://gdown.baidu.com/data/wisegame/4c38781b9fd0f83c/haiyangtianqi_5.apk");
-		objUpdateVersionVO.setUpdateContent("1、增加台风天气；\n2、改进样子；\n3、增加新闻速览;");
+		objUpdateVersionVO.setVersionCode(6);
+		objUpdateVersionVO.setVersionName("1.5");
+		objUpdateVersionVO.setUpdateUrl("http://gdown.baidu.com/data/wisegame/92cac8000afacb76/haiyangtianqi_6.apk");
+		objUpdateVersionVO.setUpdateContent("1.增加中国沿岸34个海区天气，包括浙江，福建，山东等地方；2.增加中国近海18个海区天气预报，包括渤海等;3.修改台风天气布局，方便使用;");
 		String str = gson.toJson(objUpdateVersionVO);
 		Cache.putValue(Cachekey.versionkey, str);
 		return str;
