@@ -151,11 +151,8 @@ public class TyphoonAction {
 	}
 	
 	public static void main(String args[]) { 
-		TyphoonVO objTyphoonVO = new TyphoonVO();
 		TyphoonAction objTyphoonAction = new TyphoonAction();
-		objTyphoonVO = objTyphoonAction.getTyphoon();
-		Gson gson = new Gson();
-		System.out.println(gson.toJson(objTyphoonVO));
+		objTyphoonAction.pushMessage();
 	}
 	
 	private void pushTfYjMsg(String yjContent){
@@ -182,5 +179,20 @@ public class TyphoonAction {
 				ChannelClient.pushBroadcastMessage(josn);
 			}
 		}
+	}
+	
+	private void pushMessage(){
+		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
+		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
+		Gson gson = new Gson();
+		objPushMessagesVO.setTitle("台风动态");
+		objPushMessagesVO.setDescription("今年11号热带风暴(夏浪)已生成，请关注");
+		//设置为内容，启动首页
+		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
+		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
+		objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
+		String josn = gson.toJson(objPushMessagesVO);
+		System.out.print(josn);
+		ChannelClient.pushBroadcastMessage(josn);
 	}
 }
