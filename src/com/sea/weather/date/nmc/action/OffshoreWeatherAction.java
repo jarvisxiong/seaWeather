@@ -31,14 +31,14 @@ public class OffshoreWeatherAction {
 			Log.e("OffshoreWeatherAction.getOffshoreWeatherVO", e);
 		}
 		OffshoreWeatherVO objOffshoreWeatherVO = new OffshoreWeatherVO();
-		objOffshoreWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVOAll(dc_offshore));
+		objOffshoreWeatherVO.setLisAreaWeatherVO(getNoTableLisAreaWeatherVOAll(dc_offshore));
 		objOffshoreWeatherVO.setPublishTime(getPublishTime(dc_offshore));
 		objOffshoreWeatherVO.setGrabTime(new Date());
 		return objOffshoreWeatherVO;
 	}
 	
 	private String getPublishTime(Document dc_offshore){
-		String publishTime = dc_offshore.select("#txtContent1").select(".author").text();
+		String publishTime = dc_offshore.select("#txtContent1").select("h1").select("font ").text().split(":")[1];
 		return publishTime;
 	}
 	
@@ -138,6 +138,54 @@ public class OffshoreWeatherAction {
 			Cache.putValue(Cachekey.offshorekey, offshoreVO);
 		}
 		return offshoreVO;
+	}
+	
+	public List<AreaWeatherVO> getNoTableLisAreaWeatherVOAll(Document dc_Offshore){
+		AreaWeatherVO objAreaWeatherVO = new AreaWeatherVO();
+		List<AreaWeatherVO> lisAreaWeatherVO = new ArrayList<AreaWeatherVO>();
+		Elements list_tr =dc_Offshore.select("#txtContent1").select("p");
+		String areaname="";
+		int indexZ=0;
+		for(int i=0;i<list_tr.size();i++){
+			if(list_tr.get(i).select("a").size()>0){
+				String str = list_tr.get(i).text();
+				String[] strarray = str.split(" ");
+				String inArea = strarray[0].substring(4);
+				if(!areaname.equals(inArea)){
+					if(!"".equals(areaname)){
+						lisAreaWeatherVO.add(objAreaWeatherVO);
+					}
+					areaname = inArea;
+					objAreaWeatherVO = new AreaWeatherVO();
+					indexZ=0;
+					objAreaWeatherVO.setCoastName(areaname);
+				}
+				TimeWeatherVO objTimeWeatherVO = new TimeWeatherVO();
+				objTimeWeatherVO.setValidTime(strarray[1]);
+				objTimeWeatherVO.setWeather(strarray[2]);
+				objTimeWeatherVO.setWindDirection(strarray[3]);
+				objTimeWeatherVO.setWindPower(strarray[4]);
+				objTimeWeatherVO.setVisibility(strarray[5]);
+				if(indexZ==0){
+					objAreaWeatherVO.setTimeWv12(objTimeWeatherVO);
+				}else if(indexZ==1){
+					objAreaWeatherVO.setTimeWv24(objTimeWeatherVO);
+				}else if(indexZ==2){
+					objAreaWeatherVO.setTimeWv36(objTimeWeatherVO);
+				}else if(indexZ==3){
+					objAreaWeatherVO.setTimeWv48(objTimeWeatherVO);
+				}else if(indexZ==4){
+					objAreaWeatherVO.setTimeWv60(objTimeWeatherVO);
+				}else if(indexZ==5){
+					objAreaWeatherVO.setTimeWv72(objTimeWeatherVO);
+				}
+				indexZ++;
+			}
+			if(i==list_tr.size()-1){
+				lisAreaWeatherVO.add(objAreaWeatherVO);
+			}
+		}
+		return lisAreaWeatherVO;
 	}
 	
 	public void loadOffshoreCache(){
