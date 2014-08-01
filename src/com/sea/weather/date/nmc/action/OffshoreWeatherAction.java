@@ -31,14 +31,18 @@ public class OffshoreWeatherAction {
 			Log.e("OffshoreWeatherAction.getOffshoreWeatherVO", e);
 		}
 		OffshoreWeatherVO objOffshoreWeatherVO = new OffshoreWeatherVO();
-		objOffshoreWeatherVO.setLisAreaWeatherVO(getNoTableLisAreaWeatherVOAll(dc_offshore));
-		objOffshoreWeatherVO.setPublishTime(getPublishTime(dc_offshore));
+		objOffshoreWeatherVO = getTrueAreaWeatherVO(dc_offshore,objOffshoreWeatherVO);
 		objOffshoreWeatherVO.setGrabTime(new Date());
 		return objOffshoreWeatherVO;
 	}
 	
-	private String getPublishTime(Document dc_offshore){
+	private String getNoTablePublishTime(Document dc_offshore){
 		String publishTime = dc_offshore.select("#txtContent1").select("h1").select("font ").text().split(":")[1];
+		return publishTime;
+	}
+
+	private String getPublishTime(Document dc_offshore) {
+		String publishTime = dc_offshore.select("#txtContent1").select(".author").text();
 		return publishTime;
 	}
 	
@@ -166,6 +170,7 @@ public class OffshoreWeatherAction {
 				objTimeWeatherVO.setWindDirection(strarray[3]);
 				objTimeWeatherVO.setWindPower(strarray[4]);
 				objTimeWeatherVO.setVisibility(strarray[5]);
+				objTimeWeatherVO.setWaveheight("-");
 				if(indexZ==0){
 					objAreaWeatherVO.setTimeWv12(objTimeWeatherVO);
 				}else if(indexZ==1){
@@ -186,6 +191,19 @@ public class OffshoreWeatherAction {
 			}
 		}
 		return lisAreaWeatherVO;
+	}
+	
+	private OffshoreWeatherVO getTrueAreaWeatherVO(Document dc_Offshore,OffshoreWeatherVO objOffshoreWeatherVO){
+		List<AreaWeatherVO> lisAreaWeatherVO = getLisAreaWeatherVOAll(dc_Offshore);
+		if(lisAreaWeatherVO.size()==0){
+			lisAreaWeatherVO = getNoTableLisAreaWeatherVOAll(dc_Offshore);
+			objOffshoreWeatherVO.setPublishTime(getNoTablePublishTime(dc_Offshore));
+		}else{
+			objOffshoreWeatherVO.setPublishTime(getPublishTime(dc_Offshore));
+		}
+		    objOffshoreWeatherVO.setLisAreaWeatherVO(lisAreaWeatherVO);
+		
+		return objOffshoreWeatherVO;
 	}
 	
 	public void loadOffshoreCache(){
