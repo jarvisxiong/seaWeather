@@ -3,6 +3,7 @@ package com.sea.weather.utils;
 import java.util.Timer;
 
 import com.sea.weather.task.CoastTask;
+import com.sea.weather.task.OceanTask;
 import com.sea.weather.task.OffshoreTask;
 
 public class TimerHelp {
@@ -24,6 +25,10 @@ public class TimerHelp {
 		
 		OffshoreTask objOffshoreTask = new OffshoreTask();
 		Timer offshoreTimer = new Timer();
-		offshoreTimer.schedule(objOffshoreTask, 9970, 863000);  
+		offshoreTimer.schedule(objOffshoreTask, 9970, 863000); 
+		
+		OceanTask objOceanTask = new OceanTask();
+		Timer oceanTimer = new Timer();
+		oceanTimer.schedule(objOceanTask, 8270,997000);
 	}
 }
