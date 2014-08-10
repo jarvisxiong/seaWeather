@@ -3,6 +3,7 @@
 <head>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@page import="com.sea.weather.date.action.SeaWeatherDateAction"%>
 <%@page import="com.sea.weather.utils.CacheDate"%>
 <%@page import="com.sea.weather.utils.Cache"%>
 <%@page import="com.sea.weather.utils.Cachekey"%>
@@ -16,14 +17,15 @@
 <%
 
 String versionCode = request.getParameter("versionCode");
+SeaWeatherDateAction objSeaWeatherDateAction = new SeaWeatherDateAction();
 PrintWriter outPrint = response.getWriter();
 String verstr = "";
 if (!SeaConstant.versionCode.equals(versionCode)) {
-	verstr = (String) Cache.getValue(Cachekey.tfkey_5);
+	verstr = objSeaWeatherDateAction.getCacheVersionAllTfAreaVOJson();
 }
 
 if (StringUtils.isBlank(verstr)) {
-	verstr = CacheDate.getData();
+	verstr = objSeaWeatherDateAction.getCacheAllTfAreaVOJson();
 }
 
 outPrint.print(verstr);

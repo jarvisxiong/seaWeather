@@ -28,7 +28,7 @@ public class SeaWeatherDateAction {
 		return str;
 	}
 	
-	private void putCacheTfVersion(AllTfAreaVO objAllTfAreaVO){
+	private String putCacheTfVersion(AllTfAreaVO objAllTfAreaVO){
 		TyphoonVO objTyphoonVO =  objAllTfAreaVO.getTf();
 		String tfGz = objTyphoonVO.getGzContent();
 		tfGz = "海洋天气1.5版本发布了，请点击新闻获取下载地址\n"+tfGz;
@@ -36,5 +36,71 @@ public class SeaWeatherDateAction {
 		objAllTfAreaVO.setTf(objTyphoonVO);
 		String str = gson.toJson(objAllTfAreaVO);
 		Cache.putValue(Cachekey.tfkey_5, str); 
+		return str;
+	}
+	
+	private AllTfAreaVO getAllTfAreaVO(){
+		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
+		NanSeaWeatherAction objNanSeaWeatherAction = new NanSeaWeatherAction();
+		objAllTfAreaVO.setAllWeatherVO(objNanSeaWeatherAction.getAllWeatherVO());
+		
+		TyphoonVO objTyphoonVO = new TyphoonVO();
+		TyphoonAction objTyphoonAction =new TyphoonAction();
+		objTyphoonVO = objTyphoonAction.getTyphoon();
+		objAllTfAreaVO.setTf(objTyphoonVO);
+		objAllTfAreaVO.setGrabTime(new Date());
+		return objAllTfAreaVO;
+	}
+	
+	public String getCacheVersionAllTfAreaVOJson(){
+		String allVersionTfAreaVO = (String)Cache.getValue(Cachekey.tfkey_5);
+		if(allVersionTfAreaVO==null){
+			AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
+			allVersionTfAreaVO = putCacheTfVersion(objAllTfAreaVO);
+		}
+		return allVersionTfAreaVO;
+	}
+	public String getCacheAllTfAreaVOJson(){
+		String allTfAreaVO = (String)Cache.getValue(Cachekey.allTfAreakey);
+		if(allTfAreaVO==null){
+			AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
+			allTfAreaVO = gson.toJson(objAllTfAreaVO);
+			putCacheTfVersion(objAllTfAreaVO);
+		}
+		return allTfAreaVO;
+	}
+	
+	public void loadAllTfAreaCache(){
+		AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
+		if (allTfAreaVOIsNull(objAllTfAreaVO)) {
+			String allTfAreaVO = gson.toJson(objAllTfAreaVO);
+			putCacheTfVersion(objAllTfAreaVO);
+			Cache.putValue(Cachekey.allTfAreakey, allTfAreaVO);
+		}
+	}
+	
+	public boolean allTfAreaVOIsNull(AllTfAreaVO objAllTfAreaVO){
+		if(objAllTfAreaVO==null){
+			return false;
+		}else if(objAllTfAreaVO.getTf()==null){
+			return false;
+		}else if(objAllTfAreaVO.getTf().getDtContent()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getGd24()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getGd48()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getNh24()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getNh48()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getHn24()==null){
+			return false;
+		}else if(objAllTfAreaVO.getAllWeatherVO().getHn48()==null){
+			return false;
+		}
+		return true;
 	}
 }
