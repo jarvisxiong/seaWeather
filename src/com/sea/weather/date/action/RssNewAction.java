@@ -22,14 +22,13 @@ import com.sun.syndication.io.XmlReader;
 
 public class RssNewAction {
 
-	public static final int urlSize = 21;
+	public static final int urlSize = 22;
 	
 	private Gson gson =new Gson();
 	
 	public static void main(String args[]) throws IllegalArgumentException, IOException, FeedException { 
 		RssNewAction objRssNewAction = new RssNewAction();
-		 URL feedurl = objRssNewAction.initUrl().get(20);
-		System.out.print(objRssNewAction.gradNews());
+		 URL feedurl = objRssNewAction.initUrl().get(22);
 		for(int i=0;i<objRssNewAction.gradRssRewsUrl(feedurl).getLisRssNewsVO().size();i++){
 			System.out.println(objRssNewAction.gradRssRewsUrl(feedurl).getLisRssNewsVO().get(i).getTitle());
 		}
@@ -64,43 +63,46 @@ public class RssNewAction {
 			//体育焦点 8
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=sportnews&tn=rss"));
 			
-			//国内最新 9
+			//搞笑 9
+			lisUrl.add(new URL("http://www.laifudao.com/rssfeed_wangwen.xml"));
+			
+			//国内最新 10
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=civilnews&tn=rss"));
-			//国际最新 10
+			//国际最新 11
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=internews&tn=rss"));
-			//军事最新 11
+			//军事最新 12
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=mil&tn=rss"));
-			//互联网最新 12
+			//互联网最新 13
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=internet&tn=rss"));
-			//体育最新 13
+			//体育最新 14
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=sportnews&tn=rss"));
 			/** 百度RSS 结束  */
 			
 			/** 新浪RSS 开始  */
 			
-			//国内要闻 14
+			//国内要闻 15
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/china/focus15.xml"));
-			//国际要闻 15
+			//国际要闻 16
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/world/focus15.xml"));
-			//社会新闻 16
+			//社会新闻 17
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/society/focus15.xml"));
-			//独家 17
+			//独家 18
 			lisUrl.add(new URL("http://rss.sina.com.cn/blog/index/exc.xml"));
 			
 			/** 新浪RSS 结束  */
 			
 			/** 腾讯Rss 开始*/
-			//国内要闻 18
+			//国内要闻 19
 			lisUrl.add(new URL("http://news.qq.com/newsgn/rss_newsgn.xml"));
-			//国际要闻 19
+			//国际要闻 20
 			lisUrl.add(new URL("http://news.qq.com/newsgj/rss_newswj.xml"));
-			//社会要闻 20
+			//社会要闻 21
 			lisUrl.add(new URL("http://news.qq.com/newssh/rss_newssh.xml"));
 			/** 腾讯Rss 结束*/
 			
 			/** 幽默Rss 开始 */
 			
-			//幽默笑话百分百 21
+			//幽默笑话百分百 22
 			lisUrl.add(new URL("http://feed.xiaohuayoumo.com/"));
 			
 			/** 幽默Rss 结束 */
@@ -149,7 +151,7 @@ public class RssNewAction {
 		 SyndFeed feed = input.build(new XmlReader(uc)); 
 		 List<?> entries = feed.getEntries(); 
 		 Date dateNow=new Date();
-		 Date date=new Date(dateNow.getTime() - 48*60*60*1000);
+		 Date date=new Date(dateNow.getTime() - 72*60*60*1000);
 		 
 		 List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
 		
