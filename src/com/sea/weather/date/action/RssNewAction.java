@@ -22,7 +22,7 @@ import com.sun.syndication.io.XmlReader;
 
 public class RssNewAction {
 
-	public static final int urlSize = 20;
+	public static final int urlSize = 21;
 	
 	private Gson gson =new Gson();
 	
@@ -39,7 +39,7 @@ public class RssNewAction {
 	
 	private List<URL> initUrl() throws MalformedURLException {
 		List<URL> lisUrl = new ArrayList<URL>();
-
+	
 			/** 网易RSS 开始  */
 			//网易头条 0
 			lisUrl.add(new URL("http://news.163.com/special/00011K6L/rss_newstop.xml"));
@@ -97,7 +97,13 @@ public class RssNewAction {
 			//社会要闻 20
 			lisUrl.add(new URL("http://news.qq.com/newssh/rss_newssh.xml"));
 			/** 腾讯Rss 结束*/
-
+			
+			/** 幽默Rss 开始 */
+			
+			//幽默笑话百分百 21
+			lisUrl.add(new URL("http://feed.xiaohuayoumo.com/"));
+			
+			/** 幽默Rss 结束 */
 		return lisUrl;
 	}
 	
