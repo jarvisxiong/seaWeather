@@ -14,13 +14,17 @@
 </head>
 <body>
 <%
-	String versionCode = request.getParameter("versionCode");
-    PrintWriter outPrint = response.getWriter();
+	String strVersionCode = (String)request.getParameter("versionCode");
+	int versionCode = 0;
+	if (strVersionCode != null) {
+		versionCode = Integer.parseInt(strVersionCode);
+	}
+	PrintWriter outPrint = response.getWriter();
 	String verstr = "";
-	if (!SeaConstant.versionCode.equals(versionCode)) {
+	if (versionCode < SeaConstant.versionCode) {
 		verstr = (String) Cache.getValue(Cachekey.rsskey_5);
 	}
-	
+
 	if (StringUtils.isBlank(verstr)) {
 		verstr = CacheDate.getRssNewsList();
 	}

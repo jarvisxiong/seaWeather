@@ -12,5 +12,5 @@ public class SeaConstant {
 	
 	public final static String pushMegAct_SI ="startIndexActivity";
 	
-	public final static String versionCode="6";
+	public final static int versionCode = 6;
 }
