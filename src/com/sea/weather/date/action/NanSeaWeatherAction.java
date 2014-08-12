@@ -24,8 +24,10 @@ public class NanSeaWeatherAction {
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
 		} catch (IOException e) {
 			Log.e("NanSeaWeatherAction.getAllWeatherVO IO", e);
+			return null;
 		} catch(Exception e){
 			Log.e("NanSeaWeatherAction.getAllWeatherVO Exception", e);
+			return null;
 		}
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
 		objAllWeatherVO.setGd24(getGd24Weather());

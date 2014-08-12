@@ -2,11 +2,15 @@ package com.sea.weather.date.action;
 
 import java.util.Date;
 
+
+
+
 import com.google.gson.Gson;
 import com.sea.weather.date.model.AllTfAreaVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.Cachekey;
+import com.sea.weather.utils.StringUtils;
 
 public class SeaWeatherDateAction {
 
@@ -82,23 +86,50 @@ public class SeaWeatherDateAction {
 	public boolean allTfAreaVOIsNull(AllTfAreaVO objAllTfAreaVO){
 		if(objAllTfAreaVO==null){
 			return false;
-		}else if(objAllTfAreaVO.getTf()==null){
+		}
+		if(objAllTfAreaVO.getTf()==null){
 			return false;
-		}else if(objAllTfAreaVO.getTf().getDtContent()==null){
+		}
+		if(StringUtils.isBlank(objAllTfAreaVO.getTf().getDtContent())){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getGd24()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getGd24()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getGd48()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getGd48()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getNh24()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getNh24()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getNh48()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getNh48()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getHn24()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getHn24()==null){
 			return false;
-		}else if(objAllTfAreaVO.getAllWeatherVO().getHn48()==null){
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getHn48()==null){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getGd24().getLisWeatherVO().size()==0){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getGd48().getLisWeatherVO().size()==0){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getNh24().getLisWeatherVO().size()==0){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getNh48().getLisWeatherVO().size()==0){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getHn24().getLisWeatherVO().size()==0){
+			return false;
+		}
+		if(objAllTfAreaVO.getAllWeatherVO().getHn48().getLisWeatherVO().size()==0){
 			return false;
 		}
 		return true;

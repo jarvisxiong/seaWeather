@@ -30,6 +30,7 @@ public class TyphoonAction {
 			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(5000).get();
 		} catch (IOException e) {
 			Log.e("TyphoonAction.getTyphoon IOException", e);
+			return null;
 		}
 		
 		//设置台风关注
@@ -147,12 +148,13 @@ public class TyphoonAction {
 		} catch (IOException e) {
 			Log.e("TyphoonAction.getHnTfDt", e);
 		}
-		return "";
+		return null;
 	}
 	
 	public static void main(String args[]) { 
 		TyphoonAction objTyphoonAction = new TyphoonAction();
-		objTyphoonAction.pushMessage();
+		System.out.println(objTyphoonAction.getTyphoon());
+		//objTyphoonAction.pushMessage();
 	}
 	
 	private void pushTfYjMsg(String yjContent){
