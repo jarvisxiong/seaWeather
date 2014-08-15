@@ -33,11 +33,11 @@ public class TyphoonAction {
 			return null;
 		}
 		
-		//ÉèÖÃÌ¨·ç¹Ø×¢
+		//è®¾ç½®å°é£å…³æ³¨
 		try {
 			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
 			String strTitle = elGzTitle.select("em").get(0).text()
-					.replaceAll("£º", "");
+					.replaceAll("ï¼š", "");
 			String strTime = elGzTitle.select("b").get(0).text();
 
 			Elements elGzContent = doc_tf.select(".rbox").select("p");
@@ -53,19 +53,19 @@ public class TyphoonAction {
 			Log.e("TyphoonAction.getTyphoon Exception", e);
 		}
 		
-		//»ñÈ¡Ì¨·ç¶¯Ì¬
-		String dtTitle = "Ì¨·ç¶¯Ì¬";
+		//è·å–å°é£åŠ¨æ€
+		String dtTitle = "å°é£åŠ¨æ€";
 		String dtContent = getHnTfDt();
 		objTyphoonVO.setDtTitle(dtTitle);
 		objTyphoonVO.setDtContent(dtContent);
 		
-		//»ñÈ¡Ì¨·çÔ¤¾¯
+		//è·å–å°é£é¢„è­¦
 	    //getYfYj(objTyphoonVO);
 		getAllYjTf(objTyphoonVO);
 		return objTyphoonVO;
 	}
 	private void getYfYj(TyphoonVO objTyphoonVO) {
-		 String yjTitle ="Ì¨·çÔ¤¾¯";
+		 String yjTitle ="å°é£é¢„è­¦";
 	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
 	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
 		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
@@ -93,7 +93,7 @@ public class TyphoonAction {
 	}
 	
 	private void getAllYjTf(TyphoonVO objTyphoonVO){
-		String yjTitle ="Ì¨·çÔ¤¾¯";
+		String yjTitle ="å°é£é¢„è­¦";
 		Elements yjContentDoc = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("li");
 		String yjContent = "";
 		if(yjContentDoc==null||yjContentDoc.size()==0){
@@ -105,7 +105,7 @@ public class TyphoonAction {
 		}
 		 String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
 		 String yjUrlName = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").text();
-		 if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)&&yjUrlName.indexOf("ÖĞÑë")!=-1) {
+		 if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)&&yjUrlName.indexOf("ä¸­å¤®")!=-1) {
 				try {
 					Document yjdoc = Jsoup.connect(yjUrl).timeout(5000).get();
 					String yjUrlsub = yjdoc.select("#new").attr("src");
@@ -128,7 +128,7 @@ public class TyphoonAction {
 		 objTyphoonVO.setYjContent(yjContent.trim());
 	}
 	
-	//ÔİÊ±²»ÒªµÄ·½·¨£¬Õâ¸öÍøÕ¾¸üĞÂ½ÏÂı£¬²¢ÇÒÁ´½Ó½ÏÂı
+	//æš‚æ—¶ä¸è¦çš„æ–¹æ³•ï¼Œè¿™ä¸ªç½‘ç«™æ›´æ–°è¾ƒæ…¢ï¼Œå¹¶ä¸”é“¾æ¥è¾ƒæ…¢
 	private String getTfDt(){
 		try {
 			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
@@ -158,21 +158,21 @@ public class TyphoonAction {
 	}
 	
 	private void pushTfYjMsg(String yjContent){
-		String patternStr = "\\d{4}Äê\\d{1,2}ÔÂ\\d{1,2}ÈÕ\\d{1,2}Ê±"; 
-		//½ØÈ¡ÈÕÆÚµ½2014Äê07ÔÂ16ÈÕ10Ê±£¬Èç¹ûÃ»ÓĞÌ¨·çÔ¤¾¯£¬Ôò×ÖÊıĞ¡ÓÚ14£¬²»½øÈë·¢ËÍÍÆËÍµÄÂß¼­
+		String patternStr = "\\d{4}å¹´\\d{1,2}æœˆ\\d{1,2}æ—¥\\d{1,2}æ—¶"; 
+		//æˆªå–æ—¥æœŸåˆ°2014å¹´07æœˆ16æ—¥10æ—¶ï¼Œå¦‚æœæ²¡æœ‰å°é£é¢„è­¦ï¼Œåˆ™å­—æ•°å°äº14ï¼Œä¸è¿›å…¥å‘é€æ¨é€çš„é€»è¾‘
 		if(yjContent!=null&&yjContent.length()>14){
 			String publishTime = yjContent.substring(0,14);
-			//ÓĞÌ¨·çÔ¤¾¯£¬ÔòµÚÒ»´Î½øÀ´£¬cacheÎª¿Õ£¬Ôò²»µÈ£¬·¢ËÍÒ»´ÎÍÆËÍ£¬²¢ÇÒ½«Ê±¼ä·Åµ½cacheÀïÃæ
-			//ºóÃæÑ­»·½øÀ´£¬Èç¹ûÌ¨·çÔ¤¾¯Ê±¼äÃ»±ä£¬ÔòÒ»Ö±²»½ø¸ÃÂß¼­£¬²»½øÈëÍÆËÍ,²¢ÇÒ»¹ĞèÒª·ûºÏ¡¶2014Äê07ÔÂ05ÈÕ10Ê±¡·¸ñÊ½
+			//æœ‰å°é£é¢„è­¦ï¼Œåˆ™ç¬¬ä¸€æ¬¡è¿›æ¥ï¼Œcacheä¸ºç©ºï¼Œåˆ™ä¸ç­‰ï¼Œå‘é€ä¸€æ¬¡æ¨é€ï¼Œå¹¶ä¸”å°†æ—¶é—´æ”¾åˆ°cacheé‡Œé¢
+			//åé¢å¾ªç¯è¿›æ¥ï¼Œå¦‚æœå°é£é¢„è­¦æ—¶é—´æ²¡å˜ï¼Œåˆ™ä¸€ç›´ä¸è¿›è¯¥é€»è¾‘ï¼Œä¸è¿›å…¥æ¨é€,å¹¶ä¸”è¿˜éœ€è¦ç¬¦åˆã€Š2014å¹´07æœˆ05æ—¥10æ—¶ã€‹æ ¼å¼
 			if(Pattern.matches(patternStr, publishTime)&&!publishTime.equals(CacheDate.getTfYjTime())){
 				CacheDate.setTfYjTime(publishTime);
 				PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 				PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 				Gson gson = new Gson();
-				objPushMessagesVO.setTitle("Ì¨·çÔ¤¾¯");
-				objPushMessagesVO.setDescription("ÖĞÑëÌ¨"+publishTime.substring(5)+"·¢²¼");
+				objPushMessagesVO.setTitle("å°é£é¢„è­¦");
+				objPushMessagesVO.setDescription("ä¸­å¤®å°"+publishTime.substring(5)+"å‘å¸ƒ");
 				
-				//ÉèÖÃÎªÄÚÈİ£¬Æô¶¯Ê×Ò³
+				//è®¾ç½®ä¸ºå†…å®¹ï¼Œå¯åŠ¨é¦–é¡µ
 				objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
 				objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
 				objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
@@ -187,9 +187,9 @@ public class TyphoonAction {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
-		objPushMessagesVO.setTitle("Ì¨·ç¶¯Ì¬");
-		objPushMessagesVO.setDescription("½ñÄê11ºÅÈÈ´ø·ç±©(ÏÄÀË)ÒÑÉú³É£¬Çë¹Ø×¢");
-		//ÉèÖÃÎªÄÚÈİ£¬Æô¶¯Ê×Ò³
+		objPushMessagesVO.setTitle("å°é£åŠ¨æ€");
+		objPushMessagesVO.setDescription("ä»Šå¹´11å·çƒ­å¸¦é£æš´(å¤æµª)å·²ç”Ÿæˆï¼Œè¯·å…³æ³¨");
+		//è®¾ç½®ä¸ºå†…å®¹ï¼Œå¯åŠ¨é¦–é¡µ
 		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
 		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
 		objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));

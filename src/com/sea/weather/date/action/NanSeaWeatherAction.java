@@ -20,13 +20,26 @@ public class NanSeaWeatherAction {
 	
 	public AllWeatherVO getAllWeatherVO(){
 		try {
-			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
 		} catch (IOException e) {
-			Log.e("NanSeaWeatherAction.getAllWeatherVO IO", e);
+			Log.e("NanSeaWeatherAction.getHnWeatherVO IO", e);
 			return null;
 		} catch(Exception e){
-			Log.e("NanSeaWeatherAction.getAllWeatherVO Exception", e);
+			Log.e("NanSeaWeatherAction.getHnWeatherVO Exception", e);
+			return null;
+		}
+		
+		try {
+			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
+		} catch (IOException e) {
+			try{
+				doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
+			}catch(IOException e2){
+				Log.e("NanSeaWeatherAction.getGdWeatherVO IO", e);
+				return null;
+			}
+		} catch(Exception e){
+			Log.e("NanSeaWeatherAction.getGdWeatherVO Exception", e);
 			return null;
 		}
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
@@ -39,7 +52,7 @@ public class NanSeaWeatherAction {
 		return objAllWeatherVO;
 	}
 	/**
-	 * »ñÈ¡¹ã¶«24Ğ¡Ê±ÌìÆøÔ¤±¨
+	 * è·å–å¹¿ä¸œ24å°æ—¶å¤©æ°”é¢„æŠ¥
 	 * @return
 	 */
 	private AreaWeatherVO getGd24Weather(){
@@ -47,7 +60,7 @@ public class NanSeaWeatherAction {
 		return objAreaWeatherVO;
 	}
 	/**
-	 * »ñÈ¡¹ã¶«24Ğ¡Ê±ÌìÆøÔ¤±¨
+	 * è·å–å¹¿ä¸œ24å°æ—¶å¤©æ°”é¢„æŠ¥
 	 * @return
 	 */
 	private AreaWeatherVO getGd48Weather(){
@@ -77,7 +90,7 @@ public class NanSeaWeatherAction {
 	
 	
 	/**
-	 * »ñÈ¡ÌìÆøÔ¤±¨µÄ·½·¨
+	 * è·å–å¤©æ°”é¢„æŠ¥çš„æ–¹æ³•
 	 * @param tlist
 	 * @param stitle
 	 * @return
@@ -108,7 +121,7 @@ public class NanSeaWeatherAction {
 		return objAreaWeatherVO;
 	}
 	/**
-	 * »ñÈ¡ÌìÆøÔ¤±¨µÄ·½·¨
+	 * è·å–å¤©æ°”é¢„æŠ¥çš„æ–¹æ³•
 	 * @param tlist
 	 * @param stitle
 	 * @return

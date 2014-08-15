@@ -39,73 +39,73 @@ public class RssNewAction {
 	private List<URL> initUrl() throws MalformedURLException {
 		List<URL> lisUrl = new ArrayList<URL>();
 	
-			/** ÍøÒ×RSS ¿ªÊ¼  */
-			//ÍøÒ×Í·Ìõ 0
+			/** ç½‘æ˜“RSS å¼€å§‹  */
+			//ç½‘æ˜“å¤´æ¡ 0
 			lisUrl.add(new URL("http://news.163.com/special/00011K6L/rss_newstop.xml"));
-			//¹úÄÚĞÂÎÅ 1
+			//å›½å†…æ–°é—» 1
 			lisUrl.add(new URL("http://news.163.com/special/00011K6L/rss_gn.xml"));
-			//¹ú¼ÊĞÂÎÅ 2
+			//å›½é™…æ–°é—» 2
 			lisUrl.add(new URL("http://news.163.com/special/00011K6L/rss_gj.xml"));
-			//¾üÊÂĞÂÎÅ 3
+			//å†›äº‹æ–°é—» 3
 			lisUrl.add(new URL("http://news.163.com/special/00011K6L/rss_war.xml"));
 			
-			/** ÍøÒ×RSS ½áÊø  */
+			/** ç½‘æ˜“RSS ç»“æŸ  */
 			
-			/** °Ù¶ÈRSS ¿ªÊ¼  */
-			//¹úÄÚ½¹µã 4
+			/** ç™¾åº¦RSS å¼€å§‹  */
+			//å›½å†…ç„¦ç‚¹ 4
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss"));
-			//¹ú¼Ê½¹µã 5
+			//å›½é™…ç„¦ç‚¹ 5
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=internews&tn=rss"));
-			//¾üÊÂ½¹µã 6
+			//å†›äº‹ç„¦ç‚¹ 6
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=mil&tn=rss"));
-			//»¥ÁªÍø½¹µã 7
+			//äº’è”ç½‘ç„¦ç‚¹ 7
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=internet&tn=rss"));
-			//ÌåÓı½¹µã 8
+			//ä½“è‚²ç„¦ç‚¹ 8
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=1&class=sportnews&tn=rss"));
 			
-			//¸ãĞ¦ 9
+			//æç¬‘ 9
 			lisUrl.add(new URL("http://www.laifudao.com/rssfeed_wangwen.xml"));
 			
-			//¹úÄÚ×îĞÂ 10
+			//å›½å†…æœ€æ–° 10
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=civilnews&tn=rss"));
-			//¹ú¼Ê×îĞÂ 11
+			//å›½é™…æœ€æ–° 11
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=internews&tn=rss"));
-			//¾üÊÂ×îĞÂ 12
+			//å†›äº‹æœ€æ–° 12
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=mil&tn=rss"));
-			//»¥ÁªÍø×îĞÂ 13
+			//äº’è”ç½‘æœ€æ–° 13
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=internet&tn=rss"));
-			//ÌåÓı×îĞÂ 14
+			//ä½“è‚²æœ€æ–° 14
 			lisUrl.add(new URL("http://news.baidu.com/n?cmd=4&class=sportnews&tn=rss"));
-			/** °Ù¶ÈRSS ½áÊø  */
+			/** ç™¾åº¦RSS ç»“æŸ  */
 			
-			/** ĞÂÀËRSS ¿ªÊ¼  */
+			/** æ–°æµªRSS å¼€å§‹  */
 			
-			//¹úÄÚÒªÎÅ 15
+			//å›½å†…è¦é—» 15
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/china/focus15.xml"));
-			//¹ú¼ÊÒªÎÅ 16
+			//å›½é™…è¦é—» 16
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/world/focus15.xml"));
-			//Éç»áĞÂÎÅ 17
+			//ç¤¾ä¼šæ–°é—» 17
 			lisUrl.add(new URL("http://rss.sina.com.cn/news/society/focus15.xml"));
-			//¶À¼Ò 18
+			//ç‹¬å®¶ 18
 			lisUrl.add(new URL("http://rss.sina.com.cn/blog/index/exc.xml"));
 			
-			/** ĞÂÀËRSS ½áÊø  */
+			/** æ–°æµªRSS ç»“æŸ  */
 			
-			/** ÌÚÑ¶Rss ¿ªÊ¼*/
-			//¹úÄÚÒªÎÅ 19
+			/** è…¾è®¯Rss å¼€å§‹*/
+			//å›½å†…è¦é—» 19
 			lisUrl.add(new URL("http://news.qq.com/newsgn/rss_newsgn.xml"));
-			//¹ú¼ÊÒªÎÅ 20
+			//å›½é™…è¦é—» 20
 			lisUrl.add(new URL("http://news.qq.com/newsgj/rss_newswj.xml"));
-			//Éç»áÒªÎÅ 21
+			//ç¤¾ä¼šè¦é—» 21
 			lisUrl.add(new URL("http://news.qq.com/newssh/rss_newssh.xml"));
-			/** ÌÚÑ¶Rss ½áÊø*/
+			/** è…¾è®¯Rss ç»“æŸ*/
 			
-			/** ÓÄÄ¬Rss ¿ªÊ¼ */
+			/** å¹½é»˜Rss å¼€å§‹ */
 			
-			//ÓÄÄ¬Ğ¦»°°Ù·Ö°Ù 22
+			//å¹½é»˜ç¬‘è¯ç™¾åˆ†ç™¾ 22
 			lisUrl.add(new URL("http://feed.xiaohuayoumo.com/"));
 			
-			/** ÓÄÄ¬Rss ½áÊø */
+			/** å¹½é»˜Rss ç»“æŸ */
 		return lisUrl;
 	}
 	
@@ -127,14 +127,14 @@ public class RssNewAction {
 		List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
 		RssNewsVO objRssNewsVO =new RssNewsVO();
 		lisRssNewsVO = objRssNewsListVO.getLisRssNewsVO();
-		objRssNewsVO.setTitle("º£ÑóÌìÆø1.5°æ·¢²¼ÁË");
-		objRssNewsVO.setDescriptionValue("ĞÂ°æÌØĞÔ:"
-				+ "\n1.Ôö¼ÓÖĞ¹úÑØ°¶34¸öº£ÇøÌìÆø£¬°üÀ¨Õã½­£¬¸£½¨£¬É½¶«µÈµØ·½£»"
-				+ "\n2.Ôö¼ÓÖĞ¹ú½üº£18¸öº£ÇøÌìÆøÔ¤±¨£¬°üÀ¨²³º£µÈ;"
-				+ "\n3.ĞŞ¸ÄÌ¨·çÌìÆø²¼¾Ö£¬·½±ãÊ¹ÓÃ;"
-				+ "\n»ñÈ¡·½Ê½:"
-				+ "\n1.µã»÷¸ÃĞÂÎÅ£¬¸´ÖÆµØÖ·.·ÃÎÊº£ÑóÌìÆøÊ×Ò³£¬µã»÷Í¼Æ¬ÏÂÔØ;"
-				+ "\n2.·ÃÎÊ°Ù¶ÈÒÆ¶¯Ó¦ÓÃ£¬ËÑË÷º£ÑóÌìÆø£¬ÏÂÔØ×îĞÂ°æ;");
+		objRssNewsVO.setTitle("æµ·æ´‹å¤©æ°”1.5ç‰ˆå‘å¸ƒäº†");
+		objRssNewsVO.setDescriptionValue("æ–°ç‰ˆç‰¹æ€§:"
+				+ "\n1.å¢åŠ ä¸­å›½æ²¿å²¸34ä¸ªæµ·åŒºå¤©æ°”ï¼ŒåŒ…æ‹¬æµ™æ±Ÿï¼Œç¦å»ºï¼Œå±±ä¸œç­‰åœ°æ–¹ï¼›"
+				+ "\n2.å¢åŠ ä¸­å›½è¿‘æµ·18ä¸ªæµ·åŒºå¤©æ°”é¢„æŠ¥ï¼ŒåŒ…æ‹¬æ¸¤æµ·ç­‰;"
+				+ "\n3.ä¿®æ”¹å°é£å¤©æ°”å¸ƒå±€ï¼Œæ–¹ä¾¿ä½¿ç”¨;"
+				+ "\nè·å–æ–¹å¼:"
+				+ "\n1.ç‚¹å‡»è¯¥æ–°é—»ï¼Œå¤åˆ¶åœ°å€.è®¿é—®æµ·æ´‹å¤©æ°”é¦–é¡µï¼Œç‚¹å‡»å›¾ç‰‡ä¸‹è½½;"
+				+ "\n2.è®¿é—®ç™¾åº¦ç§»åŠ¨åº”ç”¨ï¼Œæœç´¢æµ·æ´‹å¤©æ°”ï¼Œä¸‹è½½æœ€æ–°ç‰ˆ;");
 		objRssNewsVO.setLink("http://readread.duapp.com/sea/Update.jsp");
 		objRssNewsVO.setPublishedDate(new Date());
 		lisRssNewsVO.add(0, objRssNewsVO);
@@ -156,7 +156,7 @@ public class RssNewAction {
 		 List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
 		
 		 
-		 //¶ÁÈ¡Ò»¸öÔ´£¬½«Æä·Åµ½listÀïÃæ
+		 //è¯»å–ä¸€ä¸ªæºï¼Œå°†å…¶æ”¾åˆ°listé‡Œé¢
 		 for (int i = 0; i < entries.size(); i++){   
 		    SyndEntry entry = (SyndEntry) entries.get(i);   
 			if (entry != null && entry.getPublishedDate() != null
@@ -169,16 +169,16 @@ public class RssNewAction {
 				 lisRssNewsVO.add(objRssNewsVO);
 		     }
 		 }
-		 //ÉèÖÃRSSlist
+		 //è®¾ç½®RSSlist
 		 objRssNewsListVO.setLisRssNewsVO(lisRssNewsVO);
 		 objRssNewsListVO.setRssGrabTime(dateNow);
 		 return objRssNewsListVO;
 	}
 	
 	private String rmHtml(String inputStr){
-		String outStr = inputStr.replaceAll("\\&[a-zA-Z]{1,10};", "")//È¥³ıÀàËÆ&lt; &gt; &nbsp;µÄ×Ö´® 
-                .replaceAll("<[a-zA-Z]+[1-9]?[^><]*>", "") //È¥³ı¿ªÊ¼±êÇ©¼°Ã»ÓĞ½áÊø±êÇ©µÄ±êÇ© 
-                .replaceAll("</[a-zA-Z]+[1-9]?>", "")//È¥³ı½áÊø±êÇ© 
+		String outStr = inputStr.replaceAll("\\&[a-zA-Z]{1,10};", "")//å»é™¤ç±»ä¼¼&lt; &gt; &nbsp;çš„å­—ä¸² 
+                .replaceAll("<[a-zA-Z]+[1-9]?[^><]*>", "") //å»é™¤å¼€å§‹æ ‡ç­¾åŠæ²¡æœ‰ç»“æŸæ ‡ç­¾çš„æ ‡ç­¾ 
+                .replaceAll("</[a-zA-Z]+[1-9]?>", "")//å»é™¤ç»“æŸæ ‡ç­¾ 
                 .trim(); 
 		if(outStr.indexOf("...")!=-1){
 			outStr = outStr.substring(0,outStr.indexOf("...")+3).replaceAll("\n", "");

@@ -23,7 +23,7 @@ public class CacheDate {
 	private static final Object lock = new Object();
 
 	private CacheDate() {
-	} // 防止在外部实例化
+	} // 闃叉鍦ㄥ閮ㄥ疄渚嬪寲
 
 	public static String getData() {
 		String v = (String)map.get(key);

@@ -62,8 +62,8 @@ public class OffshoreWeatherAction {
 			TimeWeatherVO objTimeWeatherVO = new TimeWeatherVO();
 			objTimeWeatherVO.setValidTime(list_td.get(j++).text());
 			objTimeWeatherVO.setWeather(list_td.get(j++).text());
-			objTimeWeatherVO.setWindDirection(list_td.get(j++).text()+"·ç");
-			objTimeWeatherVO.setWindPower(list_td.get(j++).text()+"¼¶");
+			objTimeWeatherVO.setWindDirection(list_td.get(j++).text()+"é£Ž");
+			objTimeWeatherVO.setWindPower(list_td.get(j++).text()+"çº§");
 			objTimeWeatherVO.setWaveheight(list_td.get(j++).text()+"m");
 			objTimeWeatherVO.setVisibility(list_td.get(j++).text()+"km");
 			
@@ -109,8 +109,8 @@ public class OffshoreWeatherAction {
 			TimeWeatherVO objTimeWeatherVO = new TimeWeatherVO();
 			objTimeWeatherVO.setValidTime(list_td.get(j++).text());
 			objTimeWeatherVO.setWeather(list_td.get(j++).text());
-			objTimeWeatherVO.setWindDirection(list_td.get(j++).text() + "·ç");
-			objTimeWeatherVO.setWindPower(list_td.get(j++).text() + "¼¶");
+			objTimeWeatherVO.setWindDirection(list_td.get(j++).text() + "é£Ž");
+			objTimeWeatherVO.setWindPower(list_td.get(j++).text() + "çº§");
 			objTimeWeatherVO.setWaveheight(list_td.get(j++).text() + "m");
 			objTimeWeatherVO.setVisibility(list_td.get(j++).text() + "km");
 			

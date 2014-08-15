@@ -14,7 +14,7 @@ public class TimerHelp {
 		Timer timer = new Timer();
 		timer.schedule(objGrabTask, 1000, 587000);  
 		
-		//ÐÂÎÅ¶¨Ê±Æ÷
+		//æ–°é—»å®šæ—¶å™¨
 		RssNewsTask objRssNewsTask = new RssNewsTask();
 		Timer rssTimer = new Timer();
 		rssTimer.schedule(objRssNewsTask, 5870, 997000);  

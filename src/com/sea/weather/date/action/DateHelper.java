@@ -40,7 +40,7 @@ public class DateHelper {
 	}
 	
 	/**
-	 * »ñÈ¡¹ã¶«24Ğ¡Ê±ÌìÆøÔ¤±¨
+	 * è·å–å¹¿ä¸œ24å°æ—¶å¤©æ°”é¢„æŠ¥
 	 * @return
 	 */
 	private AreaWeatherVO getGd24Weather(){
@@ -49,7 +49,7 @@ public class DateHelper {
 	}
 	
 	/**
-	 * »ñÈ¡¹ã¶«24Ğ¡Ê±ÌìÆøÔ¤±¨
+	 * è·å–å¹¿ä¸œ24å°æ—¶å¤©æ°”é¢„æŠ¥
 	 * @return
 	 */
 	private AreaWeatherVO getGd48Weather(){
@@ -97,8 +97,8 @@ public class DateHelper {
 	
 	private AreaWeatherVO showNotice(AreaWeatherVO objAreaWeatherVO){
 		WeatherVO objWeatherVO = new WeatherVO();
-		objWeatherVO.setSeaArea("º£ÑóÌìÆøĞÂ°æ1.5\nÇë¼°Ê±Éı¼¶");
-		objWeatherVO.setWind("ÔÚ°Ù¶ÈÒÆ¶¯Ó¦ÓÃÖĞ£¬ËÑË÷º£ÑóÌìÆø");
+		objWeatherVO.setSeaArea("æµ·æ´‹å¤©æ°”æ–°ç‰ˆ1.5\nè¯·åŠæ—¶å‡çº§");
+		objWeatherVO.setWind("åœ¨ç™¾åº¦ç§»åŠ¨åº”ç”¨ä¸­ï¼Œæœç´¢æµ·æ´‹å¤©æ°”");
 		objWeatherVO.setVisibility("--");
 		objAreaWeatherVO.getLisWeatherVO().add(0, objWeatherVO);
 		return objAreaWeatherVO;
@@ -124,7 +124,7 @@ public class DateHelper {
     } 
 	
 	/**
-	 * »ñÈ¡ÌìÆøÔ¤±¨µÄ·½·¨
+	 * è·å–å¤©æ°”é¢„æŠ¥çš„æ–¹æ³•
 	 * @param tlist
 	 * @param stitle
 	 * @return
@@ -152,7 +152,7 @@ public class DateHelper {
 	}
 	
 	/**
-	 * »ñÈ¡ÌìÆøÔ¤±¨µÄ·½·¨
+	 * è·å–å¤©æ°”é¢„æŠ¥çš„æ–¹æ³•
 	 * @param tlist
 	 * @param stitle
 	 * @return

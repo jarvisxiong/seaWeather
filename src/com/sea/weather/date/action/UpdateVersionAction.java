@@ -10,11 +10,11 @@ public class UpdateVersionAction {
 	public String loadVersion(){
 		UpdateVersionVO objUpdateVersionVO = new UpdateVersionVO();
 		Gson gson = new Gson();
-		objUpdateVersionVO.setAppName("º£ÑóÌìÆø");
+		objUpdateVersionVO.setAppName("æµ·æ´‹å¤©æ°”");
 		objUpdateVersionVO.setVersionCode(6);
 		objUpdateVersionVO.setVersionName("1.5");
 		objUpdateVersionVO.setUpdateUrl("http://gdown.baidu.com/data/wisegame/92cac8000afacb76/haiyangtianqi_6.apk");
-		objUpdateVersionVO.setUpdateContent("1.Ôö¼ÓÖĞ¹úÑØ°¶34¸öº£ÇøÌìÆø£¬°üÀ¨Õã½­£¬¸£½¨£¬É½¶«µÈµØ·½£»2.Ôö¼ÓÖĞ¹ú½üº£18¸öº£ÇøÌìÆøÔ¤±¨£¬°üÀ¨²³º£µÈ;3.ĞŞ¸ÄÌ¨·çÌìÆø²¼¾Ö£¬·½±ãÊ¹ÓÃ;");
+		objUpdateVersionVO.setUpdateContent("1.å¢åŠ ä¸­å›½æ²¿å²¸34ä¸ªæµ·åŒºå¤©æ°”ï¼ŒåŒ…æ‹¬æµ™æ±Ÿï¼Œç¦å»ºï¼Œå±±ä¸œç­‰åœ°æ–¹ï¼›2.å¢åŠ ä¸­å›½è¿‘æµ·18ä¸ªæµ·åŒºå¤©æ°”é¢„æŠ¥ï¼ŒåŒ…æ‹¬æ¸¤æµ·ç­‰;3.ä¿®æ”¹å°é£å¤©æ°”å¸ƒå±€ï¼Œæ–¹ä¾¿ä½¿ç”¨;");
 		String str = gson.toJson(objUpdateVersionVO);
 		Cache.putValue(Cachekey.versionkey, str);
 		return str;

@@ -19,13 +19,13 @@ public class ChannelClient {
 
 	public static void pushBroadcastMessage(String message) {
 
-        // 1. ÉèÖÃdeveloperÆ½Ì¨µÄApiKey/SecretKey
+        // 1. è®¾ç½®developerå¹³å°çš„ApiKey/SecretKey
         ChannelKeyPair pair = new ChannelKeyPair(SeaConstant.apiKey, SeaConstant.secretKey);
 
-        // 2. ´´½¨BaiduChannelClient¶ÔÏóÊµÀı
+        // 2. åˆ›å»ºBaiduChannelClientå¯¹è±¡å®ä¾‹
         BaiduChannelClient channelClient = new BaiduChannelClient(pair);
 
-        // 3. ÈôÒªÁË½â½»»¥Ï¸½Ú£¬Çë×¢²áYunLogHandlerÀà
+        // 3. è‹¥è¦äº†è§£äº¤äº’ç»†èŠ‚ï¼Œè¯·æ³¨å†ŒYunLogHandlerç±»
         channelClient.setChannelLogHandler(new YunLogHandler() {
             @Override
             public void onHandle(YunLogEvent event) {
@@ -36,15 +36,15 @@ public class ChannelClient {
 
         try {
 
-            // 4. ´´½¨ÇëÇóÀà¶ÔÏó
+            // 4. åˆ›å»ºè¯·æ±‚ç±»å¯¹è±¡
             PushBroadcastMessageRequest request = new PushBroadcastMessageRequest();
-            //Í¨Öª
+            //é€šçŸ¥
             request.setMessageType(1);
-            //°²×¿Éè±¸
+            //å®‰å“è®¾å¤‡
             request.setDeviceType(3);
             request.setMessage(message);
 
-            // 5. µ÷ÓÃpushMessage½Ó¿Ú
+            // 5. è°ƒç”¨pushMessageæ¥å£
             PushBroadcastMessageResponse response = channelClient
                     .pushBroadcastMessage(request);
             if (response.getSuccessAmount() == 1) {
@@ -64,10 +64,10 @@ public class ChannelClient {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
-		objPushMessagesVO.setTitle("Ì¨·çÔ¤¾¯");
-		objPushMessagesVO.setDescription("ÖĞÑëÌ¨07ÔÂ18ÈÕ10Ê±·¢²¼");
+		objPushMessagesVO.setTitle("å°é£é¢„è­¦");
+		objPushMessagesVO.setDescription("ä¸­å¤®å°07æœˆ18æ—¥10æ—¶å‘å¸ƒ");
 		
-		//ÉèÖÃÎªÄÚÈİ£¬Æô¶¯Ê×Ò³
+		//è®¾ç½®ä¸ºå†…å®¹ï¼Œå¯åŠ¨é¦–é¡µ
 		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
 		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
 		objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));

@@ -2,19 +2,19 @@ package com.sea.weather.date.nmc.model;
 
 public class TimeWeatherVO {
 	
-	//ÓĞĞ§Ê±¼ä
+	//æœ‰æ•ˆæ—¶é—´
 	private String validTime;
 	
-	//ÌìÆøÏÖÏó
+	//å¤©æ°”ç°è±¡
 	private String weather;
 	
-	//·çÏò
+	//é£å‘
 	private String windDirection;
 	
-	//·çÁ¦
+	//é£åŠ›
 	private String windPower;
 	
-	//ÄÜ¼û¶È
+	//èƒ½è§åº¦
 	private String visibility;
 	
 	private String waveheight;

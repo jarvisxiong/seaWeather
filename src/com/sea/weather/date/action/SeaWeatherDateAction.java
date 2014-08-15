@@ -27,7 +27,7 @@ public class SeaWeatherDateAction {
 		
 		objAllTfAreaVO.setGrabTime(new Date());
 		String str = gson.toJson(objAllTfAreaVO);
-		//需要放在转换后面否则会出现都有版本升级信息
+		//闇�瑕佹斁鍦ㄨ浆鎹㈠悗闈㈠惁鍒欎細鍑虹幇閮芥湁鐗堟湰鍗囩骇淇℃伅
 		putCacheTfVersion(objAllTfAreaVO);
 		return str;
 	}
@@ -35,7 +35,7 @@ public class SeaWeatherDateAction {
 	private String putCacheTfVersion(AllTfAreaVO objAllTfAreaVO){
 		TyphoonVO objTyphoonVO =  objAllTfAreaVO.getTf();
 		String tfGz = objTyphoonVO.getGzContent();
-		tfGz = "海洋天气1.5版本发布了，请点击新闻获取下载地址\n"+tfGz;
+		tfGz = "娴锋磱澶╂皵1.5鐗堟湰鍙戝竷浜嗭紝璇风偣鍑绘柊闂昏幏鍙栦笅杞藉湴鍧�\n"+tfGz;
 		objTyphoonVO.setGzContent(tfGz);
 		objAllTfAreaVO.setTf(objTyphoonVO);
 		String str = gson.toJson(objAllTfAreaVO);

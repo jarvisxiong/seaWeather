@@ -58,7 +58,7 @@ public class CoastWeatherAction {
 			objTimeWeatherVO.setValidTime(list_td.get(j++).text());
 			objTimeWeatherVO.setWeather(list_td.get(j++).text());
 			objTimeWeatherVO.setWindDirection(list_td.get(j++).text());
-			objTimeWeatherVO.setWindPower(list_td.get(j++).text()+"¼¶");
+			objTimeWeatherVO.setWindPower(list_td.get(j++).text()+"çº§");
 			objTimeWeatherVO.setVisibility(list_td.get(j++).text()+"km");
 			
 			if(i%6==0){

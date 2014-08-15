@@ -1,14 +1,14 @@
 package com.sea.weather.date.model;
 
 public class WeatherVO {
-	//º£Óò
+	//æµ·åŸŸ
 	private String seaArea;
-	//·çÁ¦·½Ïò
+	//é£åŠ›æ–¹å‘
 	private String wind;
-	//ÄÜ¼û¶È
+	//èƒ½è§åº¦
 	private String visibility;
 	
-	//Ô¤±¨Ê±¼ä
+	//é¢„æŠ¥æ—¶é—´
 	private String forecastTime;
 
 	public String getSeaArea() {
