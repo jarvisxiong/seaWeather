@@ -30,10 +30,10 @@ public class NanSeaWeatherAction {
 		}
 		
 		try {
-			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
+			doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
 		} catch (IOException e) {
 			try{
-				doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
+				doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
 			}catch(IOException e2){
 				Log.e("NanSeaWeatherAction.getGdWeatherVO IO", e);
 				return null;
