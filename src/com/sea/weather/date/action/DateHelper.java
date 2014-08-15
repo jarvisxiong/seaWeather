@@ -25,7 +25,7 @@ public class DateHelper {
 	
 	public DateHelper(){
 		try {
-			doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").get();
+			doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").get();
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").get();
 		} catch (IOException e) {
 			Log.e("DateHelper init io", e);
