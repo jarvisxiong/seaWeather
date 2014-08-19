@@ -24,7 +24,9 @@
 	if (versionCode < SeaConstant.versionCode) {
 		verstr = (String) Cache.getValue(Cachekey.rsskey_5);
 	}
-
+	if(versionCode == SeaConstant.versionCode){
+		verstr = (String) Cache.getValue(Cachekey.rsskey_7);
+	}
 	if (StringUtils.isBlank(verstr)) {
 		verstr = CacheDate.getRssNewsList();
 	}

@@ -120,6 +120,7 @@ public class RssNewAction {
 			 }
 			 String strReturn = gson.toJson(objRssNewsListVO);
 			 gradVersionNews(objRssNewsListVO);
+			 gradVersionNoNews(objRssNewsListVO);
              return strReturn;
 	}
 	
@@ -140,6 +141,21 @@ public class RssNewAction {
 		lisRssNewsVO.add(0, objRssNewsVO);
 		objRssNewsListVO.setLisRssNewsVO(lisRssNewsVO);
 		Cache.putValue(Cachekey.rsskey_5, gson.toJson(objRssNewsListVO));
+	}
+	
+	private void gradVersionNoNews(RssNewsListVO objRssNewsListVO){
+		List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
+		RssNewsVO objRssNewsVO =new RssNewsVO();
+		objRssNewsVO.setTitle("海洋天气1.6版发布了");
+		objRssNewsVO.setDescriptionValue("新版特性:"
+				+ "\n1.增加中国远海21个海区天气；"
+				+ "\n2.优化页面布局，全面提升用户体验;"
+				);
+		objRssNewsVO.setLink("http://readread.duapp.com/sea/Update.jsp");
+		objRssNewsVO.setPublishedDate(new Date());
+		lisRssNewsVO.add(0, objRssNewsVO);
+		objRssNewsListVO.setLisRssNewsVO(lisRssNewsVO);
+		Cache.putValue(Cachekey.rsskey_7, gson.toJson(objRssNewsListVO));
 	}
 
 	private RssNewsListVO gradRssRewsUrl(URL feedurl) throws IOException, FeedException {
