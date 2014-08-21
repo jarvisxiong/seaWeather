@@ -120,7 +120,6 @@ public class RssNewAction {
 			 }
 			 String strReturn = gson.toJson(objRssNewsListVO);
 			 gradVersionNews(objRssNewsListVO);
-			 gradVersionNoNews(objRssNewsListVO);
              return strReturn;
 	}
 	
@@ -128,11 +127,11 @@ public class RssNewAction {
 		List<RssNewsVO>  lisRssNewsVO = new ArrayList<RssNewsVO>();
 		RssNewsVO objRssNewsVO =new RssNewsVO();
 		lisRssNewsVO = objRssNewsListVO.getLisRssNewsVO();
-		objRssNewsVO.setTitle("海洋天气1.5版发布了");
+		objRssNewsVO.setTitle("海洋天气1.6版发布了");
 		objRssNewsVO.setDescriptionValue("新版特性:"
-				+ "\n1.增加中国沿岸34个海区天气，包括浙江，福建，山东等地方；"
-				+ "\n2.增加中国近海18个海区天气预报，包括渤海等;"
-				+ "\n3.修改台风天气布局，方便使用;"
+				+ "\n1.增加中国远海21个海区；"
+				+ "\n2.修改整体布局，提升用户体验;"
+				+ "\n3.修改台风天气布局，增加滑动切换;"
 				+ "\n获取方式:"
 				+ "\n1.点击该新闻，复制地址.访问海洋天气首页，点击图片下载;"
 				+ "\n2.访问百度移动应用，搜索海洋天气，下载最新版;");
