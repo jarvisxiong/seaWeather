@@ -8,6 +8,6 @@
 </head>
 <body>
 复制下面地址到浏览器访问<br>
-http://lightapp.duapp.com/?appid=125240
+http://seasea.duapp.com/
 </body>
 </html>

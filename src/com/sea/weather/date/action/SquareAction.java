@@ -7,8 +7,8 @@ public class SquareAction {
 
 	public String getSquare(){
 		SquareVO objSquareVO = new SquareVO();
-		objSquareVO.setSquareTitle("公告:海洋天气新版发布");
-		objSquareVO.setSquareUrl("http://lightapp.duapp.com/?appid=125240");
+		objSquareVO.setSquareTitle("海洋天气网站发布了，点击访问");
+		objSquareVO.setSquareUrl("http://seasea.duapp.com/");
 		Gson gson = new Gson();
 		return gson.toJson(objSquareVO);
 	}
