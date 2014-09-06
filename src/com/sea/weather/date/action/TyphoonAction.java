@@ -142,8 +142,11 @@ public class TyphoonAction {
 	
 	private String getHnTfDt(){
 		try {
-			Document doc_tf_dt = Jsoup.connect("http://typhoon.hainan.gov.cn/").timeout(5000).get();
-			String tfdt =doc_tf_dt.select(".S_cloudCCC").text();
+			String rooturl = "http://typhoon.hainan.gov.cn/";
+			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(5000).get();
+			String url = rooturl+doc_tf_dt.select(".S_cloud6").select(".pp260").get(0).select("a").attr("href");
+			Document yjdoc = Jsoup.connect(url).timeout(5000).get();
+			String tfdt =yjdoc.select(".Detailed").text();
 			return tfdt;
 		} catch (IOException e) {
 			Log.e("TyphoonAction.getHnTfDt", e);
