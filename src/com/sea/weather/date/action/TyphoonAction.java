@@ -37,7 +37,7 @@ public class TyphoonAction {
 		
 		//获取台风动态
 		String dtTitle = "台风动态";
-		String dtContent = getHnTfDt();
+		String dtContent = getZyTfDt();
 		objTyphoonVO.setDtTitle(dtTitle);
 		objTyphoonVO.setDtContent(dtContent);
 		
@@ -146,6 +146,24 @@ public class TyphoonAction {
 			Log.e("TyphoonAction.getTfDt", e);
 		}
 		return "";
+	}
+	
+	private String getZyTfDt(){
+		try {
+			String rooturl = "http://www.weather.gov.cn/publish/typhoon/typhoon_new.htm";
+			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(10000).get();
+			String title = doc_tf_dt.select(".number").text().substring(0,5)+doc_tf_dt.select(".ctitle").select("span").get(1).text()+"\n";
+			Elements trs = doc_tf_dt.select(".writing").select("table").select("tbody").select("tr");
+			for(int i=0;i<trs.size();i++){
+				String td1 = trs.get(i).select("td").get(0).text();
+				String td2 = trs.get(i).select("td").get(1).text()+"\n";
+				title = title +td1 +td2;
+			}
+			return title;
+		} catch (IOException e) {
+			Log.e("TyphoonAction.getZyTfDt", e);
+		}
+		return null;
 	}
 	
 	private String getHnTfDt(){
