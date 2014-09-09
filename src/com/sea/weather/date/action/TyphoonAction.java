@@ -33,25 +33,7 @@ public class TyphoonAction {
 			return null;
 		}
 		
-		//设置台风关注
-		try {
-			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
-			String strTitle = elGzTitle.select("em").get(0).text()
-					.replaceAll("：", "");
-			String strTime = elGzTitle.select("b").get(0).text();
-
-			Elements elGzContent = doc_tf.select(".rbox").select("p");
-			String strGzContent = "";
-			for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
-				strGzContent = strGzContent + elGzContent.get(i).text();
-			}
-
-			objTyphoonVO.setGzTitle(strTitle);
-			objTyphoonVO.setGzTime(strTime);
-			objTyphoonVO.setGzContent(strGzContent);
-		} catch (Exception e) {
-			Log.e("TyphoonAction.getTyphoon Exception", e);
-		}
+		setGz(objTyphoonVO);
 		
 		//获取台风动态
 		String dtTitle = "台风动态";
@@ -64,6 +46,32 @@ public class TyphoonAction {
 		getAllYjTf(objTyphoonVO);
 		return objTyphoonVO;
 	}
+	
+	private void setGz(TyphoonVO objTyphoonVO) {
+		//设置台风关注
+		try {
+			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
+			String strTitle = elGzTitle.select("em").get(0).text()
+					.replaceAll("：", "");
+			String strTitleUrl = elGzTitle.select("h2").select("span").select("a").attr("href");
+			Document gzTldoc = Jsoup.connect(strTitleUrl).timeout(5000).get();
+			String strTime = elGzTitle.select("b").get(0).text();
+			String strImgUrl = gzTldoc.select(".content_doc").select("img").attr("src");
+			Elements elGzContent = doc_tf.select(".rbox").select("p");
+			String strGzContent = "";
+			for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
+				strGzContent = strGzContent + elGzContent.get(i).text();
+			}
+
+			objTyphoonVO.setGzTitle(strTitle);
+			objTyphoonVO.setGzTime(strTime);
+			objTyphoonVO.setGzImgUrl(strImgUrl);
+			objTyphoonVO.setGzContent(strGzContent);
+		} catch (Exception e) {
+			Log.e("TyphoonAction.getTyphoon Exception", e);
+		}
+	}
+	
 	private void getYfYj(TyphoonVO objTyphoonVO) {
 		 String yjTitle ="台风预警";
 	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
@@ -156,7 +164,8 @@ public class TyphoonAction {
 	
 	public static void main(String args[]) { 
 		TyphoonAction objTyphoonAction = new TyphoonAction();
-		System.out.println(objTyphoonAction.getTyphoon());
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(objTyphoonAction.getTyphoon()));
 		//objTyphoonAction.pushMessage();
 	}
 	

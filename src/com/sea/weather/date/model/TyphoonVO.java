@@ -10,6 +10,8 @@ public class TyphoonVO {
 	
 	private String DtContent;
 	
+	private String GzImgUrl;
+	
 	private String GzTime;
 
 	private String YjTitle;
@@ -81,6 +83,14 @@ public class TyphoonVO {
 
 	public void setYjContent(String yjContent) {
 		YjContent = yjContent;
+	}
+
+	public String getGzImgUrl() {
+		return GzImgUrl;
+	}
+
+	public void setGzImgUrl(String gzImgUrl) {
+		GzImgUrl = gzImgUrl;
 	}
 	
 	
