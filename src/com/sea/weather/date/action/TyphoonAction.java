@@ -33,7 +33,7 @@ public class TyphoonAction {
 			return null;
 		}
 		
-		setGz(objTyphoonVO);
+		setZyGz(objTyphoonVO);
 		
 		//获取台风动态
 		String dtTitle = "台风动态";
@@ -69,6 +69,23 @@ public class TyphoonAction {
 			objTyphoonVO.setGzContent(strGzContent);
 		} catch (Exception e) {
 			Log.e("TyphoonAction.getTyphoon Exception", e);
+		}
+	}
+	
+	private void setZyGz(TyphoonVO objTyphoonVO){
+		try {
+			String rooturl = "http://www.weather.gov.cn/publish/typhoon/warning.htm";
+			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(5000).get();
+			String gzContent = doc_tf_gz.select(".writing").text();
+			String gzImgUrl = doc_tf_gz.select(".writing").select("img").attr("src");
+			String gzTime = doc_tf_gz.select("#txtContent1").select(".author").text();
+			gzTime = gzTime.substring(gzTime.indexOf("20"));
+			objTyphoonVO.setGzTitle("台风关注");
+			objTyphoonVO.setGzTime(gzTime);
+			objTyphoonVO.setGzImgUrl(gzImgUrl);
+			objTyphoonVO.setGzContent(gzContent);
+		} catch (IOException e) {
+			Log.e("TyphoonAction.getTfDt", e);
 		}
 	}
 	
