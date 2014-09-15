@@ -151,7 +151,8 @@ public class TyphoonAction {
 			}
 		 objTyphoonVO.setYjTitle(yjTitle);
 		 objTyphoonVO.setYjContent(yjContent.trim());
-		 pushTfYjMsg(yjContent);
+		 //调试，暂时屏蔽消息推送
+		 //pushTfYjMsg(yjContent);
 	}
 	
 	//暂时不要的方法，这个网站更新较慢，并且链接较慢

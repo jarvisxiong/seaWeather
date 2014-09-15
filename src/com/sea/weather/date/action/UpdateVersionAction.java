@@ -4,17 +4,18 @@ import com.google.gson.Gson;
 import com.sea.weather.date.model.UpdateVersionVO;
 import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.Cachekey;
+import com.sea.weather.utils.UpdateLog;
 
 public class UpdateVersionAction {
 
 	public String loadVersion(){
 		UpdateVersionVO objUpdateVersionVO = new UpdateVersionVO();
 		Gson gson = new Gson();
-		objUpdateVersionVO.setAppName("海洋天气");
-		objUpdateVersionVO.setVersionCode(7);
-		objUpdateVersionVO.setVersionName("1.6");
-		objUpdateVersionVO.setUpdateUrl("http://gdown.baidu.com/data/wisegame/3e61ac38e4663dc7/haiyangtianqi_7.apk");
-		objUpdateVersionVO.setUpdateContent("1.增加中国远海21个海区；2.全面优化布局，提升体验;3.修改部分缺陷;");
+		objUpdateVersionVO.setAppName(UpdateLog.appName);
+		objUpdateVersionVO.setVersionCode(UpdateLog.versionCode);
+		objUpdateVersionVO.setVersionName(UpdateLog.versionName);
+		objUpdateVersionVO.setUpdateUrl(UpdateLog.updateUrl);
+		objUpdateVersionVO.setUpdateContent(UpdateLog.updateContent);
 		String str = gson.toJson(objUpdateVersionVO);
 		Cache.putValue(Cachekey.versionkey, str);
 		return str;
