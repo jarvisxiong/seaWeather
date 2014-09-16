@@ -75,9 +75,11 @@ public class TyphoonAction {
 	private void setZyGz(TyphoonVO objTyphoonVO){
 		try {
 			String rooturl = "http://www.weather.gov.cn/publish/typhoon/warning.htm";
+			String imgUrl ="http://www.weather.gov.cn/publish/typhoon/probability-img.html";
 			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(5000).get();
+			Document doc_img = Jsoup.connect(imgUrl).timeout(5000).get();
 			String gzContent = doc_tf_gz.select(".writing").text();
-			String gzImgUrl = doc_tf_gz.select(".writing").select("img").attr("src");
+			String gzImgUrl = doc_img.select("#img_path").attr("src");
 			String gzTime = doc_tf_gz.select("#txtContent1").select(".author").text();
 			gzTime = gzTime.substring(gzTime.indexOf("20"));
 			objTyphoonVO.setGzTitle("台风关注");
