@@ -238,11 +238,11 @@ public class TyphoonAction {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
-		objPushMessagesVO.setTitle("台风动态");
-		objPushMessagesVO.setDescription("今年11号热带风暴(夏浪)已生成，请关注");
+		objPushMessagesVO.setTitle("新版发布");
+		objPushMessagesVO.setDescription("增加台风路径图");
 		//设置为内容，启动首页
-		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
-		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
+		objPushCustomContentVO.setActKey(SeaConstant.pushTypeUrl);
+		objPushCustomContentVO.setActValue("http://seasea.duapp.com/download/haiyangtianqi.apk");
 		objPushMessagesVO.setCustom_content(gson.toJson(objPushCustomContentVO));
 		String josn = gson.toJson(objPushMessagesVO);
 		System.out.print(josn);
