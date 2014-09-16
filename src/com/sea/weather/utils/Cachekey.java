@@ -10,4 +10,5 @@ public class Cachekey {
 	public static final String rsskey_5 = "rsskey_5";
 	public static final String rsskey_noNews = "rsskey_noNews";
 	public static final String tfkey_5 = "tfkey_5";
+	public static final String square = "square";
 }
