@@ -205,7 +205,7 @@ public class TyphoonAction {
 		TyphoonAction objTyphoonAction = new TyphoonAction();
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(objTyphoonAction.getTyphoon()));
-		//objTyphoonAction.pushMessage();
+		objTyphoonAction.pushMessage();
 	}
 	
 	private void pushTfYjMsg(String yjContent){
@@ -238,8 +238,8 @@ public class TyphoonAction {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
-		objPushMessagesVO.setTitle("新热带低压生成");
-		objPushMessagesVO.setDescription("菲律宾以东洋面有热带低压生成");
+		objPushMessagesVO.setTitle("台风“凤凰”生成");
+		objPushMessagesVO.setDescription("热带低压于今天（18日）凌晨发展为台风“凤凰”");
 		//设置为内容，启动首页
 		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
 		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
