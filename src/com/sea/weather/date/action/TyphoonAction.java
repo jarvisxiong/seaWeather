@@ -80,6 +80,8 @@ public class TyphoonAction {
 			Document doc_img = Jsoup.connect(imgUrl).timeout(5000).get();
 			String gzContent = doc_tf_gz.select(".writing").text();
 			String gzImgUrl = doc_img.select("#img_path").attr("src");
+			int index = gzImgUrl.lastIndexOf("?");
+			gzImgUrl = gzImgUrl.substring(0,index);
 			String gzTime = doc_tf_gz.select("#txtContent1").select(".author").text();
 			gzTime = gzTime.substring(gzTime.indexOf("20"));
 			objTyphoonVO.setGzTitle("台风关注");
@@ -154,7 +156,7 @@ public class TyphoonAction {
 		 objTyphoonVO.setYjTitle(yjTitle);
 		 objTyphoonVO.setYjContent(yjContent.trim());
 		 //调试，暂时屏蔽消息推送
-		 //pushTfYjMsg(yjContent);
+		 pushTfYjMsg(yjContent);
 	}
 	
 	//暂时不要的方法，这个网站更新较慢，并且链接较慢
@@ -205,7 +207,7 @@ public class TyphoonAction {
 		TyphoonAction objTyphoonAction = new TyphoonAction();
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(objTyphoonAction.getTyphoon()));
-		objTyphoonAction.pushMessage();
+		//objTyphoonAction.pushMessage();
 	}
 	
 	private void pushTfYjMsg(String yjContent){
