@@ -9,8 +9,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.sea.weather.date.nmc.action.CoastWeatherAction;
-
 public class ZipUtils {
 	/**
 
@@ -187,8 +185,7 @@ public class ZipUtils {
 	}
 
 	public static void main(String args[]){
-		CoastWeatherAction objCoastWeatherAction = new CoastWeatherAction();
-		String str = objCoastWeatherAction.getCoastCache();
+		String str = "中沙中沙中沙中沙中沙中沙";
 		str = zip(str);
 		//str = unzip(str);
 		System.out.print(str);

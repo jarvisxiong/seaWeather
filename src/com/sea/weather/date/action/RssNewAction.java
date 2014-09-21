@@ -14,6 +14,7 @@ import com.sea.weather.date.model.RssNewsVO;
 import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.CacheDate;
 import com.sea.weather.utils.Cachekey;
+import com.sea.weather.utils.StringUtils;
 import com.sea.weather.utils.UpdateLog;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -120,9 +121,29 @@ public class RssNewAction {
 				}
 			 }
 			 String strReturn = gson.toJson(objRssNewsListVO);
+			 Cache.putValue(Cachekey.rsskey, strReturn);
 			 gradVersionNews(objRssNewsListVO);
 			 gradVersionNoNews(objRssNewsListVO);
              return strReturn;
+	}
+	
+	public String getRssCache(){
+		String str = (String)Cache.getValue(Cachekey.rsskey);
+		if(StringUtils.isBlank(str)){
+			try {
+				str = gradNews();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FeedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return str;
 	}
 	
 	private void gradVersionNews(RssNewsListVO objRssNewsListVO){

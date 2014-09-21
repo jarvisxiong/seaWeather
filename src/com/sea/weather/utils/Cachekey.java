@@ -8,6 +8,9 @@ public class Cachekey {
 	public static final String gdkey = "gdkey";
 	public static final String nhkey = "nhkey";
 	public static final String hnkey = "hnkey";
+	public static final String tfkey = "tfkey";
+	public static final String rsskey = "rsskey";
+	public static final String alldatekey = "alldatekey";
 	public static final String allTfAreakey = "allTfAreakey";
 	public static final String versionkey = "versionkey";
 	public static final String rsskey_5 = "rsskey_5";

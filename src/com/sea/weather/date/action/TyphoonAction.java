@@ -12,7 +12,9 @@ import com.sea.weather.date.model.PushCustomContentVO;
 import com.sea.weather.date.model.PushMessagesVO;
 import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.push.ChannelClient;
+import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.CacheDate;
+import com.sea.weather.utils.Cachekey;
 import com.sea.weather.utils.Log;
 import com.sea.weather.utils.SeaConstant;
 import com.sea.weather.utils.StringUtils;
@@ -22,6 +24,7 @@ public class TyphoonAction {
 	private Document doc_tf;
 	private Document doc_tf_yj;
 	
+	private Gson gson =new Gson();
 	public TyphoonVO getTyphoon(){
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
@@ -44,32 +47,17 @@ public class TyphoonAction {
 		//获取台风预警
 	    //getYfYj(objTyphoonVO);
 		getAllYjTf(objTyphoonVO);
+		Cache.putValue(Cachekey.tfkey, gson.toJson(objTyphoonVO));
 		return objTyphoonVO;
 	}
 	
-	private void setGz(TyphoonVO objTyphoonVO) {
-		//设置台风关注
-		try {
-			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
-			String strTitle = elGzTitle.select("em").get(0).text()
-					.replaceAll("：", "");
-			String strTitleUrl = elGzTitle.select("h2").select("span").select("a").attr("href");
-			Document gzTldoc = Jsoup.connect(strTitleUrl).timeout(5000).get();
-			String strTime = elGzTitle.select("b").get(0).text();
-			String strImgUrl = gzTldoc.select(".content_doc").select("img").attr("src");
-			Elements elGzContent = doc_tf.select(".rbox").select("p");
-			String strGzContent = "";
-			for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
-				strGzContent = strGzContent + elGzContent.get(i).text();
-			}
-
-			objTyphoonVO.setGzTitle(strTitle);
-			objTyphoonVO.setGzTime(strTime);
-			objTyphoonVO.setGzImgUrl(strImgUrl);
-			objTyphoonVO.setGzContent(strGzContent);
-		} catch (Exception e) {
-			Log.e("TyphoonAction.getTyphoon Exception", e);
+	
+	public String getTfCache(){
+		String tf= (String)Cache.getValue(Cachekey.tfkey);
+		if(StringUtils.isBlank(tf)){
+			tf = gson.toJson(getTyphoon());
 		}
+		return tf;
 	}
 	
 	private void setZyGz(TyphoonVO objTyphoonVO){
@@ -93,33 +81,7 @@ public class TyphoonAction {
 		}
 	}
 	
-	private void getYfYj(TyphoonVO objTyphoonVO) {
-		 String yjTitle ="台风预警";
-	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
-	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
-		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
-			try {
-				Document yjdoc = Jsoup.connect(yjUrl).timeout(5000).get();
-				String yjUrlsub = yjdoc.select("#new").attr("src");
-				Document yjdocSub = Jsoup.connect(yjUrlsub).get();
-				Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");
-				String yjHasComtent="";
-				for(int i=0;yjp!=null&&i<yjp.size();i++){
-					if(StringUtils.isNoneBlank(yjp.get(i).text())){
-						yjHasComtent = yjHasComtent +yjp.get(i).text()+"\n";
-					}
-				}
-				if(StringUtils.isNoneBlank(yjHasComtent)){
-					yjContent = yjHasComtent;
-				}
-			} catch (IOException e) {
-				Log.e("TyphoonAction.getYfYj", e);
-			}
-		}
-	    objTyphoonVO.setYjTitle(yjTitle);
-	    objTyphoonVO.setYjContent(yjContent);
-	    pushTfYjMsg(yjContent);
-	}
+	
 	
 	private void getAllYjTf(TyphoonVO objTyphoonVO){
 		String yjTitle ="台风预警";
@@ -156,20 +118,10 @@ public class TyphoonAction {
 		 objTyphoonVO.setYjTitle(yjTitle);
 		 objTyphoonVO.setYjContent(yjContent.trim());
 		 //调试，暂时屏蔽消息推送
-		 pushTfYjMsg(yjContent);
+		 //pushTfYjMsg(yjContent);
 	}
 	
-	//暂时不要的方法，这个网站更新较慢，并且链接较慢
-	private String getTfDt(){
-		try {
-			Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
-			String tfdt =doc_tf_dt.select(".typhoon_warning_home").select(".font14bold").select(".fontyahei").text();
-			return tfdt;
-		} catch (IOException e) {
-			Log.e("TyphoonAction.getTfDt", e);
-		}
-		return "";
-	}
+	
 	
 	private String getZyTfDt(){
 		try {
@@ -189,19 +141,7 @@ public class TyphoonAction {
 		return null;
 	}
 	
-	private String getHnTfDt(){
-		try {
-			String rooturl = "http://typhoon.hainan.gov.cn/";
-			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(5000).get();
-			String url = rooturl+doc_tf_dt.select(".S_cloud6").select(".pp260").get(0).select("a").attr("href");
-			Document yjdoc = Jsoup.connect(url).timeout(5000).get();
-			String tfdt =yjdoc.select(".Detailed").text();
-			return tfdt;
-		} catch (IOException e) {
-			Log.e("TyphoonAction.getHnTfDt", e);
-		}
-		return null;
-	}
+	
 	
 	public static void main(String args[]) { 
 		TyphoonAction objTyphoonAction = new TyphoonAction();
@@ -250,4 +190,83 @@ public class TyphoonAction {
 		System.out.print(josn);
 		ChannelClient.pushBroadcastMessage(josn);
 	}
+	
+	private void setGz(TyphoonVO objTyphoonVO) {
+		//设置台风关注
+		try {
+			Elements elGzTitle = doc_tf.select(".borBox").select(".blockLC");
+			String strTitle = elGzTitle.select("em").get(0).text()
+					.replaceAll("：", "");
+			String strTitleUrl = elGzTitle.select("h2").select("span").select("a").attr("href");
+			Document gzTldoc = Jsoup.connect(strTitleUrl).timeout(5000).get();
+			String strTime = elGzTitle.select("b").get(0).text();
+			String strImgUrl = gzTldoc.select(".content_doc").select("img").attr("src");
+			Elements elGzContent = doc_tf.select(".rbox").select("p");
+			String strGzContent = "";
+			for (int i = 0; elGzContent != null && i < elGzContent.size(); i++) {
+				strGzContent = strGzContent + elGzContent.get(i).text();
+			}
+
+			objTyphoonVO.setGzTitle(strTitle);
+			objTyphoonVO.setGzTime(strTime);
+			objTyphoonVO.setGzImgUrl(strImgUrl);
+			objTyphoonVO.setGzContent(strGzContent);
+		} catch (Exception e) {
+			Log.e("TyphoonAction.getTyphoon Exception", e);
+		}
+	}
+	
+	private void getYfYj(TyphoonVO objTyphoonVO) {
+		 String yjTitle ="台风预警";
+	    String yjContent = doc_tf_yj.select(".scroll").select(".clear").select("ul").text();
+	    String yjUrl = doc_tf_yj.select(".scroll").select(".clear").select("ul").select("a").attr("href");
+		if (yjUrl != null && StringUtils.isNoneBlank(yjUrl)) {
+			try {
+				Document yjdoc = Jsoup.connect(yjUrl).timeout(5000).get();
+				String yjUrlsub = yjdoc.select("#new").attr("src");
+				Document yjdocSub = Jsoup.connect(yjUrlsub).get();
+				Elements yjp =  yjdocSub.select(".content_business").select("div").select("p");
+				String yjHasComtent="";
+				for(int i=0;yjp!=null&&i<yjp.size();i++){
+					if(StringUtils.isNoneBlank(yjp.get(i).text())){
+						yjHasComtent = yjHasComtent +yjp.get(i).text()+"\n";
+					}
+				}
+				if(StringUtils.isNoneBlank(yjHasComtent)){
+					yjContent = yjHasComtent;
+				}
+			} catch (IOException e) {
+				Log.e("TyphoonAction.getYfYj", e);
+			}
+		}
+	    objTyphoonVO.setYjTitle(yjTitle);
+	    objTyphoonVO.setYjContent(yjContent);
+	    pushTfYjMsg(yjContent);
+	}
+	
+	//暂时不要的方法，这个网站更新较慢，并且链接较慢
+		private String getTfDt(){
+			try {
+				Document doc_tf_dt = Jsoup.connect("http://www.typhoon.gov.cn/").timeout(5000).get();
+				String tfdt =doc_tf_dt.select(".typhoon_warning_home").select(".font14bold").select(".fontyahei").text();
+				return tfdt;
+			} catch (IOException e) {
+				Log.e("TyphoonAction.getTfDt", e);
+			}
+			return "";
+		}
+		
+		private String getHnTfDt(){
+			try {
+				String rooturl = "http://typhoon.hainan.gov.cn/";
+				Document doc_tf_dt = Jsoup.connect(rooturl).timeout(5000).get();
+				String url = rooturl+doc_tf_dt.select(".S_cloud6").select(".pp260").get(0).select("a").attr("href");
+				Document yjdoc = Jsoup.connect(url).timeout(5000).get();
+				String tfdt =yjdoc.select(".Detailed").text();
+				return tfdt;
+			} catch (IOException e) {
+				Log.e("TyphoonAction.getHnTfDt", e);
+			}
+			return null;
+		}
 }
