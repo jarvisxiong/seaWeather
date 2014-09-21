@@ -5,6 +5,9 @@ public class Cachekey {
 	public static final String coastkey = "coastkey";
 	public static final String offshorekey = "offshorekey";
 	public static final String oceankey = "oceankey";
+	public static final String gdkey = "gdkey";
+	public static final String nhkey = "nhkey";
+	public static final String hnkey = "hnkey";
 	public static final String allTfAreakey = "allTfAreakey";
 	public static final String versionkey = "versionkey";
 	public static final String rsskey_5 = "rsskey_5";
