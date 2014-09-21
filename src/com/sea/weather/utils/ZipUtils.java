@@ -183,11 +183,53 @@ public class ZipUtils {
 	}
 	return decompressed;
 	}
+	
+	// 压缩   
+	 public static String compress(String str) {   
+	    if (str == null || str.length() == 0) {   
+	     return str;   
+	   }   
+	    ByteArrayOutputStream out = new ByteArrayOutputStream();   
+	    String strReturn="";
+	    try{
+			GZIPOutputStream gzip = new GZIPOutputStream(out);
+			gzip.write(str.getBytes("UTF-8"));
+			gzip.close();
+			strReturn = out.toString("UTF-8");
+		} catch (Exception e) {
+
+		}
+	   return strReturn;   
+	  }   
+	  
+	  // 解压缩   
+	 public static String uncompress(String str)  {   
+		if (str == null || str.length() == 0) {
+			return str;
+		}
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		String strReturn="";
+		try {
+			ByteArrayInputStream in = new ByteArrayInputStream(
+					str.getBytes("UTF-8"));
+			GZIPInputStream gunzip = new GZIPInputStream(in);
+			byte[] buffer = new byte[256];
+			int n;
+			while ((n = gunzip.read(buffer)) >= 0) {
+				out.write(buffer, 0, n);
+			}
+			strReturn = out.toString("UTF-8"); 
+		} catch (Exception e) {
+
+		}
+	    // toString()使用平台默认编码，也可以显式的指定如toString(&quot;GBK&quot;)   
+	    return strReturn;   
+	  }   
 
 	public static void main(String args[]){
 		String str = "中沙中沙中沙中沙中沙中沙";
 		str = zip(str);
-		//str = unzip(str);
+		str = unzip(str);
 		System.out.print(str);
 	}
 }
