@@ -7,6 +7,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.sea.weather.base64.BASE64Decoder;
+import com.sea.weather.base64.BASE64Encoder;
+
+
 public class ZipUtils {
 
 	/**
@@ -25,10 +29,10 @@ public class ZipUtils {
 	out = new ByteArrayOutputStream();
 	zout = new ZipOutputStream(out);
 	zout.putNextEntry(new ZipEntry("0"));
-	zout.write(str.getBytes());
+	zout.write(str.getBytes("utf-8"));
 	zout.closeEntry();
 	compressed = out.toByteArray();
-	compressedStr = new String(compressed,"ISO-8859-1");
+	compressedStr = new BASE64Encoder().encodeBuffer(compressed);
 	} catch (IOException e) {
 	compressed = null;
 	} finally {
@@ -63,7 +67,7 @@ public class ZipUtils {
 	ZipInputStream zin = null;
 	String decompressed = null;
 	try {
-	byte[] compressed = compressedStr.getBytes("ISO-8859-1");
+	byte[] compressed = new BASE64Decoder().decodeBuffer(compressedStr);
 	out = new ByteArrayOutputStream();
 	in = new ByteArrayInputStream(compressed);
 	zin = new ZipInputStream(in);
@@ -73,7 +77,7 @@ public class ZipUtils {
 	while ((offset = zin.read(buffer)) != -1) {
 	out.write(buffer, 0, offset);
 	}
-	decompressed = out.toString("UTF-8");
+	decompressed = out.toString("utf-8");
 	} catch (IOException e) {
 	decompressed = null;
 	} finally {

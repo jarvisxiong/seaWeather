@@ -6,7 +6,7 @@
 <%@page import="com.sea.weather.date.nmc.action.AllDateAction"%>
 <%@ page language="java" import="java.io.PrintWriter" %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>测试应用</title>
+<title></title>
 </head>
 <body>
 <%
