@@ -3,7 +3,6 @@ package com.sea.weather.date.nmc.action;
 import java.util.Date;
 
 import com.google.gson.Gson;
-import com.sea.weather.date.action.RssNewAction;
 import com.sea.weather.date.action.SquareAction;
 import com.sea.weather.date.action.TyphoonAction;
 import com.sea.weather.date.action.UpdateVersionAction;
@@ -38,9 +37,6 @@ public class AllDateAction {
 		
 		TyphoonAction objTyphoonAction = new TyphoonAction();
 		objAllDateVO.setTyphoonVO(objTyphoonAction.getTfCache());
-		
-		RssNewAction objRssNewAction = new RssNewAction();
-		objAllDateVO.setRssNewsListVO(objRssNewAction.getRssCache());
 		
 		UpdateVersionAction objUpdateVersionAction =new UpdateVersionAction();
 		objAllDateVO.setUpdateVersionVO(objUpdateVersionAction.getVersion());
