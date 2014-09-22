@@ -6,6 +6,7 @@
 <%@page import="com.sea.weather.date.nmc.action.AllDateAction"%>
 <%@ page language="java" import="java.io.PrintWriter" %>
 <%@ page language="java" import="com.sea.weather.utils.ZipUtils" %>
+<%@ page language="java" import="com.sea.weather.utils.ZipStrUtil" %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
 </head>
@@ -13,8 +14,8 @@
 <%
 PrintWriter outPrint = response.getWriter();
 AllDateAction objAllDateAction = new AllDateAction();
-String str = objAllDateAction.getAllDateCache();
-str = ZipUtils.unzip(str);
+String str = objAllDateAction.getAllDateVO();
+str = ZipStrUtil.gzip(str);
 outPrint.print(str);
 outPrint.close();
 %>
