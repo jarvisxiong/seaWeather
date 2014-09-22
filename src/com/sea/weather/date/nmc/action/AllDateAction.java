@@ -11,7 +11,7 @@ import com.sea.weather.date.nmc.model.GdWeatherVO;
 import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.Cachekey;
 import com.sea.weather.utils.StringUtils;
-import com.sea.weather.utils.ZipUtils;
+import com.sea.weather.utils.GZipUtil;
 
 public class AllDateAction {
 	public String getAllDateVO(){
@@ -53,21 +53,21 @@ public class AllDateAction {
 	public String getAllDateCache(){
 		String str = (String)Cache.getValue(Cachekey.alldatekey);
 		if(StringUtils.isBlank(str)){
-			str = ZipUtils.zip(getAllDateVO());
+			str = GZipUtil.gzip(getAllDateVO());
 			Cache.putValue(Cachekey.alldatekey, str);
 		}
 		return str;
 	}
 	
 	public void loadAllDateCache(){
-		String str = ZipUtils.zip(getAllDateVO());
+		String str = GZipUtil.gzip(getAllDateVO());
 		Cache.putValue(Cachekey.alldatekey, str);
 	}
 	
 	public static void main(String args[]) { 
 		AllDateAction objAllDateAction = new AllDateAction();
 		String str = objAllDateAction.getAllDateCache();
-		String unStr = ZipUtils.unzip(str);
+		String unStr = GZipUtil.unGzip(str);
 		System.out.println(str);
 		System.out.println(unStr);
 		Gson gson = new Gson();

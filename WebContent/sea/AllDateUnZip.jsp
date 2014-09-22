@@ -5,7 +5,6 @@
     pageEncoding="utf-8"%>
 <%@page import="com.sea.weather.date.nmc.action.AllDateAction"%>
 <%@ page language="java" import="java.io.PrintWriter" %>
-<%@ page language="java" import="com.sea.weather.utils.ZipUtils" %>
 <%@ page language="java" import="com.sea.weather.utils.GZipUtil" %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
@@ -14,8 +13,8 @@
 <%
 	PrintWriter outPrint = response.getWriter();
 AllDateAction objAllDateAction = new AllDateAction();
-String str = objAllDateAction.getAllDateVO();
-str = GZipUtil.gzip(str);
+String str = objAllDateAction.getAllDateCache();
+str = GZipUtil.unGzip(str);
 outPrint.print(str);
 outPrint.close();
 %>
