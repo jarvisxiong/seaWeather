@@ -180,8 +180,8 @@ public class TyphoonAction {
 		PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 		PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 		Gson gson = new Gson();
-		objPushMessagesVO.setTitle("台风“凤凰”生成");
-		objPushMessagesVO.setDescription("热带低压于今天（18日）凌晨发展为台风“凤凰”");
+		objPushMessagesVO.setTitle("台风“北冕”生成");
+		objPushMessagesVO.setDescription("台风“北冕”生成,请注意防范");
 		//设置为内容，启动首页
 		objPushCustomContentVO.setActKey(SeaConstant.pushTypeMeg);
 		objPushCustomContentVO.setActValue(SeaConstant.pushMegAct_SI);
