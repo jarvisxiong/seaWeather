@@ -131,7 +131,10 @@ public class TyphoonAction {
 			Elements trs = doc_tf_dt.select(".writing").select("table").select("tbody").select("tr");
 			for(int i=0;i<trs.size();i++){
 				String td1 = trs.get(i).select("td").get(0).text();
-				String td2 = trs.get(i).select("td").get(1).text()+"\n";
+				String td2="";
+				if(trs.get(i).select("td").size()>1){
+					td2 = trs.get(i).select("td").get(1).text()+"\n";
+				}
 				title = title +td1 +td2;
 			}
 			return title;
