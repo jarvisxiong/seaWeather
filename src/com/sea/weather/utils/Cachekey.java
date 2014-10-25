@@ -12,6 +12,7 @@ public class Cachekey {
 	public static final String rsskey = "rsskey";
 	public static final String alldatekey = "alldatekey";
 	public static final String allTfAreakey = "allTfAreakey";
+	public static final String hlkey = "hlkey";
 	public static final String versionkey = "versionkey";
 	public static final String rsskey_5 = "rsskey_5";
 	public static final String rsskey_noNews = "rsskey_noNews";

@@ -4,6 +4,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import com.sea.weather.date.action.HlAction;
+
 /**
  * Application Lifecycle Listener implementation class TimerLinster
  *
@@ -17,6 +19,8 @@ public class TimerLinster implements ServletContextListener {
     public TimerLinster() {
     	System.out.println("-----start linster------");
     	TimerHelp.startTask();
+    	HlAction objHlAction = new HlAction();
+    	objHlAction.setDate();
     	System.out.println("-----end------");
         // TODO Auto-generated constructor stub
     }
