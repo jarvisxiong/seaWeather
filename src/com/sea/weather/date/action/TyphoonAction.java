@@ -68,10 +68,16 @@ public class TyphoonAction {
 			Document doc_img = Jsoup.connect(imgUrl).timeout(5000).get();
 			String gzContent = doc_tf_gz.select(".writing").text();
 			String gzImgUrl = doc_img.select("#img_path").attr("src");
-			int index = gzImgUrl.lastIndexOf("?");
-			gzImgUrl = gzImgUrl.substring(0,index);
+			if(urlIsexist(gzImgUrl)){
+				int index = gzImgUrl.lastIndexOf("?");
+				gzImgUrl = gzImgUrl.substring(0,index);
+			}else{
+				gzImgUrl="http://www.weather.gov.cn/img/nodata.jpg";
+			}
 			String gzTime = doc_tf_gz.select("#txtContent1").select(".author").text();
-			gzTime = gzTime.substring(gzTime.indexOf("20"));
+			if(StringUtils.isNoneBlank(gzTime)&&gzTime.indexOf("20")!=-1){
+				gzTime = gzTime.substring(gzTime.indexOf("20"));
+			}
 			objTyphoonVO.setGzTitle("台风关注");
 			objTyphoonVO.setGzTime(gzTime);
 			objTyphoonVO.setGzImgUrl(gzImgUrl);
@@ -81,6 +87,14 @@ public class TyphoonAction {
 		}
 	}
 	
+	private boolean urlIsexist(String url){
+		try {
+			Document doc_tf_gz = Jsoup.connect(url).timeout(5000).get();
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	private void getAllYjTf(TyphoonVO objTyphoonVO){
@@ -127,7 +141,11 @@ public class TyphoonAction {
 		try {
 			String rooturl = "http://www.weather.gov.cn/publish/typhoon/typhoon_new.htm";
 			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(10000).get();
-			String title = doc_tf_dt.select(".number").text().substring(0,5)+doc_tf_dt.select(".ctitle").select("span").get(1).text()+"\n";
+			String number = doc_tf_dt.select(".number").text();
+			if(StringUtils.isBlank(number)){
+				return "";
+			}
+			String title = number.substring(0,5)+doc_tf_dt.select(".ctitle").select("span").get(1).text()+"\n";
 			Elements trs = doc_tf_dt.select(".writing").select("table").select("tbody").select("tr");
 			for(int i=0;i<trs.size();i++){
 				String td1 = trs.get(i).select("td").get(0).text();
