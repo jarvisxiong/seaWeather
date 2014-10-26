@@ -30,6 +30,7 @@ public class HlTextWeatherAction {
 		}
 		HlTextWeatherVO objHlTextWeatherVO = new HlTextWeatherVO();
 		objHlTextWeatherVO.setLisHlTextItemWeatherVO(getLisHlTextItemWeatherVO(dc_hl));
+		objHlTextWeatherVO.setPublishTime(getPublishTime(dc_hl));
 		objHlTextWeatherVO.setGrabTime(new Date());
 		return objHlTextWeatherVO;
 	}
@@ -49,6 +50,11 @@ public class HlTextWeatherAction {
 		}
 		
 		return lisHlTextItemWeatherVO;
+	}
+	
+	private String getPublishTime(Document dc_hl){
+		String publishTime = dc_hl.select("#td_1_1").select("table").get(0).select("tbody").select("tr").select("td").text();
+		return publishTime;
 	}
 	
 	public String getCacheHlTextWeatherVO(){
