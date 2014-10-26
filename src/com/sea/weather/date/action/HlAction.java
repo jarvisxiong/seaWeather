@@ -25,7 +25,6 @@ public class HlAction {
 	private final static String t72="72小时";
 	private final static String t96="96小时";
 	private final static String t120="120小时";
-	private final static String tgif="GIF动画";
 	
 	public String setDate(){
 		HlWeatherVO objHlWeatherVO = new HlWeatherVO();
@@ -44,7 +43,6 @@ public class HlAction {
 			lsthdh.add(t72);
 			lsthdh.add(t96);
 			lsthdh.add(t120);
-			lsthdh.add(tgif);
 		time.put(hdh, lsthdh);
 		
 		List<String> lisnh = new ArrayList<>(); 
@@ -53,7 +51,6 @@ public class HlAction {
 			lisnh.add(t72);
 			lisnh.add(t96);
 			lisnh.add(t120);
-			lisnh.add(tgif);
 		time.put(nh, lisnh);	
 			
 		List<String> lisydy = new ArrayList<>(); 
@@ -62,7 +59,6 @@ public class HlAction {
 			lisydy.add(t72);
 			lisydy.add(t96);
 			lisydy.add(t120);
-			lisydy.add(tgif);
 		time.put(ydy, lisydy);
 		
 		List<String> lisxbtpy = new ArrayList<>(); 
@@ -71,7 +67,6 @@ public class HlAction {
 			lisxbtpy.add(t72);
 			lisxbtpy.add(t96);
 			lisxbtpy.add(t120);
-			lisxbtpy.add(tgif);
 		
 		time.put(xbtpy, lisxbtpy);	
 		List<String> lisqq = new ArrayList<>(); 
@@ -92,28 +87,24 @@ public class HlAction {
 		url.put(add(hdh,t72), "http://www.nmefc.gov.cn/chanpin/hyhj/c-hdh/sped-top-072.jpg");
 		url.put(add(hdh,t96), "http://www.nmefc.gov.cn/chanpin/hyhj/c-hdh/sped-top-096.jpg");
 		url.put(add(hdh,t120), "http://www.nmefc.gov.cn/chanpin/hyhj/c-hdh/sped-top-120.jpg");
-		url.put(add(hdh,tgif), "http://www.nmefc.gov.cn/chanpin/hyhj/c-hdh/sped-top.gif");
 		
 		url.put(add(nh,t24), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/024_uv_0000.png");
 		url.put(add(nh,t48), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/048_uv_0000.png");
 		url.put(add(nh,t72), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/072_uv_0000.png");
 		url.put(add(nh,t96), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/096_uv_0000.png");
 		url.put(add(nh,t120), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/120_uv_0000.png");
-		url.put(add(nh,tgif), "http://www.nmefc.gov.cn/chanpin/hyhj/c-scs/UV_anim.gif");
 		
 		url.put(add(ydy,t24), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/024_uv_0000.png");
 		url.put(add(ydy,t48), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/048_uv_0000.png");
 		url.put(add(ydy,t72), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/072_uv_0000.png");
 		url.put(add(ydy,t96), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/096_uv_0000.png");
 		url.put(add(ydy,t120), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/120_uv_0000.png");
-		url.put(add(ydy,tgif), "http://www.nmefc.gov.cn/chanpin/hyhj/c-ind/UV_anim.gif");
 		
 		url.put(add(xbtpy,t24), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/024_uv_0000.png");
 		url.put(add(xbtpy,t48), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/048_uv_0000.png");
 		url.put(add(xbtpy,t72), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/072_uv_0000.png");
 		url.put(add(xbtpy,t96), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/072_uv_0000.png");
 		url.put(add(xbtpy,t120), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/120_uv_0000.png");
-		url.put(add(xbtpy,tgif), "http://www.nmefc.gov.cn/chanpin/hyhj/c-xbp/UV_anim.gif");
 		
 		
 		url.put(add(qq,t00), "http://www.nmefc.gov.cn/chanpin/szyb/c-gtsc/SSC.Global.00.png");
