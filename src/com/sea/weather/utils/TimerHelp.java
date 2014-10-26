@@ -5,6 +5,7 @@ import java.util.Timer;
 import com.sea.weather.task.AllDateTask;
 import com.sea.weather.task.CoastTask;
 import com.sea.weather.task.GdTask;
+import com.sea.weather.task.HlTextTask;
 import com.sea.weather.task.HnTask;
 import com.sea.weather.task.NhTask;
 import com.sea.weather.task.OceanTask;
@@ -50,5 +51,9 @@ public class TimerHelp {
 		AllDateTask objAllDateTask = new AllDateTask();
 		Timer allDateTimer = new Timer();
 		allDateTimer.schedule(objAllDateTask, 9290,929000);
+		
+		HlTextTask objHlTextTask = new HlTextTask();
+		Timer hlTextTaskTimer = new Timer();
+		hlTextTaskTimer.schedule(objHlTextTask, 9970,997000);
 	}
 }
