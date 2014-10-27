@@ -23,13 +23,9 @@ public class OceanWeatherAction {
 	
 	private Gson gson = new Gson();
 	
-	public OceanWeatherVO getOceanWeatherVO(){
+	public OceanWeatherVO getOceanWeatherVO() throws IOException{
 		Document dc_ocean=null;
-		try {
-			dc_ocean = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/ocean.htm").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("OceanWeatherAction.getOceanWeatherVO", e);
-		}
+		dc_ocean = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/ocean.htm").timeout(5000).get();
 		OceanWeatherVO objOceanWeatherVO = new OceanWeatherVO();
 		objOceanWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVOAll(dc_ocean));
 		objOceanWeatherVO.setPublishTime(getPublishTime(dc_ocean));
@@ -93,14 +89,24 @@ public class OceanWeatherAction {
 	}
 	
 	public void loadOceanCache(){
-		String oceanVO = gson.toJson(getOceanWeatherVO());
-		Cache.putValue(Cachekey.oceankey, oceanVO);
+		String oceanVO;
+		try {
+			oceanVO = gson.toJson(getOceanWeatherVO());
+			Cache.putValue(Cachekey.oceankey, oceanVO);
+		} catch (IOException e) {
+			Log.e("OceanWeatherAction.loadOceanCache", e);
+		}
+		
 	}
 	
 	public String getOceanCache(){
 		String oceanVO = (String)Cache.getValue(Cachekey.oceankey);
 		if(StringUtils.isBlank(oceanVO)){
-			oceanVO = gson.toJson(getOceanWeatherVO());
+			try {
+				oceanVO = gson.toJson(getOceanWeatherVO());
+			} catch (IOException e) {
+				Log.e("OceanWeatherAction.getOceanCache", e);
+			}
 			Cache.putValue(Cachekey.oceankey, oceanVO);
 		}
 		return oceanVO;
@@ -108,8 +114,6 @@ public class OceanWeatherAction {
 	
 	public static void main(String args[]) { 
 		OceanWeatherAction objOceanWeatherAction = new OceanWeatherAction();
-		OceanWeatherVO objOceanWeatherVO = objOceanWeatherAction.getOceanWeatherVO();
-		Gson gson = new Gson();
-		System.out.println(gson.toJson(objOceanWeatherVO));
+		System.out.println(objOceanWeatherAction.getOceanCache());
 	}
 }

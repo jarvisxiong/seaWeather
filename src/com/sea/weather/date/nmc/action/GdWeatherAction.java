@@ -21,13 +21,9 @@ import com.sea.weather.utils.StringUtils;
 public class GdWeatherAction {
 	private Gson gson = new Gson();
 	
-	private GdWeatherVO getGdWeatherVO(){
+	private GdWeatherVO getGdWeatherVO() throws IOException{
 		Document dc_gd=null;
-		try {
-			dc_gd = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("GdWeatherAction.getGdWeatherVO", e);
-		}
+		dc_gd = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
 		GdWeatherVO objGdWeatherVO = new GdWeatherVO();
 		objGdWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVO(dc_gd));
 		objGdWeatherVO.setPublishTime(getPublishTime(dc_gd));
@@ -78,15 +74,24 @@ public class GdWeatherAction {
 	public String getGdCache(){
 		String gdVO = (String)Cache.getValue(Cachekey.gdkey);
 		if(StringUtils.isBlank(gdVO)){
-			gdVO = gson.toJson(getGdWeatherVO());
+			try {
+				gdVO = gson.toJson(getGdWeatherVO());
+			} catch (IOException e) {
+				Log.e("GdWeatherAction.getGdCache", e);
+			}
 			Cache.putValue(Cachekey.gdkey, gdVO);
 		}
 		return gdVO;
 	}
 	
 	public void loadGdCache(){
-		String gdVO = gson.toJson(getGdWeatherVO());
-		Cache.putValue(Cachekey.gdkey, gdVO);
+		String gdVO;
+		try {
+			gdVO = gson.toJson(getGdWeatherVO());
+			Cache.putValue(Cachekey.gdkey, gdVO);
+		} catch (IOException e) {
+			Log.e("GdWeatherAction.loadGdCache", e);
+		}
 	}
 	
 	public static void main(String args[]) { 

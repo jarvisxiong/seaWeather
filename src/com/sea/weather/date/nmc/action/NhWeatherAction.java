@@ -22,13 +22,9 @@ public class NhWeatherAction {
 
 private Gson gson = new Gson();
 	
-	private NhWeatherVO getNhWeatherVO(){
+	private NhWeatherVO getNhWeatherVO() throws IOException{
 		Document dc_nh=null;
-		try {
-			dc_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("NhWeatherAction.getNhWeatherVO", e);
-		}
+		dc_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
 		NhWeatherVO objNhWeatherVO = new NhWeatherVO();
 		objNhWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVO(dc_nh));
 		objNhWeatherVO.setPublishTime(getPublishTime(dc_nh));
@@ -79,15 +75,24 @@ private Gson gson = new Gson();
 	public String getNhCache(){
 		String nhVO = (String)Cache.getValue(Cachekey.nhkey);
 		if(StringUtils.isBlank(nhVO)){
-			nhVO = gson.toJson(getNhWeatherVO());
+			try {
+				nhVO = gson.toJson(getNhWeatherVO());
+			} catch (IOException e) {
+				Log.e("NhWeatherAction.getNhCache", e);
+			}
 			Cache.putValue(Cachekey.nhkey, nhVO);
 		}
 		return nhVO;
 	}
 	
 	public void loadNhCache(){
-		String nhVO = gson.toJson(getNhWeatherVO());
-		Cache.putValue(Cachekey.nhkey, nhVO);
+		String nhVO;
+		try {
+			nhVO = gson.toJson(getNhWeatherVO());
+			Cache.putValue(Cachekey.nhkey, nhVO);
+		} catch (IOException e) {
+			Log.e("NhWeatherAction.loadNhCache", e);
+		}
 	}
 	
 	public static void main(String args[]) { 

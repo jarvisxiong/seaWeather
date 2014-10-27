@@ -23,13 +23,9 @@ public class OffshoreWeatherAction {
 
 	private Gson gson = new Gson();
 	
-	public OffshoreWeatherVO getOffshoreWeatherVO(){
+	public OffshoreWeatherVO getOffshoreWeatherVO() throws IOException{
 		Document dc_offshore=null;
-		try {
-			dc_offshore = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/offshore.htm").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("OffshoreWeatherAction.getOffshoreWeatherVO", e);
-		}
+		dc_offshore = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/offshore.htm").timeout(5000).get();
 		OffshoreWeatherVO objOffshoreWeatherVO = new OffshoreWeatherVO();
 		objOffshoreWeatherVO = getTrueAreaWeatherVO(dc_offshore,objOffshoreWeatherVO);
 		objOffshoreWeatherVO.setGrabTime(new Date());
@@ -138,7 +134,11 @@ public class OffshoreWeatherAction {
 	public String getOffshoreCache(){
 		String offshoreVO = (String)Cache.getValue(Cachekey.offshorekey);
 		if(StringUtils.isBlank(offshoreVO)){
-			offshoreVO = gson.toJson(getOffshoreWeatherVO());
+			try {
+				offshoreVO = gson.toJson(getOffshoreWeatherVO());
+			} catch (IOException e) {
+				Log.e("OffshoreWeatherAction.getOffshoreCache", e);
+			}
 			Cache.putValue(Cachekey.offshorekey, offshoreVO);
 		}
 		return offshoreVO;
@@ -207,8 +207,13 @@ public class OffshoreWeatherAction {
 	}
 	
 	public void loadOffshoreCache(){
-		String offshoreVO = gson.toJson(getOffshoreWeatherVO());
-		Cache.putValue(Cachekey.offshorekey, offshoreVO);
+		String offshoreVO;
+		try {
+			offshoreVO = gson.toJson(getOffshoreWeatherVO());
+			Cache.putValue(Cachekey.offshorekey, offshoreVO);
+		} catch (IOException e) {
+			Log.e("OffshoreWeatherAction.loadOffshoreCache", e);
+		}
 	}
 	
 	public static void main(String args[]) { 

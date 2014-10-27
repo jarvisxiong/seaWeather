@@ -22,13 +22,9 @@ public class CoastWeatherAction {
 
 	private static Gson gson = new Gson();
 	
-	public CoastWeatherVO getCoastWeather(){
+	public CoastWeatherVO getCoastWeather() throws IOException{
 		Document dc_coast=null;
-		try {
-			dc_coast = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/newcoastal.htm").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("CoastWeatherAction.getCoastWeather", e);
-		}
+		dc_coast = Jsoup.connect("http://www.nmc.gov.cn/publish/marine/newcoastal.htm").timeout(5000).get();
 		CoastWeatherVO objCoastWeatherVO = new CoastWeatherVO();
 		objCoastWeatherVO.setLisAreaWeatherVO(getLisAreaWeatherVO(dc_coast));
 		objCoastWeatherVO.setPublishTime(getPublishTime(dc_coast));
@@ -82,15 +78,25 @@ public class CoastWeatherAction {
 	public String getCoastCache(){
 		String coastVO = (String)Cache.getValue(Cachekey.coastkey);
 		if(StringUtils.isBlank(coastVO)){
-			coastVO = gson.toJson(getCoastWeather());
+			try {
+				coastVO = gson.toJson(getCoastWeather());
+			} catch (IOException e) {
+				Log.e("CoastWeatherAction.getCoastCache", e);
+			}
 			Cache.putValue(Cachekey.coastkey, coastVO);
 		}
 		return coastVO;
 	}
 	
 	public void loadCoastCache(){
-		String coastVO = gson.toJson(getCoastWeather());
-		Cache.putValue(Cachekey.coastkey, coastVO);
+		String coastVO;
+		try {
+			coastVO = gson.toJson(getCoastWeather());
+			Cache.putValue(Cachekey.coastkey, coastVO);
+		} catch (IOException e) {
+			Log.e("CoastWeatherAction.loadCoastCache", e);
+		}
+		
 	}
 	
 	public static void main(String args[]) { 
