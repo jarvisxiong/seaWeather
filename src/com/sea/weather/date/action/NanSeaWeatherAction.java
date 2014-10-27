@@ -21,25 +21,9 @@ public class NanSeaWeatherAction {
 	public AllWeatherVO getAllWeatherVO(){
 		try {
 			doc_hn = Jsoup.connect("http://hainan.weather.com.cn/hytq/index.shtml").timeout(5000).get();
+		    doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
 		} catch (IOException e) {
-			Log.e("NanSeaWeatherAction.getHnWeatherVO IO", e);
-			return null;
-		} catch(Exception e){
-			Log.e("NanSeaWeatherAction.getHnWeatherVO Exception", e);
-			return null;
-		}
-		
-		try {
-			doc_gd_nh = Jsoup.connect("http://www.weather.com.cn/guangdong/hytq/").timeout(5000).get();
-		} catch (IOException e) {
-			try{
-				doc_gd_nh = Jsoup.connect("http://www.gdweather.com.cn/guangdong/hytq/index.shtml").timeout(5000).get();
-			}catch(IOException e2){
-				Log.e("NanSeaWeatherAction.getGdWeatherVO IO", e);
-				return null;
-			}
-		} catch(Exception e){
-			Log.e("NanSeaWeatherAction.getGdWeatherVO Exception", e);
+			Log.e("NanSeaWeatherAction.getAllWeatherVO", e);
 			return null;
 		}
 		AllWeatherVO objAllWeatherVO = new AllWeatherVO();
