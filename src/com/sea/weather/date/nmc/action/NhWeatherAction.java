@@ -77,10 +77,10 @@ private Gson gson = new Gson();
 		if(StringUtils.isBlank(nhVO)){
 			try {
 				nhVO = gson.toJson(getNhWeatherVO());
+				Cache.putValue(Cachekey.nhkey, nhVO);
 			} catch (IOException e) {
 				Log.e("NhWeatherAction.getNhCache", e);
 			}
-			Cache.putValue(Cachekey.nhkey, nhVO);
 		}
 		return nhVO;
 	}

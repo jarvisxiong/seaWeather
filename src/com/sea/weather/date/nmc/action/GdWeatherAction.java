@@ -76,10 +76,10 @@ public class GdWeatherAction {
 		if(StringUtils.isBlank(gdVO)){
 			try {
 				gdVO = gson.toJson(getGdWeatherVO());
+				Cache.putValue(Cachekey.gdkey, gdVO);
 			} catch (IOException e) {
 				Log.e("GdWeatherAction.getGdCache", e);
 			}
-			Cache.putValue(Cachekey.gdkey, gdVO);
 		}
 		return gdVO;
 	}

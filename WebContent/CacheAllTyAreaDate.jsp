@@ -12,23 +12,9 @@
 </head>
 <body>
 <%
-	String strVersionCode = (String)request.getParameter("versionCode");
-	int versionCode = 0;
-	if ( strVersionCode != null) {
-		versionCode = Integer.parseInt(strVersionCode);
-	}
 	SeaWeatherDateAction objSeaWeatherDateAction = new SeaWeatherDateAction();
 	PrintWriter outPrint = response.getWriter();
-	String verstr = "";
-	if (versionCode < SeaConstant.versionCode) {
-		verstr = objSeaWeatherDateAction
-				.getCacheVersionAllTfAreaVOJson();
-	}
-
-	if (StringUtils.isBlank(verstr)) {
-		verstr = objSeaWeatherDateAction.getCacheAllTfAreaVOJson();
-	}
-
+	String verstr = objSeaWeatherDateAction.getCacheAllTfAreaVOJson();
 	outPrint.print(verstr);
 	outPrint.close();
 %>

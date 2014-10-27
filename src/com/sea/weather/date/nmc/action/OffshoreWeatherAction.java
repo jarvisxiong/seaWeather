@@ -136,10 +136,10 @@ public class OffshoreWeatherAction {
 		if(StringUtils.isBlank(offshoreVO)){
 			try {
 				offshoreVO = gson.toJson(getOffshoreWeatherVO());
+				Cache.putValue(Cachekey.offshorekey, offshoreVO);
 			} catch (IOException e) {
 				Log.e("OffshoreWeatherAction.getOffshoreCache", e);
 			}
-			Cache.putValue(Cachekey.offshorekey, offshoreVO);
 		}
 		return offshoreVO;
 	}

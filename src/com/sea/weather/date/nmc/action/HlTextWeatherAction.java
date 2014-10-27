@@ -20,14 +20,9 @@ public class HlTextWeatherAction {
 
 	private static Gson gson = new Gson();
 	
-	public HlTextWeatherVO getHlTextWeatherVO(){
+	public HlTextWeatherVO getHlTextWeatherVO() throws IOException{
 		Document dc_hl = null;
-		
-		try {
-			dc_hl = Jsoup.connect("http://www.nmefc.gov.cn/").timeout(5000).get();
-		} catch (IOException e) {
-			Log.e("HlTextWeatherAction.getHlTextWeatherVO", e);
-		}
+		dc_hl = Jsoup.connect("http://www.nmefc.gov.cn/").timeout(5000).get();
 		HlTextWeatherVO objHlTextWeatherVO = new HlTextWeatherVO();
 		objHlTextWeatherVO.setLisHlTextItemWeatherVO(getLisHlTextItemWeatherVO(dc_hl));
 		objHlTextWeatherVO.setPublishTime(getPublishTime(dc_hl));
@@ -60,15 +55,24 @@ public class HlTextWeatherAction {
 	public String getCacheHlTextWeatherVO(){
 		String hlTextWeatherVO = (String)Cache.getValue(Cachekey.hltextkey);
 			if(hlTextWeatherVO==null){
-				hlTextWeatherVO = gson.toJson(getHlTextWeatherVO());
-				Cache.putValue(Cachekey.hltextkey, hlTextWeatherVO);
+				try {
+					hlTextWeatherVO = gson.toJson(getHlTextWeatherVO());
+					Cache.putValue(Cachekey.hltextkey, hlTextWeatherVO);
+				} catch (IOException e) {
+					Log.e("HlTextWeatherAction.getCacheHlTextWeatherVO", e);
+				}
 			}
 		return hlTextWeatherVO;
 	}
 	
 	public void loadHlTextWeatherVO(){
-		String hlTextWeatherVO = gson.toJson(getHlTextWeatherVO());
-		Cache.putValue(Cachekey.hltextkey, hlTextWeatherVO);
+		String hlTextWeatherVO;
+		try {
+			hlTextWeatherVO = gson.toJson(getHlTextWeatherVO());
+			Cache.putValue(Cachekey.hltextkey, hlTextWeatherVO);
+		} catch (IOException e) {
+			Log.e("HlTextWeatherAction.loadHlTextWeatherVO", e);
+		}
 	}
 	
 	public static void main(String args[]) { 

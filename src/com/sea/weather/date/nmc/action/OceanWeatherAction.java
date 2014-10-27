@@ -104,10 +104,11 @@ public class OceanWeatherAction {
 		if(StringUtils.isBlank(oceanVO)){
 			try {
 				oceanVO = gson.toJson(getOceanWeatherVO());
+				Cache.putValue(Cachekey.oceankey, oceanVO);
 			} catch (IOException e) {
 				Log.e("OceanWeatherAction.getOceanCache", e);
 			}
-			Cache.putValue(Cachekey.oceankey, oceanVO);
+			
 		}
 		return oceanVO;
 	}

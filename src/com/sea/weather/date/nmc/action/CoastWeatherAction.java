@@ -80,10 +80,10 @@ public class CoastWeatherAction {
 		if(StringUtils.isBlank(coastVO)){
 			try {
 				coastVO = gson.toJson(getCoastWeather());
+				Cache.putValue(Cachekey.coastkey, coastVO);
 			} catch (IOException e) {
 				Log.e("CoastWeatherAction.getCoastCache", e);
 			}
-			Cache.putValue(Cachekey.coastkey, coastVO);
 		}
 		return coastVO;
 	}
