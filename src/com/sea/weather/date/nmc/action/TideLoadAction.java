@@ -2,7 +2,9 @@ package com.sea.weather.date.nmc.action;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -53,18 +55,47 @@ public class TideLoadAction {
 		return url;
 	}
 	
+	private List<String> getForecastTime(){
+		List<String> forecastTime = new ArrayList<String>();
+		Date today = new Date();
+		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
+		long now = today.getTime();
+		for(int i=0;i<8;i++){
+			today.setTime(now+24*60*60*1000*i);
+			forecastTime.add(smd.format(today));
+		}
+		return forecastTime;
+		
+	}
+	
+	private String inForecastTime(){
+		List<String> forecastTime = getForecastTime();
+		String inForecastTime="";
+		for(int i=0;i<forecastTime.size();i++){
+			inForecastTime =inForecastTime+"'"+forecastTime.get(i)+"'";
+			if(i<forecastTime.size()-1){
+				inForecastTime = inForecastTime+",";
+			}
+		}
+		return inForecastTime;
+	}
+	
 	public void loadDate(){
 		TideDAO objTideDAO = new TideDAO();
 		try {
 			List<PortItemVO> province = objTideDAO.queryProvince();
+			List<String> forecastTime = getForecastTime();
 			for(int i=0;i<province.size();i++){
 				List<PortItemVO> portcode = objTideDAO.queryPortcode(province.get(i).getCode());
 				for(int j=0;j<portcode.size();j++){
-					String url = putUrl(province.get(i).getCode(), portcode.get(j).getCode(), "2014-10-31");
-					getItem(url,"2014-10-31",portcode.get(j).getCode());
+					for(int t=0;t<forecastTime.size();t++){
+						String url = putUrl(province.get(i).getCode(), portcode.get(j).getCode(), forecastTime.get(t));
+						getItem(url,forecastTime.get(t),portcode.get(j).getCode());
+					}
+					
 				}
 			}
-			objTideDAO.bathInsertTideItem(lisTideItemVO);
+			objTideDAO.bathInsertTideItem(lisTideItemVO,inForecastTime());
 		} catch (SQLException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
@@ -75,6 +106,7 @@ public class TideLoadAction {
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
 		objTideLoadAction.loadDate();
+		Gson gson = new Gson();
 	}
 
 }

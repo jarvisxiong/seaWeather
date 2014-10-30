@@ -77,7 +77,7 @@ public class TideDAO extends BaseDAO{
 		return false;
 	}
 	
-	public boolean bathInsertTideItem(List<TideItemVO> tideItem) throws SQLException{
+	public boolean bathInsertTideItem(List<TideItemVO> tideItem,String selectDate) throws SQLException{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -87,7 +87,7 @@ public class TideDAO extends BaseDAO{
 		
         conn.setAutoCommit(false);
         pstmt = conn.prepareStatement("insert into tideitem (selectDate, code,showTime,high) values (?,?,?,?)");
-        delpstmt = conn.prepareStatement("DELETE FROM tideitem");
+        delpstmt = conn.prepareStatement("DELETE FROM tideitem WHERE selectDate IN ("+selectDate+")");
         for (int i = 0; i <tideItem.size();i++) {
         	pstmt.setString(1, tideItem.get(i).getSelectDate());
         	pstmt.setString(2, tideItem.get(i).getCode());
