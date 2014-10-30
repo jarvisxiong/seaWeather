@@ -1,31 +1,28 @@
 package com.sea.weather.date.nmc.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TideVO {
 
-	private Map<String,String> province = new HashMap<String,String>();
+	private List<PortItemVO> province = new ArrayList<PortItemVO>();
 	
-	private Map<String,String> portcode = new HashMap<String,String>();
+	private List<PortItemVO> portcode = new ArrayList<PortItemVO>();
 
-	public Map<String, String> getProvince() {
+	public List<PortItemVO> getProvince() {
 		return province;
 	}
 
-	public void setProvince(Map<String, String> province) {
+	public void setProvince(List<PortItemVO> province) {
 		this.province = province;
 	}
 
-	public Map<String, String> getPortcode() {
+	public List<PortItemVO> getPortcode() {
 		return portcode;
 	}
 
-	public void setPortcode(Map<String, String> portcode) {
+	public void setPortcode(List<PortItemVO> portcode) {
 		this.portcode = portcode;
 	}
 
-	
-	
-	
 }
