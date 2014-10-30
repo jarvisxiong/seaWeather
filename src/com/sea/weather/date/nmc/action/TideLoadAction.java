@@ -1,6 +1,7 @@
 package com.sea.weather.date.nmc.action;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.google.gson.Gson;
+import com.sea.weather.date.nmc.model.PortItemVO;
 import com.sea.weather.date.nmc.model.TideItemVO;
+import com.sea.weather.db.dao.TideDAO;
 import com.sea.weather.utils.Log;
 
 public class TideLoadAction {
@@ -50,9 +53,28 @@ public class TideLoadAction {
 		return url;
 	}
 	
+	public void loadDate(){
+		TideDAO objTideDAO = new TideDAO();
+		try {
+			List<PortItemVO> province = objTideDAO.queryProvince();
+			for(int i=0;i<province.size();i++){
+				List<PortItemVO> portcode = objTideDAO.queryPortcode(province.get(i).getCode());
+				for(int j=0;j<portcode.size();j++){
+					String url = putUrl(province.get(i).getCode(), portcode.get(j).getCode(), "2014-10-31");
+					getItem(url,"2014-10-31",portcode.get(j).getCode());
+				}
+			}
+			objTideDAO.bathInsertTideItem(lisTideItemVO);
+		} catch (SQLException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
-		System.out.print(objTideLoadAction.showTide());
+		objTideLoadAction.loadDate();
 	}
 
 }

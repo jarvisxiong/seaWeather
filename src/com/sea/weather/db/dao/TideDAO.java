@@ -2,7 +2,10 @@ package com.sea.weather.db.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sea.weather.date.nmc.model.PortItemVO;
@@ -107,7 +110,73 @@ public class TideDAO extends BaseDAO{
 		return false;
 	}
 	
-	public List<PortItemVO> queryProvince(){
+	public List<PortItemVO> queryProvince() throws SQLException{
+		// 连续数据库
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<PortItemVO> lisPortItemVO = new ArrayList<PortItemVO>();
+		try {
+			conn = this.getConnection();
+		
+        // statement用来执行SQL语句
+        statement = conn.createStatement();
+        
+        // 要执行的SQL语句
+        StringBuffer sql =new StringBuffer(256);
+        			 sql.append("SELECT * FROM  province");
+        			 
+        // 结果集
+        rs = statement.executeQuery(sql.toString());
+        
+        while(rs.next()) {
+        	PortItemVO objPortItemVO = new PortItemVO();
+        	objPortItemVO.setCode(rs.getString("code"));
+        	objPortItemVO.setName(rs.getString("name"));
+        	lisPortItemVO.add(objPortItemVO);
+        }
+        	return lisPortItemVO;
+		} catch (SQLException e) {
+			Log.e("TideDAO.queryProvince", e);
+		} finally{
+			this.closeCon(conn, statement, rs);
+		}
+		return null;
+	}
+	
+	public List<PortItemVO> queryPortcode(String province) throws SQLException{
+		// 连续数据库
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<PortItemVO> lisPortItemVO = new ArrayList<PortItemVO>();
+		try {
+			conn = this.getConnection();
+		
+        // statement用来执行SQL语句
+        statement = conn.createStatement();
+        
+        // 要执行的SQL语句
+        StringBuffer sql =new StringBuffer(256);
+        			 sql.append("SELECT * FROM portcode WHERE CODE LIKE '");
+        			 sql.append(province);
+        			 sql.append("%'");
+        			 
+        // 结果集
+        rs = statement.executeQuery(sql.toString());
+        
+        while(rs.next()) {
+        	PortItemVO objPortItemVO = new PortItemVO();
+        	objPortItemVO.setCode(rs.getString("code"));
+        	objPortItemVO.setName(rs.getString("name"));
+        	lisPortItemVO.add(objPortItemVO);
+        }
+        	return lisPortItemVO;
+		} catch (SQLException e) {
+			Log.e("TideDAO.queryProvince", e);
+		} finally{
+			this.closeCon(conn, statement, rs);
+		}
 		return null;
 	}
 }
