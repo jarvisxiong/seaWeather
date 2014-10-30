@@ -106,4 +106,8 @@ public class TideDAO extends BaseDAO{
 		}
 		return false;
 	}
+	
+	public List<PortItemVO> queryProvince(){
+		return null;
+	}
 }
