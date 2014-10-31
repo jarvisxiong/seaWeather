@@ -160,7 +160,7 @@ public class TideDAO extends BaseDAO{
         StringBuffer sql =new StringBuffer(256);
         			 sql.append("SELECT * FROM portcode WHERE CODE LIKE '");
         			 sql.append(province);
-        			 sql.append("%'");
+        			 sql.append("-%'");
         			 
         // 结果集
         rs = statement.executeQuery(sql.toString());

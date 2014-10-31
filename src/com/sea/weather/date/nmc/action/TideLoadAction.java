@@ -80,11 +80,10 @@ public class TideLoadAction {
 		return inForecastTime;
 	}
 	
-	public void loadDate(){
+	public void loadDate(List<String> forecastTime){
 		TideDAO objTideDAO = new TideDAO();
 		try {
 			List<PortItemVO> province = objTideDAO.queryProvince();
-			List<String> forecastTime = getForecastTime();
 			for (int t = 0; t < forecastTime.size(); t++) {
 				for (int i = 0; i < province.size(); i++) {
 					List<PortItemVO> portcode = objTideDAO.queryPortcode(province.get(i).getCode());
@@ -105,9 +104,21 @@ public class TideLoadAction {
 		
 	}
 	
+	public void load7AfterDate(){
+		Date today = new Date();
+		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
+		List<String> forecastTime = new ArrayList<String>();
+					 forecastTime.add(smd.format(today));
+		loadDate(forecastTime);
+	}
+	
+	public void load7AllDate(){
+		loadDate(getForecastTime());
+	}
+	
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
-		objTideLoadAction.loadDate();
+		objTideLoadAction.load7AllDate();
 		Gson gson = new Gson();
 	}
 
