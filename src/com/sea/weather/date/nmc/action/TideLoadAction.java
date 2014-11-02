@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +26,7 @@ public class TideLoadAction {
 	private void getItem(String url,String selectDate,String code){
 		Document dc_Item=null;
 		try {
-			dc_Item = Jsoup.connect(url).timeout(5000).get();
+			dc_Item = Jsoup.connect(url).timeout(10000).get();
 		} catch (IOException e) {
 			Log.e("TideLoadAction.getItem", e);
 		}
@@ -33,15 +35,22 @@ public class TideLoadAction {
 		
 		Elements timetd = table.get(1).select("td");
 		Elements hightd = table.get(2).select("td");
-		
+		Map<String,String> timeMap = new HashMap<String,String>();
 		for(int i=1;i<timetd.size();i++){
 			TideItemVO objTideItemVO  = new TideItemVO();
 			objTideItemVO.setSelectDate(selectDate);
 			objTideItemVO.setCode(code);
-			objTideItemVO.setShowTime(timetd.get(i).text());
-			objTideItemVO.setHigh(hightd.get(i).text());
-			lisTideItemVO.add(objTideItemVO);
+			String time = timetd.get(i).text();
+			String high = hightd.get(i).text();
+			String cacheHigh = timeMap.get(time);
+			if(high!=null&&!high.equals(cacheHigh)){
+				timeMap.put(time, high);
+				objTideItemVO.setShowTime(time);
+				objTideItemVO.setHigh(high);
+				lisTideItemVO.add(objTideItemVO);
+			}
 		}
+		timeMap.clear();
 	}
 	
 	public String showTide(){
