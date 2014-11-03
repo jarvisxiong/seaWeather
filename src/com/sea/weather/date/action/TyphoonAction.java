@@ -1,6 +1,10 @@
 package com.sea.weather.date.action;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
@@ -29,8 +33,8 @@ public class TyphoonAction {
 		
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		try {
-			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(5000).get();
-			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(5000).get();
+			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(15000).get();
+			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(15000).get();
 		} catch (IOException e) {
 			Log.e("TyphoonAction.getTyphoon IOException", e);
 			return null;
@@ -64,11 +68,11 @@ public class TyphoonAction {
 		try {
 			String rooturl = "http://www.weather.gov.cn/publish/typhoon/warning.htm";
 			String imgUrl ="http://www.weather.gov.cn/publish/typhoon/probability-img.html";
-			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(5000).get();
-			Document doc_img = Jsoup.connect(imgUrl).timeout(5000).get();
+			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(15000).get();
+			Document doc_img = Jsoup.connect(imgUrl).timeout(15000).get();
 			String gzContent = doc_tf_gz.select(".writing").text();
 			String gzImgUrl = doc_img.select("#img_path").attr("src");
-			if(urlIsexist(gzImgUrl)){
+			if(exists(gzImgUrl)){
 				int index = gzImgUrl.lastIndexOf("?");
 				gzImgUrl = gzImgUrl.substring(0,index);
 			}else{
@@ -87,14 +91,12 @@ public class TyphoonAction {
 		}
 	}
 	
-	private boolean urlIsexist(String url){
-		try {
-			Document doc_tf_gz = Jsoup.connect(url).timeout(5000).get();
-		} catch (IOException e) {
-			return false;
-		}
+	private boolean exists(String URLName) {
+
 		return true;
+
 	}
+
 	
 	
 	private void getAllYjTf(TyphoonVO objTyphoonVO){
