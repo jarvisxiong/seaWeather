@@ -24,13 +24,17 @@ public class TyphoonAction {
 	private Document doc_tf;
 	private Document doc_tf_yj;
 	
+	private int timeOut = 5000;
+	
+	private boolean putCache = true;
+	
 	private Gson gson =new Gson();
 	public TyphoonVO getTyphoon(){
-		
+		putCache = true;
 		TyphoonVO objTyphoonVO = new TyphoonVO();
 		try {
-			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(15000).get();
-			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(15000).get();
+			doc_tf = Jsoup.connect("http://typhoon.weather.com.cn/").timeout(timeOut).get();
+			doc_tf_yj = Jsoup.connect("http://typhoon.weather.com.cn/alarm/index.shtml").timeout(timeOut).get();
 		} catch (IOException e) {
 			Log.e("TyphoonAction.getTyphoon IOException", e);
 			return null;
@@ -47,8 +51,12 @@ public class TyphoonAction {
 		//获取台风预警
 	    //getYfYj(objTyphoonVO);
 		getAllYjTf(objTyphoonVO);
-		Cache.putValue(Cachekey.tfkey, gson.toJson(objTyphoonVO));
-		return objTyphoonVO;
+		if(putCache){
+			Cache.putValue(Cachekey.tfkey, gson.toJson(objTyphoonVO));
+			return objTyphoonVO;
+		}else{
+			return null;
+		}
 	}
 	
 	
@@ -64,8 +72,8 @@ public class TyphoonAction {
 		try {
 			String rooturl = "http://www.weather.gov.cn/publish/typhoon/warning.htm";
 			String imgUrl ="http://www.weather.gov.cn/publish/typhoon/probability-img.html";
-			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(15000).get();
-			Document doc_img = Jsoup.connect(imgUrl).timeout(15000).get();
+			Document doc_tf_gz = Jsoup.connect(rooturl).timeout(timeOut).get();
+			Document doc_img = Jsoup.connect(imgUrl).timeout(timeOut).get();
 			String gzContent = doc_tf_gz.select(".writing").text();
 			String gzImgUrl = doc_img.select("#img_path").attr("src");
 			if(exists(gzImgUrl)){
@@ -83,7 +91,8 @@ public class TyphoonAction {
 			objTyphoonVO.setGzImgUrl(gzImgUrl);
 			objTyphoonVO.setGzContent(gzContent);
 		} catch (IOException e) {
-			Log.e("TyphoonAction.getTfDt", e);
+			putCache = false;
+			Log.e("TyphoonAction.setZyGz", e);
 		}
 	}
 	
@@ -124,6 +133,7 @@ public class TyphoonAction {
 						yjContent = yjHasComtent;
 					}
 				} catch (IOException e) {
+					putCache = false;
 					Log.e("TyphoonAction.getYfYj", e);
 				}
 			}
@@ -138,7 +148,7 @@ public class TyphoonAction {
 	private String getZyTfDt(){
 		try {
 			String rooturl = "http://www.weather.gov.cn/publish/typhoon/typhoon_new.htm";
-			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(10000).get();
+			Document doc_tf_dt = Jsoup.connect(rooturl).timeout(timeOut).get();
 			String number = doc_tf_dt.select(".number").text();
 			if(StringUtils.isBlank(number)){
 				return "";
@@ -155,6 +165,7 @@ public class TyphoonAction {
 			}
 			return title;
 		} catch (IOException e) {
+			putCache =false;
 			Log.e("TyphoonAction.getZyTfDt", e);
 		}
 		return null;
