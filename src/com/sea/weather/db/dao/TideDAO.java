@@ -214,6 +214,23 @@ public class TideDAO extends BaseDAO{
 		return null;
 	}
 	
+	public boolean deleteListTideItem(String selectDate) throws SQLException{
+		// 连续数据库
+        Connection conn = null;
+        PreparedStatement statement = null;
+        try {
+			conn = this.getConnection();
+			statement = conn.prepareStatement("DELETE FROM tideitem WHERE selectDate = '"+selectDate+"'");
+			statement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			Log.e("TideDAO.deleteListTideItem", e);
+		} finally{
+			this.closeCon(conn, statement);
+		}
+		return false;
+	}
+	
 	public List<TideItemVO> queryListTideItemVO(String selectDate,String code) throws SQLException{
 		// 连续数据库
         Connection conn = null;

@@ -119,11 +119,24 @@ public class TideLoadAction {
 	
 	public void load7Date(){
 		Date today = new Date();
+		
 		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
+		TideDAO objTideDAO = new TideDAO();
+		
 		today.setTime(today.getTime()+24*60*60*1000*7);
 		List<String> forecastTime = new ArrayList<String>();
 					 forecastTime.add(smd.format(today));
 		loadDate(forecastTime);
+		
+		//删掉昨天的数据
+		Date yesterday = new Date();
+		try {
+			yesterday.setTime(yesterday.getTime()-24*60*60*1000);
+			objTideDAO.deleteListTideItem(smd.format(yesterday));
+		} catch (SQLException e) {
+			Log.e("TideLoadAction.load7Date", e);
+		}
+		
 		Cache.putValue(Cachekey.tideTimekey, this.getForecastTime());
 	}
 	
@@ -169,7 +182,10 @@ public class TideLoadAction {
 	
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
-		System.out.print(objTideLoadAction.queryProvinceAndPortcode());
+		List<String> forecastTime = new ArrayList<String>();
+		forecastTime.add("2014-11-02");
+		forecastTime.add("2014-11-10");
+		objTideLoadAction.loadDate(forecastTime);
 		
 	}
 
