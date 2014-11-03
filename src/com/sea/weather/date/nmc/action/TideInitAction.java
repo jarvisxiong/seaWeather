@@ -52,19 +52,21 @@ public class TideInitAction {
 		return lisurl;
 	}
 	
-	private void insertPortcode() throws Exception{
+	public void insertPortcode(){
 		List<String> lisurl =insertProvince();
 		Document dc_tide = null;
-		
+		try {
 		for(int i=0;i<lisurl.size();i++){
 			dc_tide = Jsoup.connect(lisurl.get(i)).get();
 			getMap(dc_tide);
 		}
 		TideDAO objTideDAO = new TideDAO();
-		try {
+		
 			objTideDAO.bathInsertPortcode(portcode);
 		} catch (SQLException e1) {
 			Log.e("TideAction.insertPortcode", e1);
+		} catch (IOException e) {
+			Log.e("TideAction.insertPortcode", e);
 		}
 	}
 	
