@@ -1,10 +1,6 @@
 package com.sea.weather.date.action;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
