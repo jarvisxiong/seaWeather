@@ -8,7 +8,7 @@ public class TideWeatherVO {
 
 	private List<String> forecastTime = new ArrayList<String>();
 	
-	private Date grabTime;
+	private String grabTime;
 	
 	private String tideUrl;
 
@@ -20,11 +20,11 @@ public class TideWeatherVO {
 		this.forecastTime = forecastTime;
 	}
 
-	public Date getGrabTime() {
+	public String getGrabTime() {
 		return grabTime;
 	}
 
-	public void setGrabTime(Date grabTime) {
+	public void setGrabTime(String grabTime) {
 		this.grabTime = grabTime;
 	}
 

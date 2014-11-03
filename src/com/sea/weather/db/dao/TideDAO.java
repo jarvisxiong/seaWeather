@@ -144,6 +144,40 @@ public class TideDAO extends BaseDAO{
 		return null;
 	}
 	
+	public List<PortItemVO> queryAllPortcode() throws SQLException{
+		// 连续数据库
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<PortItemVO> lisPortItemVO = new ArrayList<PortItemVO>();
+		try {
+			conn = this.getConnection();
+		
+        // statement用来执行SQL语句
+        statement = conn.createStatement();
+        
+        // 要执行的SQL语句
+        StringBuffer sql =new StringBuffer(256);
+        			 sql.append("SELECT * FROM  portcode");
+        			 
+        // 结果集
+        rs = statement.executeQuery(sql.toString());
+        
+        while(rs.next()) {
+        	PortItemVO objPortItemVO = new PortItemVO();
+        	objPortItemVO.setCode(rs.getString("code"));
+        	objPortItemVO.setName(rs.getString("name"));
+        	lisPortItemVO.add(objPortItemVO);
+        }
+        	return lisPortItemVO;
+		} catch (SQLException e) {
+			Log.e("TideDAO.queryAllPortcode", e);
+		} finally{
+			this.closeCon(conn, statement, rs);
+		}
+		return null;
+	}
+	
 	public List<PortItemVO> queryPortcode(String province) throws SQLException{
 		// 连续数据库
         Connection conn = null;
@@ -177,6 +211,47 @@ public class TideDAO extends BaseDAO{
 		} finally{
 			this.closeCon(conn, statement, rs);
 		}
+		return null;
+	}
+	
+	public List<TideItemVO> queryListTideItemVO(String selectDate,String code) throws SQLException{
+		// 连续数据库
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<TideItemVO> lisTideItemVO = new ArrayList<TideItemVO>();
+        try {
+        	conn = this.getConnection();
+    		
+            // statement用来执行SQL语句
+            statement = conn.createStatement();
+            
+            // 要执行的SQL语句
+            StringBuffer sql =new StringBuffer(256);
+            			 sql.append("SELECT * FROM tideitem WHERE selectDate = '");
+            			 sql.append(selectDate);
+            			 sql.append("'");
+            			 sql.append("  AND CODE = '");
+            			 sql.append(code);
+            			 sql.append("' ORDER BY showTime asc");
+            			 
+            // 结果集
+            rs = statement.executeQuery(sql.toString());
+            while(rs.next()){
+            	TideItemVO objTideItemVO = new TideItemVO();
+            	objTideItemVO.setCode(rs.getString("code"));
+            	objTideItemVO.setSelectDate(rs.getString("selectDate"));
+            	objTideItemVO.setHigh(rs.getString("high"));
+            	objTideItemVO.setShowTime(rs.getString("showTime"));
+            	lisTideItemVO.add(objTideItemVO);
+            }
+            return lisTideItemVO;
+        } catch (SQLException e) {
+			Log.e("TideDAO.queryListTideItemVO", e);
+		} finally{
+			this.closeCon(conn, statement, rs);
+		}
+        
 		return null;
 	}
 }

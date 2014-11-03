@@ -1,5 +1,7 @@
 package com.sea.weather.utils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 
 import com.sea.weather.task.AllDateTask;
@@ -10,6 +12,7 @@ import com.sea.weather.task.HnTask;
 import com.sea.weather.task.NhTask;
 import com.sea.weather.task.OceanTask;
 import com.sea.weather.task.OffshoreTask;
+import com.sea.weather.task.TideTask;
 
 public class TimerHelp {
 
@@ -55,5 +58,15 @@ public class TimerHelp {
 		HlTextTask objHlTextTask = new HlTextTask();
 		Timer hlTextTaskTimer = new Timer();
 		hlTextTaskTimer.schedule(objHlTextTask, 9970,997000);
+		
+		Calendar calendar = Calendar.getInstance();  
+		calendar.set(Calendar.HOUR_OF_DAY, 13);  
+		calendar.set(Calendar.MINUTE, 20);  
+		calendar.set(Calendar.SECOND, 0);  
+		Date time = calendar.getTime();  
+		
+		TideTask objTideTask = new TideTask();
+		Timer TideTimer = new Timer();
+		TideTimer.schedule(objTideTask, time);
 	}
 }

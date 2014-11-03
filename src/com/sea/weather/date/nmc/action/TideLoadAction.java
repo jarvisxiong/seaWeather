@@ -16,13 +16,17 @@ import org.jsoup.select.Elements;
 import com.google.gson.Gson;
 import com.sea.weather.date.nmc.model.PortItemVO;
 import com.sea.weather.date.nmc.model.TideItemVO;
+import com.sea.weather.date.nmc.model.TideVO;
+import com.sea.weather.date.nmc.model.TideWeatherVO;
 import com.sea.weather.db.dao.TideDAO;
+import com.sea.weather.utils.Cache;
+import com.sea.weather.utils.Cachekey;
 import com.sea.weather.utils.Log;
 
 public class TideLoadAction {
 
 	private List<TideItemVO> lisTideItemVO = new ArrayList<TideItemVO>();
-	
+	private Gson gson = new Gson();;
 	private void getItem(String url,String selectDate,String code){
 		Document dc_Item=null;
 		try {
@@ -113,22 +117,60 @@ public class TideLoadAction {
 		
 	}
 	
-	public void load7AfterDate(){
+	public void load7Date(){
 		Date today = new Date();
 		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
+		today.setTime(today.getTime()+24*60*60*1000*7);
 		List<String> forecastTime = new ArrayList<String>();
 					 forecastTime.add(smd.format(today));
 		loadDate(forecastTime);
+		Cache.putValue(Cachekey.tideTimekey, this.getForecastTime());
 	}
 	
-	public void load7AllDate(){
+	public void loadAllDate(){
 		loadDate(getForecastTime());
+	}
+	
+	public String queryDate(String selectDate,String code){
+		TideDAO objTideDAO = new TideDAO();
+		try {
+			List<TideItemVO> lis = objTideDAO.queryListTideItemVO(selectDate, code);
+			return gson.toJson(lis);
+		} catch (SQLException e) {
+			Log.e("TideLoadAction.queryDate", e);
+		}
+		return null;
+	}
+	
+	public String queryProvinceAndPortcode(){
+		TideVO objTideVO = new TideVO();
+		TideDAO objTideDAO = new TideDAO();
+		try {
+			objTideVO.setProvince(objTideDAO.queryProvince());
+			objTideVO.setPortcode(objTideDAO.queryAllPortcode());
+		} catch (SQLException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		return gson.toJson(objTideVO);
+	}
+	
+	public String getTideWeatherVO(){
+		TideWeatherVO objTideWeatherVO = new TideWeatherVO();
+		List<String> forecastTime = (List<String>)Cache.getValue(Cachekey.tideTimekey);
+		if(forecastTime==null){
+			forecastTime = this.getForecastTime();
+		}
+		objTideWeatherVO.setForecastTime(forecastTime);
+		objTideWeatherVO.setGrabTime("2014-11-03");
+		objTideWeatherVO.setTideUrl("");
+		return gson.toJson(objTideWeatherVO);
 	}
 	
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
-		objTideLoadAction.load7AllDate();
-		Gson gson = new Gson();
+		System.out.print(objTideLoadAction.queryProvinceAndPortcode());
+		
 	}
 
 }
