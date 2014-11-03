@@ -163,7 +163,7 @@ public class TideLoadAction {
 		}
 		objTideWeatherVO.setForecastTime(forecastTime);
 		objTideWeatherVO.setGrabTime("2014-11-03");
-		objTideWeatherVO.setTideUrl("");
+		objTideWeatherVO.setTideUrl("http://10.10.50.127:8089/seaWeather/sea/TideQueryDate.jsp");
 		return gson.toJson(objTideWeatherVO);
 	}
 	
