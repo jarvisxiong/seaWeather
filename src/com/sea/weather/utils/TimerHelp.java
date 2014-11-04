@@ -61,7 +61,7 @@ public class TimerHelp {
 		
 		Calendar calendar = Calendar.getInstance();  
 		calendar.set(Calendar.HOUR_OF_DAY, 1);  
-		calendar.set(Calendar.MINUTE, 20);  
+		calendar.set(Calendar.MINUTE, 50);  
 		calendar.set(Calendar.SECOND, 0);  
 		Date time = calendar.getTime();  
 		
