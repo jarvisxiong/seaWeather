@@ -184,8 +184,7 @@ public class TideLoadAction {
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
 		List<String> forecastTime = new ArrayList<String>();
-		forecastTime.add("2014-11-02");
-		forecastTime.add("2014-11-10");
+		forecastTime.add("2014-11-12");
 		objTideLoadAction.loadDate(forecastTime);
 		
 	}
