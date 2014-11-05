@@ -16,6 +16,7 @@ public class Cache {
 			 DbMapDAO objDbMapDAO = new DbMapDAO();
 			 try {
 				v = objDbMapDAO.get(key);
+				map.put(key, v);
 			} catch (SQLException e) {
 				Log.e("Cache.getValue", e);
 			}

@@ -1,10 +1,12 @@
 package com.sea.weather.db.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import com.sea.weather.utils.Log;
 
@@ -20,9 +22,10 @@ public class DbMapDAO extends BaseDAO{
 		
         conn.setAutoCommit(false);
         delpstmt = conn.prepareStatement("DELETE FROM dbmap where keyword = '"+key+"'");
-        pstmt = conn.prepareStatement("insert into dbmap (keyword, val) values (?,?)");
+        pstmt = conn.prepareStatement("insert into dbmap (keyword, val,updateTime) values (?,?,?)");
         pstmt.setString(1, key);
         pstmt.setString(2, value);
+        pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
         delpstmt.executeUpdate();
         pstmt.executeUpdate();
         conn.commit();
