@@ -1,6 +1,5 @@
 package com.sea.weather.db.dao;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,14 +19,14 @@ public class DbMapDAO extends BaseDAO{
 			conn = getConnection();
 		
         conn.setAutoCommit(false);
-        delpstmt = conn.prepareStatement("DELETE FROM dbmap where key = '"+key+"'");
-        pstmt = conn.prepareStatement("insert into dbmap (key, value) values (?,?)");
+        delpstmt = conn.prepareStatement("DELETE FROM dbmap where keyword = '"+key+"'");
+        pstmt = conn.prepareStatement("insert into dbmap (keyword, val) values (?,?)");
         pstmt.setString(1, key);
-        pstmt.setBytes(2, value.getBytes("utf-8"));
+        pstmt.setString(2, value);
         delpstmt.executeUpdate();
         pstmt.executeUpdate();
         conn.commit();
-		} catch (SQLException | UnsupportedEncodingException e) {
+		} catch (SQLException e) {
 			Log.e("DbMapDAO.put", e);
 		} finally{
 			closeCon(conn, pstmt);
@@ -50,13 +49,13 @@ public class DbMapDAO extends BaseDAO{
             statement = conn.createStatement();
             // 要执行的SQL语句
             StringBuffer sql =new StringBuffer(256);
-            			 sql.append("SELECT value FROM dbmap WHERE key = '");
+            			 sql.append("SELECT val FROM dbmap WHERE keyword = '");
             			 sql.append(key);
             			 sql.append("'");
             // 结果集
             rs = statement.executeQuery(sql.toString());
             if(rs.next()){
-            	value = rs.getString("value");
+            	value = rs.getString("val");
             }
             return value;
         } catch (SQLException e) {
@@ -65,6 +64,11 @@ public class DbMapDAO extends BaseDAO{
 			this.closeCon(conn, statement, rs);
 		}
         return null;
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		DbMapDAO objDbMapDAO = new DbMapDAO();
+		Log.i(objDbMapDAO.get("key"));
 	}
 	
 }
