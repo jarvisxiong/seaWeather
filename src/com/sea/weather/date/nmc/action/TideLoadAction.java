@@ -118,7 +118,7 @@ public class TideLoadAction {
 	}
 	
 	public void load7Date(){
-		Log.i("开始执行潮汐定时器");
+		Log.i("start tide timer");
 		Date today = new Date();
 		
 		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
@@ -138,7 +138,7 @@ public class TideLoadAction {
 			Log.e("TideLoadAction.load7Date", e);
 		}
 		Cache.putValue(Cachekey.tideTimekey, this.getForecastTime());
-		Log.i("执行潮汐定时器完成");
+		Log.i("end tide timer");
 	}
 	
 	public void loadAllDate(){

@@ -59,14 +59,9 @@ public class TimerHelp {
 		Timer hlTextTaskTimer = new Timer();
 		hlTextTaskTimer.schedule(objHlTextTask, 9970,997000);
 		
-		Calendar calendar = Calendar.getInstance();  
-		calendar.set(Calendar.HOUR_OF_DAY, 9);  
-		calendar.set(Calendar.MINUTE, 30);  
-		calendar.set(Calendar.SECOND, 0);  
-		Date time = calendar.getTime();  
-		
+		TimerUtil objTimerUtil = new TimerUtil();
 		TideTask objTideTask = new TideTask();
-		Timer TideTimer = new Timer();
-		TideTimer.schedule(objTideTask, time);
+		objTimerUtil.startMyTask(objTideTask, 4, 30);
+		
 	}
 }
