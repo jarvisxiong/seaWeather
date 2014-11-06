@@ -11,7 +11,7 @@ public class SquareAction {
 		SquareVO objSquareVO = (SquareVO)Cache.getValue(Cachekey.square);
 		if (objSquareVO == null) {
 			objSquareVO = new SquareVO();
-			objSquareVO.setSquareTitle("海洋天气网站发布了，点击访问");
+			objSquareVO.setSquareTitle("海洋天气官网，点击访问");
 			objSquareVO.setSquareUrl("http://seasea.duapp.com/");
 			Cache.putValue(Cachekey.square, objSquareVO);
 		}
