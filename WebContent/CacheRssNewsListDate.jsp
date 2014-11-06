@@ -24,7 +24,8 @@
 	if (versionCode < SeaConstant.versionCode) {
 		verstr = (String) Cache.getValue(Cachekey.rsskey_5);
 	}
-	if("false".equals(Cache.getValue(Cachekey.rssOffkey))){
+	String rssOffkey = (String)Cache.getValue(Cachekey.rssOffkey);
+	if(rssOffkey!=null&&strVersionCode!=null&&rssOffkey.indexOf(strVersionCode)!=-1){
 		verstr = (String)Cache.getValue(Cachekey.rsskey_noNews);
 	}
 	if (StringUtils.isBlank(verstr)) {

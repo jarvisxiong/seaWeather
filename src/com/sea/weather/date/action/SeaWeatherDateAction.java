@@ -28,20 +28,10 @@ public class SeaWeatherDateAction {
 		objAllTfAreaVO.setGrabTime(new Date());
 		String str = gson.toJson(objAllTfAreaVO);
 		//需要放在转换后面否则会出现都有版本升级信息
-		putCacheTfVersion(objAllTfAreaVO);
 		return str;
 	}
 	
-	private String putCacheTfVersion(AllTfAreaVO objAllTfAreaVO){
-		TyphoonVO objTyphoonVO =  objAllTfAreaVO.getTf();
-		String tfGz = objTyphoonVO.getGzContent();
-		tfGz = "海洋天气新版本发布了，请点击新闻获取下载地址\n"+tfGz;
-		objTyphoonVO.setGzContent(tfGz);
-		objAllTfAreaVO.setTf(objTyphoonVO);
-		String str = gson.toJson(objAllTfAreaVO);
-		Cache.putValue(Cachekey.tfkey_5, str); 
-		return str;
-	}
+	
 	
 	private AllTfAreaVO getAllTfAreaVO(){
 		AllTfAreaVO objAllTfAreaVO = new AllTfAreaVO();
@@ -55,21 +45,14 @@ public class SeaWeatherDateAction {
 		objAllTfAreaVO.setGrabTime(new Date());
 		return objAllTfAreaVO;
 	}
-	
-	public String getCacheVersionAllTfAreaVOJson(){
-		String allVersionTfAreaVO = (String)Cache.getValue(Cachekey.tfkey_5);
-		if(allVersionTfAreaVO==null){
-			AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
-			allVersionTfAreaVO = putCacheTfVersion(objAllTfAreaVO);
-		}
-		return allVersionTfAreaVO;
-	}
 	public String getCacheAllTfAreaVOJson(){
 		String allTfAreaVO = (String)Cache.getValue(Cachekey.allTfAreakey);
 		if(allTfAreaVO==null){
 			AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
 			allTfAreaVO = gson.toJson(objAllTfAreaVO);
-			putCacheTfVersion(objAllTfAreaVO);
+			if(allTfAreaVOIsNull(objAllTfAreaVO)){
+				Cache.putValue(Cachekey.allTfAreakey, allTfAreaVO);
+			}
 		}
 		return allTfAreaVO;
 	}
@@ -78,7 +61,6 @@ public class SeaWeatherDateAction {
 		AllTfAreaVO objAllTfAreaVO = getAllTfAreaVO();
 		if (allTfAreaVOIsNull(objAllTfAreaVO)) {
 			String allTfAreaVO = gson.toJson(objAllTfAreaVO);
-			putCacheTfVersion(objAllTfAreaVO);
 			Cache.putValue(Cachekey.allTfAreakey, allTfAreaVO);
 		}
 	}
@@ -90,9 +72,7 @@ public class SeaWeatherDateAction {
 		if(objAllTfAreaVO.getTf()==null){
 			return false;
 		}
-		if(StringUtils.isBlank(objAllTfAreaVO.getTf().getDtContent())){
-			return false;
-		}
+		
 		if(objAllTfAreaVO.getAllWeatherVO()==null){
 			return false;
 		}
