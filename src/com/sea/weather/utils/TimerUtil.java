@@ -34,7 +34,7 @@ public class TimerUtil {
         }else{
         	  after = date.getTime()-now.getTime();
         }
-        Log.i(String.valueOf(after));
+        Log.i("Timer start after "+String.valueOf(after/1000/60/60)+" hours");
         Timer timer = new Timer();  
        //任务在指定的时间开始进行重复的固定延迟执行  
         timer.schedule(myTask,after,PERIOD_TIME); 
