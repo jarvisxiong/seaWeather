@@ -33,7 +33,7 @@ public class EvenAdd {
 	public void add(List<AreaWeatherVO>  lis,String space){
 		for(int i=0;i<lis.size();i++){
 			AreaWeatherVO objAreaWeatherVO = lis.get(i);
-			Cache.putValue("onCheckAdd"+space+objAreaWeatherVO.getCoastName(), "收藏添加"+space+objAreaWeatherVO.getCoastName());
+			Cache.putValue("onCheckDel"+space+objAreaWeatherVO.getCoastName(), "收藏删除"+space+objAreaWeatherVO.getCoastName());
 		}
 	}
 	public static void main(String[] args) {
