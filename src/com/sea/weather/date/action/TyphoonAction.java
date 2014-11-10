@@ -90,6 +90,11 @@ public class TyphoonAction {
 			objTyphoonVO.setGzTime(gzTime);
 			objTyphoonVO.setGzImgUrl(gzImgUrl);
 			objTyphoonVO.setGzContent(gzContent);
+			if(gzContent==null||"".equals(gzContent)||gzContent.indexOf("停止编号")!=-1){
+				objTyphoonVO.setIndexContent("");
+			}else{
+				objTyphoonVO.setIndexContent(gzContent);
+			}
 		} catch (IOException e) {
 			putCache = false;
 			Log.e("TyphoonAction.setZyGz", e);
@@ -140,7 +145,7 @@ public class TyphoonAction {
 		 objTyphoonVO.setYjTitle(yjTitle);
 		 objTyphoonVO.setYjContent(yjContent.trim());
 		 //调试，暂时屏蔽消息推送
-		 //pushTfYjMsg(yjContent);
+		 pushTfYjMsg(yjContent);
 	}
 	
 	

@@ -61,7 +61,7 @@ public class TimerHelp {
 		
 		TimerUtil objTimerUtil = new TimerUtil();
 		TideTask objTideTask = new TideTask();
-		objTimerUtil.startMyTask(objTideTask, 4, 30);
+		objTimerUtil.startMyTask(objTideTask, 10, 30);
 		
 	}
 }

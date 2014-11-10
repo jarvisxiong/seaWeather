@@ -18,6 +18,8 @@ public class TyphoonVO {
 	
 	private String YjContent;
 	
+	private String indexContent;
+	
 	public String getGzTime() {
 		return GzTime;
 	}
@@ -91,6 +93,14 @@ public class TyphoonVO {
 
 	public void setGzImgUrl(String gzImgUrl) {
 		GzImgUrl = gzImgUrl;
+	}
+
+	public String getIndexContent() {
+		return indexContent;
+	}
+
+	public void setIndexContent(String indexContent) {
+		this.indexContent = indexContent;
 	}
 	
 	
