@@ -174,6 +174,7 @@ public class TideLoadAction {
 		List<String> forecastTime = (List<String>)Cache.getValue(Cachekey.tideTimekey);
 		if(forecastTime==null){
 			forecastTime = this.getForecastTime();
+			Cache.putValue(Cachekey.tideTimekey, forecastTime);
 		}
 		objTideWeatherVO.setForecastTime(forecastTime);
 		objTideWeatherVO.setGrabTime("2014-11-03");
