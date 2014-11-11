@@ -12,7 +12,7 @@
 <%
 PrintWriter outPrint = response.getWriter();
 TideLoadAction objTideLoadAction = new TideLoadAction();
-String str = objTideLoadAction.getTideWeatherVO();
+String str = objTideLoadAction.getCacheTideWeatherVO();
 outPrint.print(str);
 outPrint.close();
 %>

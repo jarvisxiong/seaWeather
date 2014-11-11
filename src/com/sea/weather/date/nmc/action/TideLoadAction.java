@@ -182,6 +182,15 @@ public class TideLoadAction {
 		return gson.toJson(objTideWeatherVO);
 	}
 	
+	public String getCacheTideWeatherVO(){
+		String objTideWeatherVO = (String)Cache.getValue(Cachekey.tideWeatherkey);
+		if(objTideWeatherVO==null){
+			objTideWeatherVO = getTideWeatherVO();
+			Cache.putValue(Cachekey.tideWeatherkey, objTideWeatherVO);
+		}
+		return objTideWeatherVO;
+	}
+	
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
 		List<String> forecastTime = new ArrayList<String>();

@@ -23,4 +23,5 @@ public class Cachekey {
 	public static final String moreFunction = "moreFunction";
 	public static final String rssOffkey = "rssOffkey";
 	public static final String aboutkey = "aboutkey";
+	public static final String tideWeatherkey = "tideWeatherkey";
 }
