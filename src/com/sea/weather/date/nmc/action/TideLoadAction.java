@@ -138,6 +138,8 @@ public class TideLoadAction {
 			Log.e("TideLoadAction.load7Date", e);
 		}
 		Cache.putValue(Cachekey.tideTimekey, this.getForecastTime());
+		String objTideWeatherVO = getTideWeatherVO();
+		Cache.putValue(Cachekey.tideWeatherkey, objTideWeatherVO);
 		Log.i("end tide timer");
 	}
 	
