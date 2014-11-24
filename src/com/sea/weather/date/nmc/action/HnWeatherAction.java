@@ -53,7 +53,7 @@ private Gson gson = new Gson();
 	}
 
 	private String getPublishTime(Document dc_hn){
-		Elements list_tr =dc_hn.select("#tlist5").select("table").select("tbody").select("tr");
+		Elements list_tr =dc_hn.select("#tlist5").get(0).select("table").select("tbody").select("tr");
 		String publishstr =  list_tr.get(list_tr.size()-1).select("td").text();
 		publishstr = publishstr.substring(publishstr.indexOf("20"),publishstr.indexOf("发布")).trim();
 		return publishstr;
