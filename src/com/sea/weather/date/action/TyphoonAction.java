@@ -181,7 +181,10 @@ public class TyphoonAction {
 	public static void main(String args[]) { 
 		TyphoonAction objTyphoonAction = new TyphoonAction();
 		Gson gson = new Gson();
-		System.out.println(gson.toJson(objTyphoonAction.getTyphoon()));
+		String yjContent = objTyphoonAction.getTyphoon().getYjContent();
+		String publishTime = yjContent.substring(0,14);
+		System.out.println(publishTime);
+		Cache.putValue(Cachekey.tfYjTimeKey, publishTime);
 		//objTyphoonAction.pushMessage();
 	}
 	
@@ -192,8 +195,8 @@ public class TyphoonAction {
 			String publishTime = yjContent.substring(0,14);
 			//有台风预警，则第一次进来，cache为空，则不等，发送一次推送，并且将时间放到cache里面
 			//后面循环进来，如果台风预警时间没变，则一直不进该逻辑，不进入推送,并且还需要符合《2014年07月05日10时》格式
-			if(Pattern.matches(patternStr, publishTime)&&!publishTime.equals(CacheDate.getTfYjTime())){
-				CacheDate.setTfYjTime(publishTime);
+			if(Pattern.matches(patternStr, publishTime)&&!publishTime.equals(Cache.getValue(Cachekey.tfYjTimeKey))){
+				Cache.putValue(Cachekey.tfYjTimeKey, publishTime);
 				PushMessagesVO objPushMessagesVO = new PushMessagesVO();
 				PushCustomContentVO objPushCustomContentVO = new PushCustomContentVO();
 				Gson gson = new Gson();
