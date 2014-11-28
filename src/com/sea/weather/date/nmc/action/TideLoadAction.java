@@ -73,7 +73,7 @@ public class TideLoadAction {
 		Date today = new Date();
 		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
 		long now = today.getTime();
-		for(int i=0;i<8;i++){
+		for(int i=0;i<7;i++){
 			today.setTime(now+24*60*60*1000*i);
 			forecastTime.add(smd.format(today));
 		}
@@ -98,15 +98,17 @@ public class TideLoadAction {
 		try {
 			List<PortItemVO> province = objTideDAO.queryProvince();
 			for (int t = 0; t < forecastTime.size(); t++) {
+				String loadDate = forecastTime.get(t);
 				for (int i = 0; i < province.size(); i++) {
-					List<PortItemVO> portcode = objTideDAO.queryPortcode(province.get(i).getCode());
+					String provincecode = province.get(i).getCode();
+					List<PortItemVO> portcode = objTideDAO.queryPortcode(provincecode);
 					for (int j = 0; j < portcode.size(); j++) {
-						String url = putUrl(province.get(i).getCode(), portcode.get(j).getCode(), forecastTime.get(t));
-						getItem(url, forecastTime.get(t), portcode.get(j).getCode());
+						String portcodeCode = portcode.get(j).getCode();
+						loadOndayDate(loadDate, provincecode, portcodeCode);
 					}
 
 				}
-				objTideDAO.bathInsertTideItem(lisTideItemVO, "'"+forecastTime.get(t)+"'");
+				objTideDAO.bathInsertTideItem(lisTideItemVO, "'"+loadDate+"'");
 				lisTideItemVO.clear();
 			}
 			
@@ -116,6 +118,51 @@ public class TideLoadAction {
 		}
 		
 	}
+
+	private void loadOndayDate(String loadDate, String provincecode,
+			String portcodeCode) {
+		String url = putUrl(provincecode, portcodeCode, loadDate);
+		getItem(url, loadDate, portcodeCode);
+	}
+	
+	private List<TideItemVO> getOndayDate(String loadDate, String portcodeCode) {
+		String provincecode = this.getProvinceCode(portcodeCode);
+		String url = putUrl(provincecode, portcodeCode, loadDate);
+		return getOneItem(url, loadDate, portcodeCode);
+	}
+	
+	
+	private List<TideItemVO> getOneItem(String url,String selectDate,String code){
+		List<TideItemVO> lisTideItemVO = new ArrayList<TideItemVO>();
+		Document dc_Item=null;
+		try {
+			dc_Item = Jsoup.connect(url).timeout(10000).get();
+		} catch (IOException e) {
+			Log.e("TideLoadAction.getItem", e);
+		}
+		
+		Elements table = dc_Item.select(".cx-table").select("table").select("tbody").select("tr");
+		
+		Elements timetd = table.get(1).select("td");
+		Elements hightd = table.get(2).select("td");
+		Map<String,String> timeMap = new HashMap<String,String>();
+		for(int i=1;i<timetd.size();i++){
+			TideItemVO objTideItemVO  = new TideItemVO();
+			objTideItemVO.setSelectDate(selectDate);
+			objTideItemVO.setCode(code);
+			String time = timetd.get(i).text();
+			String high = hightd.get(i).text();
+			String cacheHigh = timeMap.get(time);
+			if(high!=null&&!high.equals(cacheHigh)){
+				timeMap.put(time, high);
+				objTideItemVO.setShowTime(time);
+				objTideItemVO.setHigh(high);
+				lisTideItemVO.add(objTideItemVO);
+			}
+		}
+		timeMap.clear();
+		return lisTideItemVO;
+	}
 	
 	public void load7Date(){
 		Log.i("start tide timer");
@@ -124,7 +171,7 @@ public class TideLoadAction {
 		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
 		TideDAO objTideDAO = new TideDAO();
 		
-		today.setTime(today.getTime()+24*60*60*1000*7);
+		today.setTime(today.getTime()+24*60*60*1000*6);
 		List<String> forecastTime = new ArrayList<String>();
 					 forecastTime.add(smd.format(today));
 		loadDate(forecastTime);
@@ -151,11 +198,19 @@ public class TideLoadAction {
 		TideDAO objTideDAO = new TideDAO();
 		try {
 			List<TideItemVO> lis = objTideDAO.queryListTideItemVO(selectDate, code);
+			if(lis==null||lis.size()==0){
+				lis = this.getOndayDate(selectDate, code);
+				objTideDAO.bathInsertOneTideItem(lis, selectDate, code);
+			}
 			return gson.toJson(lis);
 		} catch (SQLException e) {
 			Log.e("TideLoadAction.queryDate", e);
 		}
 		return null;
+	}
+	
+	private String getProvinceCode(String code){
+		return code.substring(0,code.lastIndexOf("-"));
 	}
 	
 	public String queryProvinceAndPortcode(){
@@ -197,7 +252,8 @@ public class TideLoadAction {
 		TideLoadAction objTideLoadAction = new TideLoadAction();
 		List<String> forecastTime = new ArrayList<String>();
 		forecastTime.add("2014-11-12");
-		objTideLoadAction.loadDate(forecastTime);
+		objTideLoadAction.load7Date();
+		Log.i(objTideLoadAction.queryDate("2014-12-01", "0-0-0-0"));
 		
 	}
 

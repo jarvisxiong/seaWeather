@@ -110,6 +110,39 @@ public class TideDAO extends BaseDAO{
 		return false;
 	}
 	
+	public boolean bathInsertOneTideItem(List<TideItemVO> tideItem,String selectDate,String code) throws SQLException{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		PreparedStatement delpstmt = null;
+		try {
+			conn = getConnection();
+		
+        conn.setAutoCommit(false);
+        pstmt = conn.prepareStatement("insert into tideitem (selectDate, code,showTime,high) values (?,?,?,?)");
+        delpstmt = conn.prepareStatement("DELETE FROM tideitem WHERE selectDate = '"+selectDate+"' and code = '"+code+"'");
+        for (int i = 0; i <tideItem.size();i++) {
+        	pstmt.setString(1, tideItem.get(i).getSelectDate());
+        	pstmt.setString(2, tideItem.get(i).getCode());
+        	pstmt.setString(3, tideItem.get(i).getShowTime());
+        	pstmt.setString(4, tideItem.get(i).getHigh());
+        	pstmt.addBatch();
+        }
+        delpstmt.executeUpdate();
+        pstmt.executeBatch();
+        conn.commit();
+        return true;
+		} catch (SQLException e) {
+			Log.e("TideDAO.bathInsertTideItem", e);
+		} finally{
+			closeCon(conn, pstmt);
+			if(delpstmt!=null){
+				delpstmt.close();
+			}
+		}
+		return false;
+	}
+	
 	public List<PortItemVO> queryProvince() throws SQLException{
 		// 连续数据库
         Connection conn = null;
