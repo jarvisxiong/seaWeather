@@ -2,7 +2,6 @@ package com.sea.weather.date.nmc.action;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,11 +70,10 @@ public class TideLoadAction {
 	private List<String> getForecastTime(){
 		List<String> forecastTime = new ArrayList<String>();
 		Date today = new Date();
-		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
 		long now = today.getTime();
 		for(int i=0;i<7;i++){
 			today.setTime(now+24*60*60*1000*i);
-			forecastTime.add(smd.format(today));
+			forecastTime.add(dateToString(today));
 		}
 		return forecastTime;
 		
@@ -168,19 +166,18 @@ public class TideLoadAction {
 		Log.i("start tide timer");
 		Date today = new Date();
 		
-		SimpleDateFormat  smd = new SimpleDateFormat("YYYY-MM-dd");
 		TideDAO objTideDAO = new TideDAO();
 		
 		today.setTime(today.getTime()+24*60*60*1000*6);
 		List<String> forecastTime = new ArrayList<String>();
-					 forecastTime.add(smd.format(today));
+					 forecastTime.add(dateToString(today));
 		loadDate(forecastTime);
 		
 		//删掉昨天的数据
 		Date yesterday = new Date();
 		try {
 			yesterday.setTime(yesterday.getTime()-24*60*60*1000);
-			objTideDAO.deleteListTideItem(smd.format(yesterday));
+			objTideDAO.deleteListTideItem(dateToString(yesterday));
 		} catch (SQLException e) {
 			Log.e("TideLoadAction.load7Date", e);
 		}
@@ -237,6 +234,11 @@ public class TideLoadAction {
 		objTideWeatherVO.setGrabTime("2014-11-03");
 		objTideWeatherVO.setTideUrl("http://readread.duapp.com/sea/TideQueryDate.jsp");
 		return gson.toJson(objTideWeatherVO);
+	}
+	
+	private String dateToString(Date time){
+		String date =String.format("%tY", time)+"-"+String.format("%tm", time)+"-"+ String.format("%td", time);
+		return date;
 	}
 	
 	public String getCacheTideWeatherVO(){
