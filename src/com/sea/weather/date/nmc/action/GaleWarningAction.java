@@ -19,30 +19,46 @@ public class GaleWarningAction {
 	private GaleWarningVO getGaleWarningVO() throws IOException{
 		Document dc_df=null;
 		dc_df = Jsoup.connect("http://sea.weather.gov.cn/mdps/list_t/0601").timeout(5000).get();
+		Document dc_dfcon = this.getConDoc(dc_df);
 		GaleWarningVO objGaleWarningVO = new GaleWarningVO();
-		objGaleWarningVO.setAuthor(getAuthor(dc_df));
-		objGaleWarningVO.setTitle(getTitle(dc_df));
-		objGaleWarningVO.setContent(getContent(dc_df));
+		objGaleWarningVO.setAuthor(getAuthor(dc_dfcon));
+		objGaleWarningVO.setTitle(getTitle(dc_dfcon));
+		objGaleWarningVO.setContent(getContent(dc_dfcon));
 		return objGaleWarningVO;
 	}
 	
 	private String getTitle(Document dc_df){
-		String title = dc_df.select("#container_right").select("#context_show").select(".writing").select(".subhead").text();
-		Log.i(String.valueOf(dc_df.select("#context_show").text()));
+		String title = dc_df.select(".writing").select(".subhead").text();
 		return title;
 	}
 	
+	private Document getConDoc(Document dc_df) throws IOException{
+		String src = "";
+		for(int i=0;i<dc_df.select("script").size();i++){
+			if(dc_df.select("script").get(i).html().indexOf("#context_show")!=-1){
+				String[] tem = dc_df.select("script").get(i).html().split("'");
+				for(int j=0;j<tem.length;j++){
+					if(tem[j].indexOf("htm")!=-1){
+						src = "http://sea.weather.gov.cn"+tem[j];
+					}
+				}
+			}
+		}
+		Document dc_dfcon=Jsoup.connect(src).timeout(5000).get();
+		return dc_dfcon;
+	}
+	
 	private String getContent(Document dc_df){
-		Elements contents = dc_df.select("#context_show").select(".writing").select("p");
+		Elements contents = dc_df.select(".writing").select("p");
 		String content = "";
 		for(int i=0;i<contents.size();i++){
-			content = content+contents.get(i).text()+"\n";
+			content = content+contents.get(i).html()+"\n";
 		}
 		return content;
 	}
 	
 	private String getAuthor(Document dc_df){
-		String author = dc_df.select("#context_show").select(".author").text();
+		String author = dc_df.select(".author").text();
 		return author;
 	}
 	
