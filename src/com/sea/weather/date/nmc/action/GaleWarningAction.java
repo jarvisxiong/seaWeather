@@ -1,6 +1,8 @@
 package com.sea.weather.date.nmc.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,6 +17,8 @@ import com.sea.weather.utils.StringUtils;
 
 public class GaleWarningAction {
 	private Gson gson = new Gson();
+	
+	private String seaUrl = "http://sea.weather.gov.cn";
 
 	private GaleWarningVO getGaleWarningVO() throws IOException{
 		Document dc_df=null;
@@ -24,6 +28,7 @@ public class GaleWarningAction {
 		objGaleWarningVO.setAuthor(getAuthor(dc_dfcon));
 		objGaleWarningVO.setTitle(getTitle(dc_dfcon));
 		objGaleWarningVO.setContent(getContent(dc_dfcon));
+		objGaleWarningVO.setLisImg(getLisImg(dc_dfcon));
 		return objGaleWarningVO;
 	}
 	
@@ -60,6 +65,15 @@ public class GaleWarningAction {
 	private String getAuthor(Document dc_df){
 		String author = dc_df.select(".author").text();
 		return author;
+	}
+	
+	private List<String> getLisImg(Document dc_df){
+		List<String> lisImg = new ArrayList<String>();
+		Elements contents = dc_df.select(".writing").select("img");
+		for(int i = 0;i<contents.size();i++){
+			lisImg.add(seaUrl+contents.get(i).attr("src"));
+		}
+		return lisImg;
 	}
 	
 	public String getDfCache(){
