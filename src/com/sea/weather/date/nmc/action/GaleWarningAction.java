@@ -44,7 +44,7 @@ public class GaleWarningAction {
 				String[] tem = dc_df.select("script").get(i).html().split("'");
 				for(int j=0;j<tem.length;j++){
 					if(tem[j].indexOf("htm")!=-1){
-						src = "http://sea.weather.gov.cn"+tem[j];
+						src = seaUrl+tem[j];
 					}
 				}
 			}
