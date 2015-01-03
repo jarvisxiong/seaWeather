@@ -95,19 +95,40 @@ public class RssMsaAction {
 	public void loadTgRss() throws IllegalArgumentException, IOException{
 		HashMap<String, String> mapTG = getTgCache();
 		Set<String> key = mapTG.keySet();
+		RssMsaDAO objSailNoticeDAO = new RssMsaDAO();
+		 
 		for(Iterator<String> it = key.iterator();it.hasNext();){
 			String marine= it.next();
 			String strUrl = mapTG.get(marine);
 			URL url =  new URL(strUrl);
 			try {
-				initRssTg(url,marine);
+				String description = initRss(url,marine);
+				objSailNoticeDAO.insertSailNotice(marine, description);
 			} catch (Exception e) {
 				
 			}
 		}
 	}
 	
-	private void initRssTg(URL feedurl,String marine) throws IOException, IllegalArgumentException, FeedException, SQLException{
+	public void loadJgRss() throws IllegalArgumentException, IOException{
+		HashMap<String, String> mapJG = getJgCache();
+		Set<String> key = mapJG.keySet();
+		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
+		 
+		for(Iterator<String> it = key.iterator();it.hasNext();){
+			String marine= it.next();
+			String strUrl = mapJG.get(marine);
+			URL url =  new URL(strUrl);
+			try {
+				String description = initRss(url,marine);
+				objRssMsaDAO.insertSailWaring(marine, description);
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+	
+	private String initRss(URL feedurl,String marine) throws IOException, IllegalArgumentException, FeedException, SQLException{
 		List<RssMsaVO> lisRss =new ArrayList<RssMsaVO>();
 		
 		URLConnection uc = feedurl.openConnection();
@@ -129,14 +150,13 @@ public class RssMsaAction {
 				}
 		 }
 		 
-		 RssMsaDAO objSailNoticeDAO = new RssMsaDAO();
-		 objSailNoticeDAO.insertSailNotice(marine, GZipUtil.gzip(gson.toJson(lisRss)));
+		 return GZipUtil.gzip(gson.toJson(lisRss));
 		 
 	}
 	
 	
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
-		objMsaRssAction.loadTgRss();
+		objMsaRssAction.loadJgRss();
 	}
 }
