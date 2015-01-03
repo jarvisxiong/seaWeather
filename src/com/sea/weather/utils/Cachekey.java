@@ -27,4 +27,6 @@ public class Cachekey {
 	public static final String tfYjTimeKey = "tfYjTimeKey";
 	public static final String dfYjKey = "dfYjKey";
 	public static final String tqGgKey = "tqGgKey";
+	public static final String hxjgKey = "hxjgKey";
+	public static final String hxtgKey = "hxtgKey";
 }
