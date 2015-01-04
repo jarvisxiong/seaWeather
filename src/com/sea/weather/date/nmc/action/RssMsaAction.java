@@ -65,7 +65,7 @@ public class RssMsaAction {
 		return gson.toJson(mapTG);
 	}
 	
-	public HashMap<String, String> getJgCache(){
+	private HashMap<String, String> getJgMarine(){
 		String jg = (String)Cache.getValue(Cachekey.hxjgKey);
 		if(StringUtils.isBlank(jg)){
 			try {
@@ -79,7 +79,7 @@ public class RssMsaAction {
 		return map;
 	}
 	
-	public HashMap<String, String> getTgCache(){
+	private HashMap<String, String> getTgMarine(){
 		String tg = (String)Cache.getValue(Cachekey.hxtgKey);
 		if(StringUtils.isBlank(tg)){
 			try {
@@ -94,7 +94,7 @@ public class RssMsaAction {
 	}
 	
 	public void loadTgRss() throws IllegalArgumentException, IOException{
-		HashMap<String, String> mapTG = getTgCache();
+		HashMap<String, String> mapTG = getTgMarine();
 		Set<String> key = mapTG.keySet();
 		RssMsaDAO objSailNoticeDAO = new RssMsaDAO();
 		Date updateDate = new Date(); 
@@ -115,7 +115,7 @@ public class RssMsaAction {
 	}
 	
 	public void loadJgRss() throws IllegalArgumentException, IOException{
-		HashMap<String, String> mapJG = getJgCache();
+		HashMap<String, String> mapJG = getJgMarine();
 		Set<String> key = mapJG.keySet();
 		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
 		Date updateDate = new Date(); 
@@ -165,6 +165,28 @@ public class RssMsaAction {
 		 
 	}
 	
+	public String getTgCache(String marine){
+		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
+		String str= "";
+		try {
+			str = objRssMsaDAO.getSailNotice(marine);
+		} catch (SQLException e) {
+			Log.e("RssMsaAction.getTgCache", e);
+		}
+		return str;
+	}
+	
+	public String getJgCache(String marine){
+		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
+		String str= "";
+		try {
+			str = objRssMsaDAO.getSailWaring(marine);
+		} catch (SQLException e) {
+			Log.e("RssMsaAction.getJgCache", e);
+		}
+		return str;
+	}
+	
 	/**
 	 * 设置该海事局是否同时有通告或警告
 	 * @param marine
@@ -196,6 +218,8 @@ public class RssMsaAction {
 	
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
-		objMsaRssAction.loadTgRss();
+		String str = objMsaRssAction.getJgCache("福建海事局");
+		str = GZipUtil.unGzip(str);
+		Log.i(str);
 	}
 }
