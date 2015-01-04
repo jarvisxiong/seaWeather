@@ -34,7 +34,7 @@ public class RssMsaAction {
 	private Gson gson = new Gson();
 	
 	private String getHxJG() throws IOException{
-		Document dc_df = Jsoup.connect("http://127.0.0.1:8089/seaWeather/sea/RSS.html").timeout(5000).get();
+		Document dc_df = Jsoup.connect("http://readread.duapp.com/sea/RSS.html").timeout(5000).get();
 		Elements es = dc_df.select(".nrTable").get(0).select("tbody").select("tr");
 		HashMap<String, String> mapJG = new HashMap<String, String>();
 		for(int i=0;i<es.size();i++){
@@ -50,7 +50,7 @@ public class RssMsaAction {
 	}
 	
 	private String getHxTG() throws IOException{
-		Document dc_df = Jsoup.connect("http://127.0.0.1:8089/seaWeather/sea/RSS.html").timeout(5000).get();
+		Document dc_df = Jsoup.connect("http://readread.duapp.com/sea/RSS.html").timeout(5000).get();
 		Elements es = dc_df.select(".nrTable").get(0).select("tbody").select("tr");
 		HashMap<String, String> mapTG = new HashMap<String, String>();
 		for(int i=0;i<es.size();i++){

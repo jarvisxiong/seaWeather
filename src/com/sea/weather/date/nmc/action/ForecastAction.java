@@ -31,8 +31,9 @@ public class ForecastAction {
 	
 	private Document getConDoc(Document dc_df) throws IOException{
 		String src = "";
-		for(int i=0;i<dc_df.select("script").size()-1;i++){
-			if(dc_df.select("script").get(i).html().indexOf("$(\"#context_show\").load")!=-1){
+		for(int i=0;i<dc_df.select("script").size();i++){
+			String jsHtml = dc_df.select("script").get(i).html();
+			if(jsHtml.indexOf("$(\"#context_show\").load")!=-1&&jsHtml.indexOf("htmlPath")==-1){
 				String[] tem = dc_df.select("script").get(i).html().split("'");
 				for(int j=0;j<tem.length;j++){
 					if(tem[j].indexOf("htm")!=-1){
@@ -84,7 +85,7 @@ public class ForecastAction {
 	public static void main(String args[]) throws IOException { 
 		Gson gson = new Gson();
 		ForecastAction objForecastAction  = new ForecastAction();
-		String objForecastVO = objForecastAction.getGgCache();
+		String objForecastVO = gson.toJson(objForecastAction.getForecastVO());
 		System.out.println(objForecastVO);
 	}
 }

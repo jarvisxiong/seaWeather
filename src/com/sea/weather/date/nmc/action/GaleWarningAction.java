@@ -40,7 +40,8 @@ public class GaleWarningAction {
 	private Document getConDoc(Document dc_df) throws IOException{
 		String src = "";
 		for(int i=0;i<dc_df.select("script").size();i++){
-			if(dc_df.select("script").get(i).html().indexOf("#context_show")!=-1){
+			String jsHtml = dc_df.select("script").get(i).html();
+			if(jsHtml.indexOf("#context_show")!=-1&&jsHtml.indexOf("htmlPath")==-1){
 				String[] tem = dc_df.select("script").get(i).html().split("'");
 				for(int j=0;j<tem.length;j++){
 					if(tem[j].indexOf("htm")!=-1){
