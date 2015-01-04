@@ -1,17 +1,18 @@
 package com.sea.weather.utils;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 
 import com.sea.weather.task.AllDateTask;
 import com.sea.weather.task.CoastTask;
+import com.sea.weather.task.ForecastTask;
+import com.sea.weather.task.GaleWarningTask;
 import com.sea.weather.task.GdTask;
 import com.sea.weather.task.HlTextTask;
 import com.sea.weather.task.HnTask;
 import com.sea.weather.task.NhTask;
 import com.sea.weather.task.OceanTask;
 import com.sea.weather.task.OffshoreTask;
+import com.sea.weather.task.RssMsaTask;
 import com.sea.weather.task.TideTask;
 
 public class TimerHelp {
@@ -58,6 +59,18 @@ public class TimerHelp {
 		HlTextTask objHlTextTask = new HlTextTask();
 		Timer hlTextTaskTimer = new Timer();
 		hlTextTaskTimer.schedule(objHlTextTask, 9970,997000);
+		
+		GaleWarningTask objGaleWarningTask = new GaleWarningTask();
+		Timer galeWarningTaskTimer = new Timer();
+		galeWarningTaskTimer.schedule(objGaleWarningTask, 10310,1031000);
+		
+		ForecastTask objForecastTask = new ForecastTask();
+		Timer forecastTaskTimer = new Timer();
+		forecastTaskTimer.schedule(objForecastTask, 11090,1109000);
+		
+		RssMsaTask objRssMsaTask = new RssMsaTask();
+		Timer rssMsaTaskTimer = new Timer();
+		rssMsaTaskTimer.schedule(objRssMsaTask, 30230,3023000);
 		
 		TimerUtil objTimerUtil = new TimerUtil();
 		TideTask objTideTask = new TideTask();
