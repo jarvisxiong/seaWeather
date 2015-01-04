@@ -107,6 +107,7 @@ public class RssMsaAction {
 				String description = str[0];
 				updateDate = gson.fromJson(str[1], Date.class);
 				objSailNoticeDAO.insertSailNotice(marine, description,updateDate);
+				putMarines(marine, "TG");
 			} catch (Exception e) {
 				
 			}
@@ -127,6 +128,7 @@ public class RssMsaAction {
 				String description = str[0];
 				updateDate = gson.fromJson(str[1], Date.class);
 				objRssMsaDAO.insertSailWaring(marine, description,updateDate);
+				putMarines(marine, "JG");
 			} catch (Exception e) {
 			}
 		}
@@ -163,6 +165,34 @@ public class RssMsaAction {
 		 
 	}
 	
+	/**
+	 * 设置该海事局是否同时有通告或警告
+	 * @param marine
+	 * @param msg
+	 */
+	private void putMarines(String marine,String msg){
+		
+		HashMap<String, String> map =  new HashMap<String, String>();
+		String strMap = (String)Cache.getValue(Cachekey.marineKey);
+		//如果缓存里面有数据，则在数据里面获取，否则使用新建的
+		if(StringUtils.isNoneBlank(strMap)){
+			map = gson.fromJson(strMap, HashMap.class);
+		}
+		String cachemsg = map.get(marine);
+		
+		if(StringUtils.isBlank(cachemsg)){
+			map.put(marine, msg);
+		}else if(cachemsg.length()<4&&cachemsg.indexOf(msg)==-1){
+			if("JG".equals(cachemsg)){
+				cachemsg = cachemsg+msg;
+			}else{
+				cachemsg = msg+cachemsg;
+			}
+			map.put(marine, cachemsg);
+		}
+		strMap = gson.toJson(map);
+		Cache.putValue(Cachekey.marineKey, strMap);
+	}
 	
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
