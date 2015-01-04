@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,7 @@ public class RssMsaAction {
 	private Gson gson = new Gson();
 	
 	private String getHxJG() throws IOException{
-		Document dc_df = Jsoup.connect("http://127.0.0.1:8080/seaWeather/sea/RSS.html").timeout(5000).get();
+		Document dc_df = Jsoup.connect("http://127.0.0.1:8089/seaWeather/sea/RSS.html").timeout(5000).get();
 		Elements es = dc_df.select(".nrTable").get(0).select("tbody").select("tr");
 		HashMap<String, String> mapJG = new HashMap<String, String>();
 		for(int i=0;i<es.size();i++){
@@ -49,7 +50,7 @@ public class RssMsaAction {
 	}
 	
 	private String getHxTG() throws IOException{
-		Document dc_df = Jsoup.connect("http://127.0.0.1:8080/seaWeather/sea/RSS.html").timeout(5000).get();
+		Document dc_df = Jsoup.connect("http://127.0.0.1:8089/seaWeather/sea/RSS.html").timeout(5000).get();
 		Elements es = dc_df.select(".nrTable").get(0).select("tbody").select("tr");
 		HashMap<String, String> mapTG = new HashMap<String, String>();
 		for(int i=0;i<es.size();i++){
@@ -96,14 +97,16 @@ public class RssMsaAction {
 		HashMap<String, String> mapTG = getTgCache();
 		Set<String> key = mapTG.keySet();
 		RssMsaDAO objSailNoticeDAO = new RssMsaDAO();
-		 
+		Date updateDate = new Date(); 
 		for(Iterator<String> it = key.iterator();it.hasNext();){
 			String marine= it.next();
 			String strUrl = mapTG.get(marine);
 			URL url =  new URL(strUrl);
 			try {
-				String description = initRss(url,marine);
-				objSailNoticeDAO.insertSailNotice(marine, description);
+				String[] str = initRss(url,marine);
+				String description = str[0];
+				updateDate = gson.fromJson(str[1], Date.class);
+				objSailNoticeDAO.insertSailNotice(marine, description,updateDate);
 			} catch (Exception e) {
 				
 			}
@@ -114,23 +117,24 @@ public class RssMsaAction {
 		HashMap<String, String> mapJG = getJgCache();
 		Set<String> key = mapJG.keySet();
 		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
-		 
+		Date updateDate = new Date(); 
 		for(Iterator<String> it = key.iterator();it.hasNext();){
 			String marine= it.next();
 			String strUrl = mapJG.get(marine);
 			URL url =  new URL(strUrl);
 			try {
-				String description = initRss(url,marine);
-				objRssMsaDAO.insertSailWaring(marine, description);
+				String[] str = initRss(url,marine);
+				String description = str[0];
+				updateDate = gson.fromJson(str[1], Date.class);
+				objRssMsaDAO.insertSailWaring(marine, description,updateDate);
 			} catch (Exception e) {
-				
 			}
 		}
 	}
 	
-	private String initRss(URL feedurl,String marine) throws IOException, IllegalArgumentException, FeedException, SQLException{
+	private String[] initRss(URL feedurl,String marine) throws IOException, IllegalArgumentException, FeedException, SQLException{
 		List<RssMsaVO> lisRss =new ArrayList<RssMsaVO>();
-		
+		Date updateDate = null;
 		URLConnection uc = feedurl.openConnection();
 		 uc.setConnectTimeout(5000);
 		 uc.setReadTimeout(5000);
@@ -146,17 +150,22 @@ public class RssMsaAction {
 					objRssMsaVO.setDescription(entry.getDescription().getValue());
 					objRssMsaVO.setLink(entry.getLink());
 					objRssMsaVO.setPublishedDate(entry.getPublishedDate());
+					if(updateDate==null||updateDate.before(entry.getPublishedDate())){
+						updateDate = entry.getPublishedDate();
+					}
 					lisRss.add(objRssMsaVO);
 				}
 		 }
-		 
-		 return GZipUtil.gzip(gson.toJson(lisRss));
+		 String[] str = new String[2];
+		 str[0] = GZipUtil.gzip(gson.toJson(lisRss));
+		 str[1] = gson.toJson(updateDate);
+		 return str;
 		 
 	}
 	
 	
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
-		objMsaRssAction.loadJgRss();
+		objMsaRssAction.loadTgRss();
 	}
 }

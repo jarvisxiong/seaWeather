@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import com.sea.weather.utils.Log;
 
 public class RssMsaDAO extends BaseDAO{
 
-	public boolean insertSailNotice(String marine,String description) throws SQLException{
+	public boolean insertSailNotice(String marine,String description,Date updatetime) throws SQLException{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -22,7 +23,7 @@ public class RssMsaDAO extends BaseDAO{
         delpstmt = conn.prepareStatement("DELETE FROM sailnotice where marine = '"+marine+"'");
         	pstmt.setString(1, marine);
         	pstmt.setString(2, description);
-        	pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+        	pstmt.setTimestamp(3, new Timestamp(updatetime.getTime()));
         	pstmt.addBatch();
         delpstmt.executeUpdate();
         pstmt.executeBatch();
@@ -40,7 +41,7 @@ public class RssMsaDAO extends BaseDAO{
 		return false;
 	}
 	
-	public boolean insertSailWaring(String marine,String description) throws SQLException{
+	public boolean insertSailWaring(String marine,String description,Date updatetime) throws SQLException{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -53,7 +54,7 @@ public class RssMsaDAO extends BaseDAO{
         delpstmt = conn.prepareStatement("DELETE FROM sailwarning where marine = '"+marine+"'");
         	pstmt.setString(1, marine);
         	pstmt.setString(2, description);
-        	pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+        	pstmt.setTimestamp(3, new Timestamp(updatetime.getTime()));
         	pstmt.addBatch();
         delpstmt.executeUpdate();
         pstmt.executeBatch();
