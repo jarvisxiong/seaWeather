@@ -18,7 +18,7 @@ public class GdTask extends TimerTask{
 				objGdWeatherAction.loadGdCache();
 				Log.e("GdTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("GdTask.run two exception", e);
+				Log.e("GdTask.run two exception", e2);
 			}
 		}
 	}

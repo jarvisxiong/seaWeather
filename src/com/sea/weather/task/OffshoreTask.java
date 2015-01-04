@@ -18,7 +18,7 @@ public class OffshoreTask  extends TimerTask{
 				objOffshoreWeatherAction.loadOffshoreCache();
 				Log.e("OffshoreTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("OffshoreTask.run two exception", e);
+				Log.e("OffshoreTask.run two exception", e2);
 			}
 		}
 	}

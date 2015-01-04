@@ -18,7 +18,7 @@ public class HnTask extends TimerTask{
 				objHnWeatherAction.loadHnCache();
 				Log.e("HnTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("HnTask.run two exception", e);
+				Log.e("HnTask.run two exception", e2);
 			}
 		}
 	}

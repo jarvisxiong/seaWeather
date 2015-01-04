@@ -18,7 +18,7 @@ public class TideTask extends TimerTask{
 				objTideLoadAction.load7Date();
 				Log.e("TideTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("TideTask.run two exception", e);
+				Log.e("TideTask.run two exception", e2);
 			}
 		}
 		

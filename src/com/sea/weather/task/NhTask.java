@@ -18,7 +18,7 @@ public class NhTask extends TimerTask {
 				objNhWeatherAction.loadNhCache();
 				Log.e("NhTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("NhTask.run two exception", e);
+				Log.e("NhTask.run two exception", e2);
 			}
 		}
 	}

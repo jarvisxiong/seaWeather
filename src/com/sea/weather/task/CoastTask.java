@@ -18,7 +18,7 @@ public class CoastTask  extends TimerTask{
 				objCoastWeatherAction.loadCoastCache();
 				Log.e("CoastTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("CoastTask.run two exception", e);
+				Log.e("CoastTask.run two exception", e2);
 			}
 		}
 	}

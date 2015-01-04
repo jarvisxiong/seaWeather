@@ -18,7 +18,7 @@ public class AllDateTask extends TimerTask{
 				objAllDateAction.loadAllDateCache();
 				Log.e("AllDateTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("AllDateTask.run two exception", e);
+				Log.e("AllDateTask.run two exception", e2);
 			}
 		}
 	}

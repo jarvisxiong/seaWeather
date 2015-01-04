@@ -19,7 +19,7 @@ public class HlTextTask extends TimerTask{
 				objHlTextWeatherAction.loadHlTextWeatherVO();
 				Log.e("HlTextTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("HlTextTask.run two exception", e);
+				Log.e("HlTextTask.run two exception", e2);
 			}
 		}
 	}

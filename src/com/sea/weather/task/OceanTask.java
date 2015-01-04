@@ -17,7 +17,7 @@ public class OceanTask extends TimerTask{
 				objOceanWeatherAction.loadOceanCache();
 				Log.e("OceanTask.run two sucess", e);
 			} catch (Exception e2) {
-				Log.e("OceanTask.run two exception", e);
+				Log.e("OceanTask.run two exception", e2);
 			}
 		}
 	}
