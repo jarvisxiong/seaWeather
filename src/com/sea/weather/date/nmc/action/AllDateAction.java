@@ -44,6 +44,12 @@ public class AllDateAction {
 		SquareAction objSquareAction = new SquareAction();
 		objAllDateVO.setSquareVO(objSquareAction.getSquare());
 		
+		GaleWarningAction objGaleWarningAction = new GaleWarningAction();
+		objAllDateVO.setGaleWarningVO(objGaleWarningAction.getDfCache());
+		
+		ForecastAction objForecastAction = new ForecastAction();
+		objAllDateVO.setForecastVO(objForecastAction.getGgCache());
+		
 		objAllDateVO.setZipTime(new Date());
 		
 		Gson gson = new Gson();

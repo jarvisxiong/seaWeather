@@ -25,6 +25,12 @@ public class AllDateVO {
 	
 	private String squareVO;
 	
+	private String galeWarningVO;
+	
+	private String forecastVO;
+	
+	private String homeMsg;
+	
 	private Date zipTime;
 
 	public String getCoastWeatherVO() {
@@ -113,6 +119,30 @@ public class AllDateVO {
 
 	public void setZipTime(Date zipTime) {
 		this.zipTime = zipTime;
+	}
+
+	public String getGaleWarningVO() {
+		return galeWarningVO;
+	}
+
+	public void setGaleWarningVO(String galeWarningVO) {
+		this.galeWarningVO = galeWarningVO;
+	}
+
+	public String getForecastVO() {
+		return forecastVO;
+	}
+
+	public void setForecastVO(String forecastVO) {
+		this.forecastVO = forecastVO;
+	}
+
+	public String getHomeMsg() {
+		return homeMsg;
+	}
+
+	public void setHomeMsg(String homeMsg) {
+		this.homeMsg = homeMsg;
 	}
 	
 	
