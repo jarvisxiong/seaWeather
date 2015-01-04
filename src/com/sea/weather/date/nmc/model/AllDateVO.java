@@ -29,7 +29,7 @@ public class AllDateVO {
 	
 	private String forecastVO;
 	
-	private String homeMsg;
+	private String homeMsgVO;
 	
 	private Date zipTime;
 
@@ -137,13 +137,15 @@ public class AllDateVO {
 		this.forecastVO = forecastVO;
 	}
 
-	public String getHomeMsg() {
-		return homeMsg;
+	public String getHomeMsgVO() {
+		return homeMsgVO;
 	}
 
-	public void setHomeMsg(String homeMsg) {
-		this.homeMsg = homeMsg;
+	public void setHomeMsgVO(String homeMsgVO) {
+		this.homeMsgVO = homeMsgVO;
 	}
+
+	
 	
 	
 }

@@ -6,8 +6,12 @@ import com.google.gson.Gson;
 import com.sea.weather.date.action.SquareAction;
 import com.sea.weather.date.action.TyphoonAction;
 import com.sea.weather.date.action.UpdateVersionAction;
+import com.sea.weather.date.model.TyphoonVO;
 import com.sea.weather.date.nmc.model.AllDateVO;
+import com.sea.weather.date.nmc.model.ForecastVO;
+import com.sea.weather.date.nmc.model.GaleWarningVO;
 import com.sea.weather.date.nmc.model.GdWeatherVO;
+import com.sea.weather.date.nmc.model.HomeMsgVO;
 import com.sea.weather.utils.Cache;
 import com.sea.weather.utils.Cachekey;
 import com.sea.weather.utils.StringUtils;
@@ -50,10 +54,32 @@ public class AllDateAction {
 		ForecastAction objForecastAction = new ForecastAction();
 		objAllDateVO.setForecastVO(objForecastAction.getGgCache());
 		
+		String homeMsg = getHomeMsg(objTyphoonAction.getTfCache(),objGaleWarningAction.getDfCache(),objForecastAction.getGgCache());
+		objAllDateVO.setHomeMsgVO(homeMsg);
+		
 		objAllDateVO.setZipTime(new Date());
 		
 		Gson gson = new Gson();
 		return gson.toJson(objAllDateVO);
+	}
+	
+	private String getHomeMsg(String typhoonVO,String galeWarningVO,String forecastVO){
+		HomeMsgVO objHomeMsgVO = new HomeMsgVO();
+		Gson gson = new Gson();
+		TyphoonVO objTyphoonVO = gson.fromJson(typhoonVO, TyphoonVO.class);
+		GaleWarningVO objGaleWarningVO = gson.fromJson(galeWarningVO, GaleWarningVO.class);
+		ForecastVO objForecastVO = gson.fromJson(forecastVO, ForecastVO.class);
+		if(StringUtils.isNoneBlank(objTyphoonVO.getIndexContent())){
+			objHomeMsgVO.setMsg(objTyphoonVO.getIndexContent());
+			objHomeMsgVO.setAct("TyphoonVO");
+		}else if(StringUtils.isNoneBlank(objGaleWarningVO.getTitle())&&objGaleWarningVO.getTitle().indexOf("解除")==-1){
+			objHomeMsgVO.setMsg(objGaleWarningVO.getTitle());
+			objHomeMsgVO.setAct("GaleWarningVO");
+		}else{
+			objHomeMsgVO.setMsg(objForecastVO.getContent());
+			objHomeMsgVO.setAct("ForecastVO");
+		}
+		return gson.toJson(objHomeMsgVO);
 	}
 	
 	public String getAllDateCache(){
