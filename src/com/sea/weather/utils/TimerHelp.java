@@ -7,6 +7,7 @@ import com.sea.weather.task.CoastTask;
 import com.sea.weather.task.ForecastTask;
 import com.sea.weather.task.GaleWarningTask;
 import com.sea.weather.task.GdTask;
+import com.sea.weather.task.HjForecastTask;
 import com.sea.weather.task.HlTextTask;
 import com.sea.weather.task.HnTask;
 import com.sea.weather.task.NhTask;
@@ -67,6 +68,10 @@ public class TimerHelp {
 		ForecastTask objForecastTask = new ForecastTask();
 		Timer forecastTaskTimer = new Timer();
 		forecastTaskTimer.schedule(objForecastTask, 11090,1109000);
+		
+		HjForecastTask objHjForecastTask = new HjForecastTask();
+		Timer hjForecastTaskTimer = new Timer();
+		hjForecastTaskTimer.schedule(objHjForecastTask, 12770,1277000);
 		
 		RssMsaTask objRssMsaTask = new RssMsaTask();
 		Timer rssMsaTaskTimer = new Timer();
