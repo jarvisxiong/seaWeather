@@ -188,6 +188,20 @@ public class RssMsaAction {
 		return str;
 	}
 	
+	public String getMarineCache(){
+		String str = (String)Cache.getValue(Cachekey.marineKey);
+		if(StringUtils.isBlank(str)){
+			RssMsaDAO objRssMsaDAO = new RssMsaDAO();
+			try {
+				str = gson.toJson(objRssMsaDAO.queryMarine());
+				Cache.putValue(Cachekey.marineKey, str);
+			} catch (SQLException e) {
+				Log.e("RssMsaAction.getMarineCache", e);
+			}
+		}
+		return str;
+	}
+	
 	/**
 	 * 设置该海事局是否同时有通告或警告
 	 * @param marine
@@ -222,7 +236,7 @@ public class RssMsaAction {
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
 		//String str = objMsaRssAction.getJgCache("福建海事局");
-		objMsaRssAction.loadTgRss();
+		objMsaRssAction.getMarineCache();
 		Log.i(StringUtils.getFullSpell("福建海事局"));
 		//str = GZipUtil.unGzip(str);
 		//Log.i(str);

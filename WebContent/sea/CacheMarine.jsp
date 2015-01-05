@@ -10,10 +10,9 @@
 </head>
 <body>
 <%
-String code = request.getParameter("code");
 PrintWriter outPrint = response.getWriter();
 RssMsaAction objRssMsaAction = new RssMsaAction();
-String str = objRssMsaAction.getTgCache(code);
+String str = objRssMsaAction.getMarineCache();
 outPrint.print(str);
 outPrint.close();
 %>
