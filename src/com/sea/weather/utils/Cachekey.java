@@ -30,4 +30,5 @@ public class Cachekey {
 	public static final String hxjgKey = "hxjgKey";
 	public static final String hxtgKey = "hxtgKey";
 	public static final String marineKey = "marineKey";
+	public static final String hjForecastKey = "hjForecastKey";
 }
