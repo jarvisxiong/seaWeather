@@ -24,7 +24,7 @@ public class ForecastAction {
 		Document dc_seaGg = Jsoup.connect("http://sea.weather.gov.cn/mdps/list_t/0602").timeout(5000).get();
 		Document dc_gg = getConDoc(dc_seaGg);
 		ForecastVO objForecastVO = new ForecastVO();
-		objForecastVO.setAuthor(getAuthor(dc_gg));
+		objForecastVO.setPublishTime(getPublishTime(dc_gg));
 		objForecastVO.setContent(getContent(dc_gg));
 		return objForecastVO;
 	}
@@ -78,9 +78,11 @@ public class ForecastAction {
 	}
 	
 	
-	private String getAuthor(Document dc_df){
-		String author = dc_df.select(".author").text();
-		return author;
+	private String getPublishTime(Document dc_df){
+		String author = dc_df.select(".author").html();
+		String publishTime = author.substring(author.indexOf("20"));
+		publishTime = publishTime.replaceAll("</b>", "").replaceAll("<b>", "").replace("&nbsp;", "").replace("\n", "");
+		return publishTime.trim();
 	}
 	public static void main(String args[]) throws IOException { 
 		Gson gson = new Gson();
