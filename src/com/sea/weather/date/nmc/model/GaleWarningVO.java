@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GaleWarningVO {
 
-	private String author;
+	private String publishTime;
 	
 	private String title;
 	
@@ -28,20 +28,20 @@ public class GaleWarningVO {
 		this.content = content;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
 	public List<String> getLisImg() {
 		return lisImg;
 	}
 
 	public void setLisImg(List<String> lisImg) {
 		this.lisImg = lisImg;
+	}
+
+	public String getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(String publishTime) {
+		this.publishTime = publishTime;
 	}
 	
 	

@@ -25,7 +25,7 @@ public class GaleWarningAction {
 		dc_df = Jsoup.connect("http://sea.weather.gov.cn/mdps/list_t/0601").timeout(5000).get();
 		Document dc_dfcon = this.getConDoc(dc_df);
 		GaleWarningVO objGaleWarningVO = new GaleWarningVO();
-		objGaleWarningVO.setAuthor(getAuthor(dc_dfcon));
+		objGaleWarningVO.setPublishTime(getPublishTime(dc_dfcon));
 		objGaleWarningVO.setTitle(getTitle(dc_dfcon));
 		objGaleWarningVO.setContent(getContent(dc_dfcon));
 		objGaleWarningVO.setLisImg(getLisImg(dc_dfcon));
@@ -63,9 +63,11 @@ public class GaleWarningAction {
 		return content;
 	}
 	
-	private String getAuthor(Document dc_df){
-		String author = dc_df.select(".author").text();
-		return author;
+	private String getPublishTime(Document dc_df){
+		String author = dc_df.select(".author").html();
+		String publishTime = author.substring(author.indexOf("20"));
+		publishTime = publishTime.replaceAll("</b>", "").replaceAll("<b>", "").replace("&nbsp;", "").replace("\n", "");
+		return publishTime.trim();
 	}
 	
 	private List<String> getLisImg(Document dc_df){
