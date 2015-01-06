@@ -56,7 +56,7 @@ public class GaleWarningAction {
 	
 	private String getContent(Document dc_df){
 		Elements contents = dc_df.select(".writing").select("p");
-		String content = "";
+		String content = "       ";
 		for(int i=0;i<contents.size();i++){
 			content = content+contents.get(i).html()+"\n";
 		}
