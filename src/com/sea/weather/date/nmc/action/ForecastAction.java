@@ -50,7 +50,13 @@ public class ForecastAction {
 		Elements contents = dc_df.select(".writing").select("p");
 		String content = "";
 		for(int i=0;i<contents.size();i++){
-			content = content+contents.get(i).html()+"\n";
+			if (contents.get(i).html().indexOf("一、") == -1
+					&& contents.get(i).html().indexOf("二、") == -1
+					&& contents.get(i).html().indexOf("三、") == -1) {
+				content = content+"       "+contents.get(i).html()+"\n";
+			}else{
+				content = content+contents.get(i).html()+"\n";
+			}
 		}
 		return content;
 	}
