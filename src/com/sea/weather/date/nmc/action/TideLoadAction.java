@@ -30,11 +30,8 @@ public class TideLoadAction {
 		Document dc_Item=null;
 		try {
 			dc_Item = Jsoup.connect(url).timeout(10000).get();
-		} catch (IOException e) {
-			Log.e("TideLoadAction.getItem", e);
-		}
-		
-		Elements table = dc_Item.select(".cx-table").select("table").select("tbody").select("tr");
+			Elements table = dc_Item.select(".cx-table").select("table")
+					.select("tbody").select("tr");
 		
 		Elements timetd = table.get(1).select("td");
 		Elements hightd = table.get(2).select("td");
@@ -54,6 +51,14 @@ public class TideLoadAction {
 			}
 		}
 		timeMap.clear();
+		} catch (IOException e) {
+			Log.e("TideLoadAction.getItem"+code, e);
+			try{
+			queryDate(selectDate,code);
+			}catch(Exception e2){
+				Log.e("TideLoadAction.getItem two exceptin"+code, e2);
+			}
+		}
 	}
 	
 	public String showTide(){
@@ -253,9 +258,9 @@ public class TideLoadAction {
 	public static void main(String args[]) { 
 		TideLoadAction objTideLoadAction = new TideLoadAction();
 		List<String> forecastTime = new ArrayList<String>();
-		forecastTime.add("2014-11-12");
-		objTideLoadAction.load7Date();
-		Log.i(objTideLoadAction.queryDate("2014-12-01", "0-0-0-0"));
+		forecastTime.add("2015-01-12");
+		objTideLoadAction.loadDate(forecastTime);
+		//Log.i(objTideLoadAction.queryDate("2014-12-01", "0-0-0-0"));
 		
 	}
 
