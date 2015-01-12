@@ -235,10 +235,10 @@ public class RssMsaAction {
 	
 	public static void main(String args[]) throws IOException, IllegalArgumentException, FeedException, SQLException { 
 		RssMsaAction objMsaRssAction = new RssMsaAction();
-		//String str = objMsaRssAction.getJgCache("福建海事局");
-		objMsaRssAction.getMarineCache();
-		Log.i(StringUtils.getFullSpell("福建海事局"));
-		//str = GZipUtil.unGzip(str);
-		//Log.i(str);
+		String str = objMsaRssAction.getJgCache("shandongshengdifanghaishiju");
+//		objMsaRssAction.getMarineCache();
+//		Log.i(StringUtils.getFullSpell("福建海事局"));
+		str = GZipUtil.unGzip(str);
+		Log.i(str);
 	}
 }
