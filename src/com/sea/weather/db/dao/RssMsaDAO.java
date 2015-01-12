@@ -30,9 +30,8 @@ public class RssMsaDAO extends BaseDAO{
         	pstmt.setString(2, code);
         	pstmt.setString(3, description);
         	pstmt.setTimestamp(4, new Timestamp(updatetime.getTime()));
-        	pstmt.addBatch();
         delpstmt.executeUpdate();
-        pstmt.executeBatch();
+        pstmt.executeUpdate();
         conn.commit();
         return true;
 		} catch (SQLException e) {
@@ -89,9 +88,8 @@ public class RssMsaDAO extends BaseDAO{
         	pstmt.setString(2, code);
         	pstmt.setString(3, description);
         	pstmt.setTimestamp(4, new Timestamp(updatetime.getTime()));
-        	pstmt.addBatch();
         delpstmt.executeUpdate();
-        pstmt.executeBatch();
+        pstmt.executeUpdate();
         conn.commit();
         return true;
 		} catch (SQLException e) {
