@@ -18,6 +18,7 @@ public class Cache {
 				v = objDbMapDAO.get(key);
 				if(v!=null){
 					map.put(key, v);
+					v = map.get(key);
 					Log.i("bamap.get("+key+")");
 				}
 			} catch (SQLException e) {

@@ -34,6 +34,9 @@ public class RssMsaAction {
 
 	private Gson gson = new Gson();
 	
+	private static final HashMap<String, String> mapjg = new HashMap<String, String>();
+	private static final HashMap<String, String> maptg = new HashMap<String, String>();
+	
 	private String getHxJG() throws IOException{
 		Document dc_df = Jsoup.connect("http://readread.duapp.com/sea/RSS.html").timeout(5000).get();
 		Elements es = dc_df.select(".nrTable").get(0).select("tbody").select("tr");
@@ -108,6 +111,7 @@ public class RssMsaAction {
 				String description = str[0];
 				updateDate = gson.fromJson(str[1], Date.class);
 				objSailNoticeDAO.insertSailNotice(marine,StringUtils.getFullSpell(marine), description,updateDate);
+				maptg.put(StringUtils.getFullSpell(marine), description);
 				putMarines(marine, "TG");
 			} catch (Exception e) {
 				
@@ -129,6 +133,7 @@ public class RssMsaAction {
 				String description = str[0];
 				updateDate = gson.fromJson(str[1], Date.class);
 				objRssMsaDAO.insertSailWaring(marine,StringUtils.getFullSpell(marine), description,updateDate);
+				mapjg.put(StringUtils.getFullSpell(marine), description);
 				putMarines(marine, "JG");
 			} catch (Exception e) {
 			}
@@ -167,23 +172,31 @@ public class RssMsaAction {
 	}
 	
 	public String getTgCache(String code){
-		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
-		String str= "";
-		try {
-			str = objRssMsaDAO.getSailNotice(code);
-		} catch (SQLException e) {
-			Log.e("RssMsaAction.getTgCache", e);
+		String str= maptg.get(code);
+		if (StringUtils.isBlank(str)) {
+			try {
+				RssMsaDAO objRssMsaDAO = new RssMsaDAO();
+				str = objRssMsaDAO.getSailNotice(code);
+				maptg.put(code, str);
+				str= maptg.get(code);
+			} catch (SQLException e) {
+				Log.e("RssMsaAction.getTgCache", e);
+			}
 		}
 		return str;
 	}
 	
 	public String getJgCache(String code){
-		RssMsaDAO objRssMsaDAO = new RssMsaDAO();
-		String str= "";
+		String str= mapjg.get(code);
+		if(StringUtils.isBlank(str)){
 		try {
+			RssMsaDAO objRssMsaDAO = new RssMsaDAO();
 			str = objRssMsaDAO.getSailWaring(code);
+			mapjg.put(code, str);
+			str= mapjg.get(code);
 		} catch (SQLException e) {
 			Log.e("RssMsaAction.getJgCache", e);
+		}
 		}
 		return str;
 	}
