@@ -18,10 +18,10 @@ public class SeaAdAction {
 		SeaAdVO objSeaAdVO  = new SeaAdVO();
 		 UUID uuid = UUID.randomUUID();
 		 objSeaAdVO.setId(uuid.toString());
-		 objSeaAdVO.setContent("测试");
+		 objSeaAdVO.setContent("一直都是自己测试的广告系统，好垃圾的广告系统，真蛋疼");
 		 objSeaAdVO.setType(phone);
 		 objSeaAdVO.setTypevalue("13800138000");
-		 objSeaAdVO.setBelong("Tf2");
+		 objSeaAdVO.setBelong("FavoriteShowActivity");
 		 objSeaAdVO.setCustom("张三");
 		 objSeaAdVO.setPublishtime(new Date());
 		 objSeaAdVO.setBegintime(new Date(System.currentTimeMillis()+12*60*60*1000));
@@ -43,7 +43,7 @@ public class SeaAdAction {
 	
 	public static void main(String[] args) throws SQLException {
 		SeaAdAction objSeaAdAction = new SeaAdAction();
-		//objSeaAdAction.insertSeaAdVO();
+		objSeaAdAction.insertSeaAdVO();
 		System.out.print(objSeaAdAction.getSeaAdVO("Tf3"));
 		
 	}
