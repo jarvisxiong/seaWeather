@@ -19,6 +19,8 @@ public class SeaAdVO {
 	private Date endtime;
 	
 	private Date publishtime;
+	
+	private String custom;
 
 	public String getId() {
 		return id;
@@ -82,6 +84,14 @@ public class SeaAdVO {
 
 	public void setPublishtime(Date publishtime) {
 		this.publishtime = publishtime;
+	}
+
+	public String getCustom() {
+		return custom;
+	}
+
+	public void setCustom(String custom) {
+		this.custom = custom;
 	}
 	
 	
